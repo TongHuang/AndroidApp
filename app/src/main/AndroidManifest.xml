@@ -2,8 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.quebecfresh.androidapp.calculator">
 
-    <application android:allowBackup="true" android:label="@string/app_name"
-        android:icon="@drawable/calculator_48" android:theme="@style/AppTheme">
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="21"></uses-sdk>
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:icon="@drawable/calculator_48"
+        android:theme="@style/AppTheme">
         <activity
             android:name=".CalculatorActivity"
             android:label="@string/app_name">
