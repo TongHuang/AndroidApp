@@ -12,7 +12,9 @@
         android:id="@+id/btnPlus"
         android:textSize="20dp"
         android:layout_marginTop="20dp"
-        android:onClick="practiceAddition" />
+        android:onClick="practiceAddition"
+        android:layout_alignParentTop="false"
+        android:gravity="center" />
 
     <Button
         android:layout_width="fill_parent"

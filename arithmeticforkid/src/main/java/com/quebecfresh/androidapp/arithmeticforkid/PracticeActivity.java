@@ -93,7 +93,7 @@ public class PracticeActivity extends ActionBarActivity {
         RadioButton radioButtonFour = (RadioButton) this.findViewById(R.id.radioButtonFour);
         radioButtonFour.setChecked(false);
         radioButtonFour.setText(String.valueOf(practice.getChoiceFour()));
-
+        this.initializeAnswerButton();
     }
 
 
@@ -110,6 +110,7 @@ public class PracticeActivity extends ActionBarActivity {
             inCorrect++;
         }
         this.markScore();
+        this.disableAnswerButton();
     }
 
     public void radioButtonTwoClick(View view) {
@@ -125,6 +126,7 @@ public class PracticeActivity extends ActionBarActivity {
             inCorrect++;
         }
         this.markScore();
+        this.disableAnswerButton();
     }
 
     public void radioButtonThreeClick(View view) {
@@ -140,6 +142,7 @@ public class PracticeActivity extends ActionBarActivity {
             inCorrect++;
         }
         this.markScore();
+        this.disableAnswerButton();
     }
 
     public void radioButtonFourClick(View view) {
@@ -155,6 +158,7 @@ public class PracticeActivity extends ActionBarActivity {
             inCorrect++;
         }
         this.markScore();
+        this.disableAnswerButton();
     }
 
 
@@ -177,16 +181,54 @@ public class PracticeActivity extends ActionBarActivity {
 
 
     public void btnNextClick(View view) {
-        RadioButton button = (RadioButton) this.findViewById(R.id.radioButtonOne);
-        button.setBackgroundColor(getResources().getColor(R.color.practice_normal));
-        button = (RadioButton) this.findViewById(R.id.radioButtonTwo);
-        button.setBackgroundColor(getResources().getColor(R.color.practice_normal));
-        button = (RadioButton) this.findViewById(R.id.radioButtonThree);
-        button.setBackgroundColor(getResources().getColor(R.color.practice_normal));
-        button = (RadioButton) this.findViewById(R.id.radioButtonFour);
-        button.setBackgroundColor(getResources().getColor(R.color.practice_normal));
         this.initializeTest();
 
+    }
+
+//    private void enableAnswerButton(){
+//        RadioButton button = (RadioButton) this.findViewById(R.id.radioButtonOne);
+//        button.setEnabled(true);
+//        button = (RadioButton) this.findViewById(R.id.radioButtonTwo);
+//        button.setEnabled(true);
+//        button = (RadioButton) this.findViewById(R.id.radioButtonThree);
+//        button.setEnabled(true);
+//        button = (RadioButton) this.findViewById(R.id.radioButtonFour);
+//        button.setEnabled(true);
+//    }
+
+
+    private void disableAnswerButton(){
+        RadioButton button = (RadioButton) this.findViewById(R.id.radioButtonOne);
+        button.setEnabled(false);
+        button = (RadioButton) this.findViewById(R.id.radioButtonTwo);
+        button.setEnabled(false);
+        button = (RadioButton) this.findViewById(R.id.radioButtonThree);
+        button.setEnabled(false);
+        button = (RadioButton) this.findViewById(R.id.radioButtonFour);
+        button.setEnabled(false);
+    }
+
+    private void initializeAnswerButton(){
+        RadioButton button = (RadioButton) this.findViewById(R.id.radioButtonOne);
+        button.setBackgroundColor(getResources().getColor(R.color.practice_normal));
+        button.setChecked(false);
+        button.setEnabled(true);
+        button.setText(String.valueOf(practice.getChoiceOne()));
+        button = (RadioButton) this.findViewById(R.id.radioButtonTwo);
+        button.setBackgroundColor(getResources().getColor(R.color.practice_normal));
+        button.setChecked(false);
+        button.setEnabled(true);
+        button.setText(String.valueOf(practice.getChoiceTwo()));
+        button = (RadioButton) this.findViewById(R.id.radioButtonThree);
+        button.setBackgroundColor(getResources().getColor(R.color.practice_normal));
+        button.setChecked(false);
+        button.setEnabled(true);
+        button.setText(String.valueOf(practice.getChoiceThree()));
+        button = (RadioButton) this.findViewById(R.id.radioButtonFour);
+        button.setBackgroundColor(getResources().getColor(R.color.practice_normal));
+        button.setChecked(false);
+        button.setEnabled(true);
+        button.setText(String.valueOf(practice.getChoiceFour()));
     }
 
     private  void markScore(){
