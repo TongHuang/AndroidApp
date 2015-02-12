@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PracticeOptionsActivity">
+
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/addition"
+        android:id="@+id/btnPlus"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:onClick="practiceAddition" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/subtraction"
+        android:id="@+id/btnMinus"
+        android:layout_below="@id/btnPlus"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:onClick="practiceSubtraction" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/multiplication"
+        android:id="@+id/btnMultiply"
+        android:textSize="20dp"
+        android:layout_below="@id/btnMinus"
+        android:layout_marginTop="20dp"
+        android:onClick="practiceMultiplication" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/division"
+        android:id="@+id/btnDivide"
+        android:textSize="20dp"
+        android:layout_below="@id/btnMultiply"
+        android:layout_marginTop="20dp"
+        android:onClick="practiceDivision" />
+</RelativeLayout>

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="action_histories">Histories</string>
+    <string name="histories">Histories</string>
+</resources>

@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".CalculatorActivity">
+
+    <item
+        android:id="@+id/action_histories"
+        android:title="@string/action_histories"
+        android:icon="@drawable/history_32"
+        app:showAsAction="ifRoom" />
+
+
+</menu>

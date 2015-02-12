@@ -1,0 +1,249 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CalculatorActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_topLayout"
+        android:background="#ff000000">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="40dp"
+            android:textColor="#fffff0ef"
+            android:gravity="end"
+            android:id="@+id/txt_view_result"
+            android:minHeight="100dp"
+            android:background="#ff0d10ff" />
+
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="false"
+        android:layout_below="@+id/id_topLayout">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="15">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="("
+                android:id="@+id/btn_leftBrackets"
+                android:textSize="50dp"
+                android:onClick="btnLeftBracketClick" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text=")"
+                android:id="@+id/btn_rightBrackets"
+                android:textSize="50dp"
+                android:onClick="btnRightBracketClick" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="&lt;--"
+                android:id="@+id/btn_backSpace"
+                android:onClick="btnBackSpaceClick"
+                android:textSize="50dp"
+                android:textColor="#fffb20ff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="AC"
+                android:id="@+id/btn_clear"
+                android:onClick="btnClearClick"
+                android:nestedScrollingEnabled="false"
+                android:textSize="25dp"
+                android:textColor="#ffff1916" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="25"
+            android:weightSum="100">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="7"
+                android:id="@+id/btn_seven"
+                android:textSize="50dp"
+                android:layout_span="1"
+                android:onClick="btnSevenClick"
+                android:textColor="#ff1515ff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="8"
+                android:id="@+id/btn_eight"
+                android:textSize="50dp"
+                android:onClick="btnEightClick"
+                android:textColor="#ff1515ff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="9"
+                android:id="@+id/btn_nine"
+                android:textSize="50dp"
+                android:onClick="btnNineClick"
+                android:nestedScrollingEnabled="false"
+                android:textColor="#ff1515ff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="*"
+                android:id="@+id/btn_multi"
+                android:textSize="50dp"
+                android:onClick="btnMultiplyClick" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="25"
+            android:weightSum="100">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="4"
+                android:id="@+id/btn_four"
+                android:textSize="50dp"
+                android:onClick="btnFourClick"
+                android:textColor="#ff1419ff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="5"
+                android:id="@+id/btn_five"
+                android:textSize="50dp"
+                android:onClick="btnFiveClick"
+                android:textColor="#ff1515ff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="6"
+                android:id="@+id/btn_six"
+                android:textSize="50dp"
+                android:onClick="btnSixClick"
+                android:textColor="#ff1515ff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="/"
+                android:id="@+id/btn_divide"
+                android:textSize="50dp"
+                android:onClick="btnDivideClick" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="25"
+            android:weightSum="100">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="1"
+                android:id="@+id/btn_one"
+                android:textSize="50dp"
+                android:onClick="btnOneClick"
+                android:textColor="#ff1f1eff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="2"
+                android:id="@+id/btn_two"
+                android:textSize="50dp"
+                android:onClick="btnTwoClick"
+                android:textColor="#ff2521ff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="3"
+                android:id="@+id/btn_three"
+                android:textSize="50dp"
+                android:onClick="btnThreeClick"
+                android:textColor="#ff151bff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="-"
+                android:id="@+id/btn_minus"
+                android:textSize="50dp"
+                android:onClick="btnMinusClick" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="25"
+            android:weightSum="100">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="0"
+                android:id="@+id/btn_zero"
+                android:textSize="50dp"
+                android:onClick="btnZeroClick"
+                android:textColor="#ff1d24ff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="."
+                android:id="@+id/btn_dot"
+                android:textSize="50dp"
+                android:onClick="btnDotClick"
+                android:textColor="#ff151bff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="="
+                android:id="@+id/btn_equal"
+                android:textSize="50dp"
+                android:onClick="btnEqualClick"
+                android:background="#ff1fff48" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="+"
+                android:id="@+id/btn_plus"
+                android:textSize="50dp"
+                android:onClick="btnPlusClick"
+                android:enabled="true" />
+        </TableRow>
+
+
+    </TableLayout>
+
+
+</RelativeLayout>

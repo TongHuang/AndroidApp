@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Arithmetic For Kid</string>
+    <string name="practice_options">Choose practice type</string>
+    <string name="practice">Practice</string>
+    <string name="addition">Addition (+)</string>
+    <string name="subtraction">Subtraction (-)</string>
+    <string name="multiplication">Multiplication (*)</string>
+    <string name="division">Division (/)</string>
+</resources>
