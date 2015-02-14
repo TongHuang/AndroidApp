@@ -1,48 +1,49 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent" android:orientation="vertical"
     tools:context=".PracticeOptionsActivity">
 
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="@string/addition"
         android:id="@+id/btnPlus"
         android:textSize="20dp"
-        android:layout_marginTop="20dp"
         android:onClick="practiceAddition"
         android:layout_alignParentTop="false"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_weight="25"
+        android:layout_margin="20dp" />
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="@string/subtraction"
         android:id="@+id/btnMinus"
-        android:layout_below="@id/btnPlus"
         android:textSize="20dp"
-        android:layout_marginTop="20dp"
-        android:onClick="practiceSubtraction" />
+        android:onClick="practiceSubtraction"
+        android:layout_weight="25"
+        android:layout_margin="20dp" />
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="@string/multiplication"
         android:id="@+id/btnMultiply"
         android:textSize="20dp"
-        android:layout_below="@id/btnMinus"
-        android:layout_marginTop="20dp"
-        android:onClick="practiceMultiplication" />
+        android:onClick="practiceMultiplication"
+        android:layout_weight="25"
+        android:layout_margin="20dp" />
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="@string/division"
         android:id="@+id/btnDivide"
         android:textSize="20dp"
-        android:layout_below="@id/btnMultiply"
-        android:layout_marginTop="20dp"
-        android:onClick="practiceDivision" />
-</RelativeLayout>
+        android:onClick="practiceDivision"
+        android:layout_weight="25"
+        android:layout_margin="20dp" />
+</LinearLayout>
