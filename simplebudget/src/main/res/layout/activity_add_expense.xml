@@ -37,7 +37,7 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/editText"
                 android:layout_weight="90"
                 android:layout_gravity="center" />
@@ -50,7 +50,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="@string/textview_category"
                 android:id="@+id/textView_Category"
                 android:layout_weight="10"
@@ -59,10 +59,9 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/editText2"
                 android:layout_weight="90"
-                android:gravity="center_vertical"
                 android:layout_gravity="center" />
 
         </TableRow>
@@ -83,10 +82,9 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/editText3"
                 android:layout_weight="90"
-                android:gravity="center_vertical"
                 android:layout_gravity="center"
                 android:onClick="choosePayee" />
         </TableRow>
@@ -107,7 +105,7 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/editText4"
                 android:layout_weight="90"
                 android:layout_gravity="center" />
@@ -129,11 +127,82 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/editText5"
                 android:layout_gravity="center"
                 android:layout_weight="90" />
         </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="10">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/textview_duedate"
+                android:id="@+id/textView2"
+                android:layout_weight="10"
+                android:gravity="center_vertical|right" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="date"
+                android:id="@+id/editText7"
+                android:layout_weight="90"
+                android:layout_gravity="center" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="10">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/textview_paiddate"
+                android:id="@+id/textView3"
+                android:layout_gravity="center"
+                android:gravity="center_vertical|right"
+                android:layout_weight="10" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="date"
+                android:id="@+id/editText8"
+                android:layout_weight="90"
+                android:layout_gravity="center" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="10">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/textview_note"
+                android:id="@+id/textView_Note"
+                android:layout_gravity="center"
+                android:gravity="center_vertical|right"
+                android:layout_weight="10" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editText6"
+                android:layout_weight="90"
+                android:layout_gravity="center" />
+
+        </TableRow>
+
+
 
     </TableLayout>
 
