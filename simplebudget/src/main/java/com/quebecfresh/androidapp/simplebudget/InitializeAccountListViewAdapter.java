@@ -1,12 +1,16 @@
 package com.quebecfresh.androidapp.simplebudget;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
 
@@ -25,6 +29,16 @@ public class InitializeAccountListViewAdapter extends BaseAdapter implements Lis
         this.context = context;
     }
 
+    public void addNewAccount(){
+        accounts.add(0,new Account());
+        this.notifyDataSetChanged();
+    }
+
+    public void removeAccount(int position){
+        accounts.remove(position);
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return accounts.size();
@@ -41,7 +55,7 @@ public class InitializeAccountListViewAdapter extends BaseAdapter implements Lis
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
         Account account = accounts.get(position);
         if (view == null) {
@@ -49,14 +63,12 @@ public class InitializeAccountListViewAdapter extends BaseAdapter implements Lis
             view = layoutInflater.inflate(R.layout.list_item_initialize_account, null);
         }
 
-        EditText editTextName = (EditText) view.findViewById(R.id.editText_Name);
-        editTextName.setText(account.getName());
-        EditText editTextNumber = (EditText) view.findViewById(R.id.editText_Number);
-        editTextNumber.setText(account.getAccountNumber());
-        EditText editTextBalance = (EditText) view.findViewById((R.id.editText_Balance));
-        editTextBalance.setText(account.getBalance().toString());
-        EditText editTextNote = (EditText) view.findViewById(R.id.editText_Note);
-        editTextNote.setText(account.getNote());
+        TextView textViewName = (TextView) view.findViewById(R.id.textViewName);
+        textViewName.setText(account.getName());
+
+        TextView textViewBalance = (TextView) view.findViewById((R.id.textViewBalance));
+        textViewBalance.setText(account.getBalance().toString());
+
         return view;
     }
 }

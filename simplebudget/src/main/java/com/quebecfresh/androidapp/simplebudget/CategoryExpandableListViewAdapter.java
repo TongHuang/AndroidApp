@@ -1,35 +1,31 @@
 package com.quebecfresh.androidapp.simplebudget;
 
-import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.quebecfresh.androidapp.simplebudget.model.Expense;
+import com.quebecfresh.androidapp.simplebudget.model.Category;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseCategory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Tong Huang on 2015-02-17, 8:24 AM.
  */
-public class InitializeExpenseListViewAdapter extends BaseExpandableListAdapter {
-   private HashMap<String,List<ExpenseCategory>> categories;
+public class CategoryExpandableListViewAdapter extends BaseExpandableListAdapter {
+   private HashMap<String,List<Category>> categories;
    private List<String> categoryGroup ;
    private  List<String> cycles;
    private Context context;
 
-    public InitializeExpenseListViewAdapter(List<String> categoryGroup,HashMap<String, List<ExpenseCategory>> categories, List<String> cycles, Context context) {
+    public CategoryExpandableListViewAdapter(List<String> categoryGroup, HashMap<String, List<Category>> categories, List<String> cycles, Context context) {
         this.categoryGroup = categoryGroup;
         this.categories = categories;
         this.cycles = cycles;
@@ -79,7 +75,7 @@ public class InitializeExpenseListViewAdapter extends BaseExpandableListAdapter 
         View view = convertView;
         if(view == null){
             LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.list_item_group_initialize_expense, null);
+            view = layoutInflater.inflate(R.layout.list_item_group_category, null);
         }
         TextView textViewGroup = (TextView)view.findViewById(R.id.textView_Group);
         textViewGroup.setText(group);
@@ -89,12 +85,12 @@ public class InitializeExpenseListViewAdapter extends BaseExpandableListAdapter 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         String group = this.categoryGroup.get(groupPosition);
-        ExpenseCategory category = this.categories.get(group).get(childPosition);
+        Category category = this.categories.get(group).get(childPosition);
         View view = convertView;
 
         if(view == null){
             LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.list_item_initialize_expense, null);
+            view = layoutInflater.inflate(R.layout.list_item_category, null);
         }
 
         EditText editTextCategory = (EditText)view.findViewById(R.id.editText_Category);

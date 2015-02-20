@@ -6,18 +6,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.quebecfresh.androidapp.simplebudget.InitializeAccountListViewAdapter;
-import com.quebecfresh.androidapp.simplebudget.InitializeExpenseActivity;
-import com.quebecfresh.androidapp.simplebudget.R;
 import com.quebecfresh.androidapp.simplebudget.model.Account;
 
 import java.util.ArrayList;
 
 
 public class InitializeAccountActivity extends ActionBarActivity {
-
+    public static final String EXTRA_ACCOUNT = "com.quebecfresh.androidapp.simplebudget.account";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +39,19 @@ public class InitializeAccountActivity extends ActionBarActivity {
         accounts.add(account3);
 
         InitializeAccountListViewAdapter adapter = new InitializeAccountListViewAdapter(accounts, this);
-        ListView listView = (ListView) this.findViewById(R.id.listView_Account);
+        ListView listView = (ListView) this.findViewById(R.id.listViewAccount);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(InitializeAccountActivity.this, EditAccountActivity.class);
+
+            }
+        });
     }
 
     public void startInitializeExpense(View view){
-        Intent intent = new Intent(this, InitializeExpenseActivity.class);
+        Intent intent = new Intent(this, BudgetExpenseActivity.class);
         this.startActivity(intent);
     }
 
@@ -68,11 +73,17 @@ public class InitializeAccountActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
 
         switch (id) {
+            case R.id.action_add:
+                ListView listView = (ListView)this.findViewById(R.id.listViewAccount);
+                InitializeAccountListViewAdapter adapter = (InitializeAccountListViewAdapter)listView.getAdapter();
+                adapter.addNewAccount();
+
+                return true;
 
             case R.id.action_done:
-                Intent intent = new Intent(this, InitializeExpenseActivity.class);
+                Intent intent = new Intent(this, BudgetIncomeActivity.class);
                 this.startActivity(intent);
-                break;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

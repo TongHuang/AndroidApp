@@ -6,19 +6,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class InitializeIncomeActivity extends ActionBarActivity {
+public class EditAccountActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_initialize_income);
+        setContentView(R.layout.activity_edit_account);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_initialize_income, menu);
+        getMenuInflater().inflate(R.menu.menu_edit_account, menu);
         return true;
     }
 

@@ -5,26 +5,22 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 
+import com.quebecfresh.androidapp.simplebudget.model.Category;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
-import com.quebecfresh.androidapp.simplebudget.model.Expense;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseCategory;
-import com.quebecfresh.androidapp.simplebudget.model.Payee;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 
-public class InitializeExpenseActivity extends ActionBarActivity {
+public class BudgetExpenseActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_initialize__expense);
+        setContentView(R.layout.activity_budget__expense);
 
         ArrayList<String> categoryGroup = new ArrayList<String>();
         categoryGroup.add("Foods");
@@ -32,21 +28,21 @@ public class InitializeExpenseActivity extends ActionBarActivity {
         categoryGroup.add("utilities");
         categoryGroup.add("transportation");
 
-        HashMap<String, List<ExpenseCategory>> categoryHashMap = new HashMap<String, List<ExpenseCategory>>();
+        HashMap<String, List<Category>> categoryHashMap = new HashMap<String, List<Category>>();
 
-        List<ExpenseCategory> foods = new ArrayList<ExpenseCategory>();
+        List<Category> foods = new ArrayList<Category>();
         foods.add(new ExpenseCategory("Groceries", Cycle.Weekly));
         foods.add(new ExpenseCategory("Restaurant", Cycle.Weekly));
         foods.add(new ExpenseCategory("Pet foods", Cycle.Weekly));
 
-        List<ExpenseCategory> shelter = new ArrayList<ExpenseCategory>();
+        List<Category> shelter = new ArrayList<Category>();
         shelter.add(new ExpenseCategory("Mortgage", Cycle.Every_2_Weekly));
         shelter.add(new ExpenseCategory("Rent", Cycle.Monthly));
         shelter.add(new ExpenseCategory("Property Taxes", Cycle.Yearly));
         shelter.add(new ExpenseCategory("House repair", Cycle.Yearly));
         shelter.add(new ExpenseCategory("Insurance", Cycle.Yearly));
 
-        List<ExpenseCategory> utilities = new ArrayList<ExpenseCategory>();
+        List<Category> utilities = new ArrayList<Category>();
         utilities.add(new ExpenseCategory("Electricity", Cycle.Monthly));
         utilities.add(new ExpenseCategory("Phone", Cycle.Monthly));
         utilities.add(new ExpenseCategory("Cable TV", Cycle.Monthly));
@@ -57,7 +53,7 @@ public class InitializeExpenseActivity extends ActionBarActivity {
 
 
 
-        List<ExpenseCategory> transportation = new ArrayList<ExpenseCategory>();
+        List<Category> transportation = new ArrayList<Category>();
         transportation.add(new ExpenseCategory("Fuel", Cycle.Weekly));
         transportation.add(new ExpenseCategory("Tire", Cycle.Every_6_Months));
         transportation.add(new ExpenseCategory("Oil change", Cycle.Every_6_Months));
@@ -74,9 +70,9 @@ public class InitializeExpenseActivity extends ActionBarActivity {
         ArrayList<String> cycles = new ArrayList<String>();
         cycles.add("Daily");
         cycles.add("Weekly");
-        cycles.add("Every_2_Weekly");
-        cycles.add("Every_3_Weekly");
-        cycles.add("Every_4_Weekly");
+        cycles.add("Every_2_Weeks");
+        cycles.add("Every_3_Weeks");
+        cycles.add("Every_4_Weeks");
         cycles.add("Monthly");
         cycles.add("Every_2_Months");
         cycles.add("Every_3_Months");
@@ -85,7 +81,7 @@ public class InitializeExpenseActivity extends ActionBarActivity {
         cycles.add("Every_6_Months");
         cycles.add("Yearly");
 
-        InitializeExpenseListViewAdapter adapter =new InitializeExpenseListViewAdapter(categoryGroup, categoryHashMap, cycles, this);
+        CategoryExpandableListViewAdapter adapter =new CategoryExpandableListViewAdapter(categoryGroup, categoryHashMap, cycles, this);
         ExpandableListView listView = (ExpandableListView)findViewById(R.id.expandableListView_Category);
         listView.setAdapter(adapter);
     }
@@ -94,7 +90,7 @@ public class InitializeExpenseActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_initialize__expense_, menu);
+        getMenuInflater().inflate(R.menu.menu_budget__expense, menu);
         return true;
     }
 

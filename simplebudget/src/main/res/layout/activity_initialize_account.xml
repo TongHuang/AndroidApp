@@ -10,7 +10,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:id="@+id/listView_Account"
+        android:id="@+id/listViewAccount"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:dividerHeight="5dp"
@@ -18,12 +18,4 @@
         android:divider="@color/light_blue"
         android:layout_weight="20" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="@string/done"
-        android:id="@+id/button_done"
-        android:layout_weight="2"
-        android:layout_gravity="center"
-        android:onClick="startInitializeExpense" />
 </LinearLayout>

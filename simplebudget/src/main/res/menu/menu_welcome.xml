@@ -2,6 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.quebecfresh.androidapp.simplebudget.WelcomeActivity">
-    <item android:id="@+id/action_done" android:title="@string/done"
+    <item android:id="@+id/action_done" android:title="@string/let_us_start"
         android:orderInCategory="100" app:showAsAction="always" />
 </menu>
