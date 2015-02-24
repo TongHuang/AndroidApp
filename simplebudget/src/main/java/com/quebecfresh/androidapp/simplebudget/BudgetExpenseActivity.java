@@ -36,7 +36,7 @@ public class BudgetExpenseActivity extends ActionBarActivity {
         foods.add(new ExpenseCategory("Pet foods", Cycle.Weekly));
 
         List<Category> shelter = new ArrayList<Category>();
-        shelter.add(new ExpenseCategory("Mortgage", Cycle.Every_2_Weekly));
+        shelter.add(new ExpenseCategory("Mortgage", Cycle.Every_2_Weeks));
         shelter.add(new ExpenseCategory("Rent", Cycle.Monthly));
         shelter.add(new ExpenseCategory("Property Taxes", Cycle.Yearly));
         shelter.add(new ExpenseCategory("House repair", Cycle.Yearly));
@@ -67,21 +67,21 @@ public class BudgetExpenseActivity extends ActionBarActivity {
         categoryHashMap.put(categoryGroup.get(2), utilities);
         categoryHashMap.put(categoryGroup.get(3), transportation);
 
-        ArrayList<String> cycles = new ArrayList<String>();
-        cycles.add("Daily");
-        cycles.add("Weekly");
-        cycles.add("Every_2_Weeks");
-        cycles.add("Every_3_Weeks");
-        cycles.add("Every_4_Weeks");
-        cycles.add("Monthly");
-        cycles.add("Every_2_Months");
-        cycles.add("Every_3_Months");
-        cycles.add("Every_4_Months");
-        cycles.add("Every_5_Months");
-        cycles.add("Every_6_Months");
-        cycles.add("Yearly");
+//        ArrayList<String> cycles = new ArrayList<String>();
+//        cycles.add("Daily");
+//        cycles.add("Weekly");
+//        cycles.add("Every_2_Weeks");
+//        cycles.add("Every_3_Weeks");
+//        cycles.add("Every_4_Weeks");
+//        cycles.add("Monthly");
+//        cycles.add("Every_2_Months");
+//        cycles.add("Every_3_Months");
+//        cycles.add("Every_4_Months");
+//        cycles.add("Every_5_Months");
+//        cycles.add("Every_6_Months");
+//        cycles.add("Yearly");
 
-        CategoryExpandableListViewAdapter adapter =new CategoryExpandableListViewAdapter(categoryGroup, categoryHashMap, cycles, this);
+        CategoryExpandableListViewAdapter adapter =new CategoryExpandableListViewAdapter(categoryGroup, categoryHashMap,  this);
         ExpandableListView listView = (ExpandableListView)findViewById(R.id.expandableListView_Category);
         listView.setAdapter(adapter);
     }

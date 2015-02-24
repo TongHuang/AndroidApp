@@ -15,16 +15,19 @@ import android.widget.TextView;
 import com.quebecfresh.androidapp.simplebudget.model.Account;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Tong Huang on 2015-02-18, 10:07 AM.
  */
 public class InitializeAccountListViewAdapter extends BaseAdapter implements ListAdapter {
 
-    private ArrayList<Account> accounts = new ArrayList<Account>();
+
+
+    private List<Account> accounts = new ArrayList<Account>();
     private Context context;
 
-    public InitializeAccountListViewAdapter(ArrayList<Account> accounts, Context context) {
+    public InitializeAccountListViewAdapter(List<Account> accounts, Context context) {
         this.accounts = accounts;
         this.context = context;
     }
@@ -51,7 +54,7 @@ public class InitializeAccountListViewAdapter extends BaseAdapter implements Lis
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return accounts.get(position).getId();
     }
 
     @Override

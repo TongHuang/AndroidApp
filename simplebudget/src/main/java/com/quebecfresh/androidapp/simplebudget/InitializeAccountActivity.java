@@ -1,6 +1,9 @@
 package com.quebecfresh.androidapp.simplebudget;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,9 +12,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.quebecfresh.androidapp.simplebudget.model.Account;
+import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
+import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class InitializeAccountActivity extends ActionBarActivity {
@@ -21,22 +27,17 @@ public class InitializeAccountActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initialize_account);
 
-        ArrayList<Account> accounts = new ArrayList<Account>();
-        Account account1 = new Account();
-        account1.setName("Cash on Hand");
-        account1.setAccountNumber("000001");
-        account1.setNote("Cash cash cash !!!!.");
+    }
 
-        Account account2 = new Account();
-        account2.setName("Bank account");
-        account2.setAccountNumber("000002");
+    @Override
+    protected void onResume() {
 
-        Account account3 = new Account();
-        account3.setName("Credit card");
-        account3.setAccountNumber("000003");
-        accounts.add(account1);
-        accounts.add(account2);
-        accounts.add(account3);
+        DatabaseHelper dHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = dHelper.getWritableDatabase();
+
+        AccountPersist accountPersist = new AccountPersist(db);
+
+        List accounts = accountPersist.readAll();
 
         InitializeAccountListViewAdapter adapter = new InitializeAccountListViewAdapter(accounts, this);
         ListView listView = (ListView) this.findViewById(R.id.listViewAccount);
@@ -45,15 +46,15 @@ public class InitializeAccountActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(InitializeAccountActivity.this, EditAccountActivity.class);
-
+                intent.putExtra(EXTRA_ACCOUNT, id);
+                startActivity(intent);
             }
         });
+
+        super.onResume();
     }
 
-    public void startInitializeExpense(View view){
-        Intent intent = new Intent(this, BudgetExpenseActivity.class);
-        this.startActivity(intent);
-    }
+
 
 
     @Override

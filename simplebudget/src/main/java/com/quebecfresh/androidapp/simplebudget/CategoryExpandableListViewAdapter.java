@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Category;
+import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseCategory;
 
 import java.util.HashMap;
@@ -20,15 +21,13 @@ import java.util.List;
  * Created by Tong Huang on 2015-02-17, 8:24 AM.
  */
 public class CategoryExpandableListViewAdapter extends BaseExpandableListAdapter {
-   private HashMap<String,List<Category>> categories;
-   private List<String> categoryGroup ;
-   private  List<String> cycles;
-   private Context context;
+    private HashMap<String, List<Category>> categories;
+    private List<String> categoryGroup;
+    private Context context;
 
-    public CategoryExpandableListViewAdapter(List<String> categoryGroup, HashMap<String, List<Category>> categories, List<String> cycles, Context context) {
+    public CategoryExpandableListViewAdapter(List<String> categoryGroup, HashMap<String, List<Category>> categories,  Context context) {
         this.categoryGroup = categoryGroup;
         this.categories = categories;
-        this.cycles = cycles;
         this.context = context;
     }
 
@@ -61,7 +60,9 @@ public class CategoryExpandableListViewAdapter extends BaseExpandableListAdapter
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return 0;
+        String group = this.categoryGroup.get(groupPosition);
+        return categories.get(group).get(childPosition).getId();
+
     }
 
     @Override
@@ -73,11 +74,11 @@ public class CategoryExpandableListViewAdapter extends BaseExpandableListAdapter
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         String group = this.categoryGroup.get(groupPosition);
         View view = convertView;
-        if(view == null){
-            LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (view == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.list_item_group_category, null);
         }
-        TextView textViewGroup = (TextView)view.findViewById(R.id.textView_Group);
+        TextView textViewGroup = (TextView) view.findViewById(R.id.textView_Group);
         textViewGroup.setText(group);
         return view;
     }
@@ -88,19 +89,18 @@ public class CategoryExpandableListViewAdapter extends BaseExpandableListAdapter
         Category category = this.categories.get(group).get(childPosition);
         View view = convertView;
 
-        if(view == null){
-            LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (view == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.list_item_category, null);
         }
 
-        EditText editTextCategory = (EditText)view.findViewById(R.id.editText_Category);
-        editTextCategory.setText(category.getName());
-        Spinner spinnerCycles = (Spinner)view.findViewById(R.id.spinner_cycle);
-        ArrayAdapter  arrayAdapter = new ArrayAdapter(context, android.R.layout.simple_spinner_item, cycles);
-        spinnerCycles.setAdapter(arrayAdapter);
-       spinnerCycles.setSelection(category.getCycle().ordinal());
-        EditText editTextAmount = (EditText)view.findViewById(R.id.editText_Amount);
-        editTextAmount.setText(category.getBudgetAmount().toString());
+        TextView textViewCategory = (TextView) view.findViewById(R.id.textViewCategory);
+        textViewCategory.setText(category.getName());
+        TextView textViewCycle = (TextView) view.findViewById(R.id.textViewCycle);
+        textViewCycle.setText(category.getCycle().getLabel(context));
+        TextView textViewAmount = (TextView) view.findViewById(R.id.textViewAmount);
+        textViewAmount.setText(category.getBudgetAmount().toString());
+
         return view;
     }
 

@@ -5,11 +5,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Category;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.IncomeCategory;
+import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
+import com.quebecfresh.androidapp.simplebudget.persist.IncomeCategoryPersist;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,57 +22,83 @@ import java.util.List;
 
 public class BudgetIncomeActivity extends ActionBarActivity {
 
+    public static final String EXTRA_INCOME_CATEGORY_ID = "com.quebecfresh.androidapp.simplebudget.id";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget_income);
-
-        List<String> group = new ArrayList<String>();
-        group.add("Employment");
-        group.add("Government benefit");
-        group.add("Investment");
-
-        List<Category> employment = new ArrayList<Category>();
-        employment.add(new IncomeCategory("Salary", Cycle.Weekly));
-        employment.add(new IncomeCategory("Part-time job salary", Cycle.Every_2_Weekly));
-        employment.add(new IncomeCategory("Bonus", Cycle.Yearly));
-
-        List<Category> governmentBenefit = new ArrayList<Category>();
-        governmentBenefit.add(new IncomeCategory("Social welfare", Cycle.Monthly));
-        governmentBenefit.add(new IncomeCategory("Child care benefit", Cycle.Monthly));
-        governmentBenefit.add(new IncomeCategory("Employment Insurance", Cycle.Every_2_Weekly));
-        governmentBenefit.add(new IncomeCategory("Housing Allowance", Cycle.Monthly));
-
-
-        List<Category> investment = new ArrayList<Category>();
-        investment.add(new IncomeCategory("Saving Interest", Cycle.Yearly));
-        investment.add(new IncomeCategory("Property renting", Cycle.Monthly));
-        investment.add(new IncomeCategory("Stock market revenue", Cycle.Yearly));
-
-        HashMap<String, List<Category>> incomeCategory = new HashMap<String, List<Category>>();
-        incomeCategory.put(group.get(0), employment);
-        incomeCategory.put(group.get(1), governmentBenefit);
-        incomeCategory.put(group.get(2), investment);
-
-        ArrayList<String> cycles = new ArrayList<String>();
-        cycles.add("Daily");
-        cycles.add("Weekly");
-        cycles.add("Every_2_Weeks");
-        cycles.add("Every_3_Weeks");
-        cycles.add("Every_4_Weeks");
-        cycles.add("Monthly");
-        cycles.add("Every_2_Months");
-        cycles.add("Every_3_Months");
-        cycles.add("Every_4_Months");
-        cycles.add("Every_5_Months");
-        cycles.add("Every_6_Months");
-        cycles.add("Yearly");
-
-        CategoryExpandableListViewAdapter adapter = new CategoryExpandableListViewAdapter(group, incomeCategory,cycles, this);
-        ExpandableListView expandableListView = (ExpandableListView)this.findViewById(R.id.expandableListView_incomeCategory);
-        expandableListView.setAdapter(adapter);
     }
 
+
+    @Override
+    protected void onResume() {
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        IncomeCategoryPersist incomeCategoryPersist = new IncomeCategoryPersist(databaseHelper.getReadableDatabase());
+
+        List<IncomeCategory> incomeCategories = incomeCategoryPersist.readAll();
+
+        List<Category> employments = new ArrayList<Category>();
+        List<Category> governmentBenefits = new ArrayList<Category>();
+        List<Category> investments = new ArrayList<Category>();
+        List<Category> others = new ArrayList<Category>();
+
+        for(int i = 0; i < incomeCategories.size(); i++){
+            IncomeCategory incomeCategory = incomeCategories.get(i);
+            switch (incomeCategory.getGroup()){
+                case EMPLOYMENT:
+                    employments.add(incomeCategory);
+                    break;
+                case GOVERNMENT_BENEFIT:
+                    governmentBenefits.add(incomeCategory);
+                    break;
+                case INVESTMENT:
+                    investments.add(incomeCategory);
+                    break;
+                case OTHERS:
+                    others.add(incomeCategory);
+                    break;
+            }
+        }
+
+
+        List<String> group = new ArrayList<String>();
+        group.add(IncomeCategory.GROUP.EMPLOYMENT.getLabel(this));
+        group.add(IncomeCategory.GROUP.GOVERNMENT_BENEFIT.getLabel(this));
+        group.add(IncomeCategory.GROUP.INVESTMENT.getLabel(this));
+        group.add(IncomeCategory.GROUP.OTHERS.getLabel(this));
+
+        HashMap<String, List<Category>> incomeCategoryMap = new HashMap<String, List<Category>>();
+        incomeCategoryMap.put(group.get(0), employments);
+        incomeCategoryMap.put(group.get(1), governmentBenefits);
+        incomeCategoryMap.put(group.get(2), investments);
+        incomeCategoryMap.put(group.get(3), others);
+
+        CategoryExpandableListViewAdapter adapter = new CategoryExpandableListViewAdapter(group, incomeCategoryMap, this);
+        ExpandableListView expandableListView = (ExpandableListView)this.findViewById(R.id.expandableListView_incomeCategory);
+        expandableListView.setAdapter(adapter);
+        expandableListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(BudgetIncomeActivity.this, EditIncomeCategoryActivity.class);
+                intent.putExtra(EXTRA_INCOME_CATEGORY_ID, id);
+                startActivity(intent);
+            }
+        });
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Intent intent = new Intent(BudgetIncomeActivity.this, EditIncomeCategoryActivity.class);
+                intent.putExtra(EXTRA_INCOME_CATEGORY_ID, id);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        super.onResume();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
