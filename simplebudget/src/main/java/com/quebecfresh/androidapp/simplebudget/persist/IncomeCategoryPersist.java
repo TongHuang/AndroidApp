@@ -29,7 +29,7 @@ public class IncomeCategoryPersist {
         contentValues.put(_NOTE, incomeCategory.getNote());
         contentValues.put(_CYCLE, incomeCategory.getCycle().name());
         contentValues.put(_BUDGET_AMOUNT, incomeCategory.getBudgetAmount().toString());
-        contentValues.put(_INCOME_GROUP, incomeCategory.getGroup().name());
+        contentValues.put(_CATEGORY_GROUP, incomeCategory.getCategoryGroup().name());
         Long rowID = this.db.insert(_TABLE, null, contentValues);
         incomeCategory.setId(rowID);
         return incomeCategory;
@@ -46,7 +46,7 @@ public class IncomeCategoryPersist {
         incomeCategory.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
         incomeCategory.setCycle(Cycle.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CYCLE))));
         incomeCategory.setBudgetAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_AMOUNT))));
-        incomeCategory.setGroup(IncomeCategory.GROUP.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_INCOME_GROUP))));
+        incomeCategory.setCategoryGroup(IncomeCategory.INCOME_CATEGORY_GROUP.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CATEGORY_GROUP))));
         return incomeCategory;
     }
 
@@ -62,7 +62,7 @@ public class IncomeCategoryPersist {
             incomeCategory.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
             incomeCategory.setCycle(Cycle.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CYCLE))));
             incomeCategory.setBudgetAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_AMOUNT))));
-            incomeCategory.setGroup(IncomeCategory.GROUP.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_INCOME_GROUP))));
+            incomeCategory.setCategoryGroup(IncomeCategory.INCOME_CATEGORY_GROUP.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CATEGORY_GROUP))));
             incomeCategories.add(incomeCategory);
             cursor.moveToNext();
         }
@@ -75,7 +75,7 @@ public class IncomeCategoryPersist {
         contentValues.put(_NOTE, incomeCategory.getNote());
         contentValues.put(_CYCLE, incomeCategory.getCycle().name());
         contentValues.put(_BUDGET_AMOUNT, incomeCategory.getBudgetAmount().toString());
-        contentValues.put(_INCOME_GROUP, incomeCategory.getGroup().name());
+        contentValues.put(_CATEGORY_GROUP, incomeCategory.getCategoryGroup().name());
         this.db.update(_TABLE,contentValues,_ID + " = " + incomeCategory.getId(),null);
         return incomeCategory;
     }
@@ -87,37 +87,37 @@ public class IncomeCategoryPersist {
 
     public void initialize(){
         IncomeCategory incomeCategory =  new IncomeCategory("Salary", Cycle.Weekly);
-        incomeCategory.setGroup(IncomeCategory.GROUP.EMPLOYMENT);
+        incomeCategory.setCategoryGroup(IncomeCategory.INCOME_CATEGORY_GROUP.EMPLOYMENT);
         this.insert(incomeCategory);
         incomeCategory = new IncomeCategory("Part-time job salary", Cycle.Every_2_Weeks);
-        incomeCategory.setGroup(IncomeCategory.GROUP.EMPLOYMENT);
+        incomeCategory.setCategoryGroup(IncomeCategory.INCOME_CATEGORY_GROUP.EMPLOYMENT);
         this.insert(incomeCategory);
         incomeCategory = new IncomeCategory("Bonus", Cycle.Yearly);
-        incomeCategory.setGroup(IncomeCategory.GROUP.EMPLOYMENT);
+        incomeCategory.setCategoryGroup(IncomeCategory.INCOME_CATEGORY_GROUP.EMPLOYMENT);
         this.insert(incomeCategory);
 
 
         incomeCategory =new IncomeCategory("Social welfare", Cycle.Monthly);
-        incomeCategory.setGroup(IncomeCategory.GROUP.GOVERNMENT_BENEFIT);
+        incomeCategory.setCategoryGroup(IncomeCategory.INCOME_CATEGORY_GROUP.GOVERNMENT_BENEFIT);
         this.insert(incomeCategory);
         incomeCategory = new IncomeCategory("Child care benefit", Cycle.Monthly);
-        incomeCategory.setGroup(IncomeCategory.GROUP.GOVERNMENT_BENEFIT);
+        incomeCategory.setCategoryGroup(IncomeCategory.INCOME_CATEGORY_GROUP.GOVERNMENT_BENEFIT);
         this.insert(incomeCategory);
         incomeCategory = new IncomeCategory("Employment Insurance", Cycle.Every_2_Weeks);
-        incomeCategory.setGroup(IncomeCategory.GROUP.GOVERNMENT_BENEFIT);
+        incomeCategory.setCategoryGroup(IncomeCategory.INCOME_CATEGORY_GROUP.GOVERNMENT_BENEFIT);
         this.insert(incomeCategory);
         incomeCategory =new IncomeCategory("Housing Allowance", Cycle.Monthly);
-        incomeCategory.setGroup(IncomeCategory.GROUP.GOVERNMENT_BENEFIT);
+        incomeCategory.setCategoryGroup(IncomeCategory.INCOME_CATEGORY_GROUP.GOVERNMENT_BENEFIT);
         this.insert(incomeCategory);
 
         incomeCategory = new IncomeCategory("Saving Interest", Cycle.Yearly);
-        incomeCategory.setGroup(IncomeCategory.GROUP.INVESTMENT);
+        incomeCategory.setCategoryGroup(IncomeCategory.INCOME_CATEGORY_GROUP.INVESTMENT);
         this.insert(incomeCategory);
         incomeCategory = new IncomeCategory("Property renting", Cycle.Monthly);
-        incomeCategory.setGroup(IncomeCategory.GROUP.INVESTMENT);
+        incomeCategory.setCategoryGroup(IncomeCategory.INCOME_CATEGORY_GROUP.INVESTMENT);
         this.insert(incomeCategory);
         incomeCategory =new IncomeCategory("Stock market revenue", Cycle.Yearly);
-        incomeCategory.setGroup(IncomeCategory.GROUP.INVESTMENT);
+        incomeCategory.setCategoryGroup(IncomeCategory.INCOME_CATEGORY_GROUP.INVESTMENT);
         this.insert(incomeCategory);
     }
 

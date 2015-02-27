@@ -9,9 +9,19 @@
 
     <ExpandableListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/expandableListView_Category"
+        android:layout_height="wrap_content"
+        android:id="@+id/expandableListViewExpenseCategory"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Total:"
+        android:layout_below="@id/expandableListViewExpenseCategory"
+        android:id="@+id/textViewTotal"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
 </RelativeLayout>

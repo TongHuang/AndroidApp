@@ -1,15 +1,23 @@
 package com.quebecfresh.androidapp.simplebudget;
 
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Category;
-import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseCategory;
+import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
+import com.quebecfresh.androidapp.simplebudget.persist.ExpenseCategoryPersist;
 
+import org.w3c.dom.Text;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,73 +25,15 @@ import java.util.List;
 
 public class BudgetExpenseActivity extends ActionBarActivity {
 
+    public static final String EXTRA_EXPENSE_CATEGORY_ID = "com.quebecfresh.androidapp.simplebudget.id";
+    private Integer expandedGroupPosition = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget__expense);
 
-        ArrayList<String> categoryGroup = new ArrayList<String>();
-        categoryGroup.add("Foods");
-        categoryGroup.add("shelter");
-        categoryGroup.add("utilities");
-        categoryGroup.add("transportation");
 
-        HashMap<String, List<Category>> categoryHashMap = new HashMap<String, List<Category>>();
-
-        List<Category> foods = new ArrayList<Category>();
-        foods.add(new ExpenseCategory("Groceries", Cycle.Weekly));
-        foods.add(new ExpenseCategory("Restaurant", Cycle.Weekly));
-        foods.add(new ExpenseCategory("Pet foods", Cycle.Weekly));
-
-        List<Category> shelter = new ArrayList<Category>();
-        shelter.add(new ExpenseCategory("Mortgage", Cycle.Every_2_Weeks));
-        shelter.add(new ExpenseCategory("Rent", Cycle.Monthly));
-        shelter.add(new ExpenseCategory("Property Taxes", Cycle.Yearly));
-        shelter.add(new ExpenseCategory("House repair", Cycle.Yearly));
-        shelter.add(new ExpenseCategory("Insurance", Cycle.Yearly));
-
-        List<Category> utilities = new ArrayList<Category>();
-        utilities.add(new ExpenseCategory("Electricity", Cycle.Monthly));
-        utilities.add(new ExpenseCategory("Phone", Cycle.Monthly));
-        utilities.add(new ExpenseCategory("Cable TV", Cycle.Monthly));
-        utilities.add(new ExpenseCategory("Internet service", Cycle.Monthly));
-        utilities.add(new ExpenseCategory("Water", Cycle.Yearly));
-        utilities.add(new ExpenseCategory("Garbage", Cycle.Yearly));
-        utilities.add(new ExpenseCategory("Heating", Cycle.Yearly));
-
-
-
-        List<Category> transportation = new ArrayList<Category>();
-        transportation.add(new ExpenseCategory("Fuel", Cycle.Weekly));
-        transportation.add(new ExpenseCategory("Tire", Cycle.Every_6_Months));
-        transportation.add(new ExpenseCategory("Oil change", Cycle.Every_6_Months));
-        transportation.add(new ExpenseCategory("Insurance", Cycle.Monthly));
-        transportation.add(new ExpenseCategory("Auto plate", Cycle.Yearly));
-        transportation.add(new ExpenseCategory("Driver licence", Cycle.Yearly));
-        transportation.add(new ExpenseCategory("Bus ticket", Cycle.Monthly));
-
-        categoryHashMap.put(categoryGroup.get(0), foods);
-        categoryHashMap.put(categoryGroup.get(1), shelter);
-        categoryHashMap.put(categoryGroup.get(2), utilities);
-        categoryHashMap.put(categoryGroup.get(3), transportation);
-
-//        ArrayList<String> cycles = new ArrayList<String>();
-//        cycles.add("Daily");
-//        cycles.add("Weekly");
-//        cycles.add("Every_2_Weeks");
-//        cycles.add("Every_3_Weeks");
-//        cycles.add("Every_4_Weeks");
-//        cycles.add("Monthly");
-//        cycles.add("Every_2_Months");
-//        cycles.add("Every_3_Months");
-//        cycles.add("Every_4_Months");
-//        cycles.add("Every_5_Months");
-//        cycles.add("Every_6_Months");
-//        cycles.add("Yearly");
-
-        CategoryExpandableListViewAdapter adapter =new CategoryExpandableListViewAdapter(categoryGroup, categoryHashMap,  this);
-        ExpandableListView listView = (ExpandableListView)findViewById(R.id.expandableListView_Category);
-        listView.setAdapter(adapter);
     }
 
 
@@ -95,15 +45,94 @@ public class BudgetExpenseActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        ExpenseCategoryPersist persist = new ExpenseCategoryPersist(db);
+        List<ExpenseCategory> categoryList = persist.readAll();
+
+        List<Category> foods = new ArrayList<Category>();
+        List<Category> shelters = new ArrayList<Category>();
+        List<Category> utilities = new ArrayList<Category>();
+        List<Category> transportation = new ArrayList<Category>();
+        List<Category> others = new ArrayList<Category>();
+        ExpenseCategory category;
+        for (int i = 0; i < categoryList.size(); i++) {
+            category = categoryList.get(i);
+            switch (category.getCategoryGroup()) {
+                case FOODS:
+                    foods.add(category);
+                    break;
+                case SHELTER:
+                    shelters.add(category);
+                    break;
+                case UTILITIES:
+                    utilities.add(category);
+                    break;
+                case TRANSPORTATION:
+                    transportation.add(category);
+                    break;
+                case OTHERS:
+                    others.add(category);
+                    break;
+            }
+        }
+
+        List<String> group = new ArrayList<String>();
+        group.add(ExpenseCategory.EXPENSE_CATEGORY_GROUP.FOODS.getLabel(this));
+        group.add(ExpenseCategory.EXPENSE_CATEGORY_GROUP.SHELTER.getLabel(this));
+        group.add(ExpenseCategory.EXPENSE_CATEGORY_GROUP.UTILITIES.getLabel(this));
+        group.add(ExpenseCategory.EXPENSE_CATEGORY_GROUP.TRANSPORTATION.getLabel(this));
+        group.add(ExpenseCategory.EXPENSE_CATEGORY_GROUP.OTHERS.getLabel(this));
+
+        HashMap<String, List<Category>> categoryMap = new HashMap<String, List<Category>>();
+        categoryMap.put(group.get(0), foods);
+        categoryMap.put(group.get(1), shelters);
+        categoryMap.put(group.get(2), utilities);
+        categoryMap.put(group.get(3), transportation);
+        categoryMap.put(group.get(4), others);
+
+        BigDecimal total = new BigDecimal("0");
+        for (int i = 0; i < categoryList.size(); i++) {
+            total = total.add(categoryList.get(i).getBudgetAmount());
+        }
+        TextView textViewTotal = (TextView) this.findViewById(R.id.textViewTotal);
+        textViewTotal.setText(total.toString());
+
+        CategoryExpandableListViewAdapter adapter = new CategoryExpandableListViewAdapter(group, categoryMap, this);
+        ExpandableListView listView = (ExpandableListView) findViewById(R.id.expandableListViewExpenseCategory);
+        listView.setAdapter(adapter);
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Intent intent = new Intent(BudgetExpenseActivity.this, EditExpenseCategoryActivity.class);
+                intent.putExtra(EXTRA_EXPENSE_CATEGORY_ID, id);
+                startActivity(intent);
+                expandedGroupPosition = groupPosition;
+                return true;
+            }
+        });
+        if (this.expandedGroupPosition >= 0) {
+            listView.expandGroup(this.expandedGroupPosition);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_add:
+                break;
+            case R.id.action_done:
+                this.finish();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

@@ -12,7 +12,7 @@ import com.quebecfresh.androidapp.simplebudget.model.IncomeCategory;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "simplebudget";
 
     public DatabaseHelper(Context context) {
@@ -28,6 +28,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         IncomeCategoryPersist incomeCategoryPersist = new IncomeCategoryPersist(db);
         incomeCategoryPersist.create();
         incomeCategoryPersist.initialize();
+        ExpenseCategoryPersist expenseCategoryPersist = new ExpenseCategoryPersist(db);
+        expenseCategoryPersist.create();
+        expenseCategoryPersist.initialize();
     }
 
     @Override
@@ -36,6 +39,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         accountPersist.drop();
         IncomeCategoryPersist incomeCategoryPersist = new IncomeCategoryPersist(db);
         incomeCategoryPersist.drop();
+        ExpenseCategoryPersist expenseCategoryPersist = new ExpenseCategoryPersist(db);
+        expenseCategoryPersist.drop();
         onCreate(db);
     }
 }

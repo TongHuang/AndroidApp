@@ -1,5 +1,6 @@
 package com.quebecfresh.androidapp.simplebudget.model;
 
+import android.app.Application;
 import android.content.Context;
 
 import com.quebecfresh.androidapp.simplebudget.R;
@@ -27,6 +28,18 @@ public enum Cycle {
     Every_10_Months,
     Every_11_Months,
     Yearly;
+
+
+
+    public static  String[] labels(Context context){
+        Cycle[] cycles = Cycle.values();
+        String[] labels  = new String[cycles.length];
+
+        for(int i = 0; i < cycles.length; i++){
+            labels[i] = cycles[i].getLabel(context);
+        }
+        return labels;
+    }
 
     public String getLabel(Context context) {
         String label = "";
@@ -68,4 +81,5 @@ public enum Cycle {
         }
 
     }
+
 }

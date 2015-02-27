@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.IncomeCategory;
@@ -24,8 +25,8 @@ public class EditIncomeCategoryActivity extends ActionBarActivity {
     private Spinner spinnerCycle;
     private EditText editTextAmount;
     private EditText editTextNote;
-
-
+    private IncomeCategory incomeCategory;
+    IncomeCategoryPersist persist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,13 +35,13 @@ public class EditIncomeCategoryActivity extends ActionBarActivity {
         Intent intent = getIntent();
         rowID = intent.getLongExtra(BudgetIncomeActivity.EXTRA_INCOME_CATEGORY_ID, 0);
         DatabaseHelper dbHelper = new DatabaseHelper(this);
-        IncomeCategoryPersist persist = new IncomeCategoryPersist(dbHelper.getReadableDatabase());
-        IncomeCategory incomeCategory = persist.read(rowID);
+         persist = new IncomeCategoryPersist(dbHelper.getReadableDatabase());
+         incomeCategory = persist.read(rowID);
 
         editTextName = (EditText)this.findViewById(R.id.editTextName);
         editTextName.setText(incomeCategory.getName());
         spinnerCycle = (Spinner)this.findViewById(R.id.spinnerCycle);
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Cycle.values());
+        CycleSpinnerAdapter adapter = new CycleSpinnerAdapter(this,  Cycle.values());
         spinnerCycle.setAdapter(adapter);
         spinnerCycle.setSelection(incomeCategory.getCycle().ordinal());
         editTextAmount = (EditText)this.findViewById(R.id.editTextAmount);
@@ -63,19 +64,11 @@ public class EditIncomeCategoryActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
-        IncomeCategoryPersist persist = new IncomeCategoryPersist(dbHelper.getWritableDatabase());
-
         switch(id){
-            case R.id.action_delete:
-                persist.delete(rowID);
-                break;
+
             case R.id.action_save:
-                IncomeCategory incomeCategory = new IncomeCategory();
-                incomeCategory.setId(rowID);
                 incomeCategory.setName(editTextName.getText().toString());
-                incomeCategory.setCycle(Cycle.valueOf(spinnerCycle.getSelectedItem().toString()));
+                incomeCategory.setCycle((Cycle)spinnerCycle.getSelectedItem());
                 incomeCategory.setBudgetAmount(new BigDecimal(editTextAmount.getText().toString()));
                 incomeCategory.setNote(editTextNote.getText().toString());
                 persist.update(incomeCategory);

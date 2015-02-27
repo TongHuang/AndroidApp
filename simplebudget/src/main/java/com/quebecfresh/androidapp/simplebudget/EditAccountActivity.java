@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 public class EditAccountActivity extends ActionBarActivity {
 
-    private Long accountID ;
+    private Long accountID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +30,18 @@ public class EditAccountActivity extends ActionBarActivity {
         accountID = intent.getLongExtra(InitializeAccountActivity.EXTRA_ACCOUNT, 0);
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
-       SQLiteDatabase db =  dbHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         AccountPersist accountPersist = new AccountPersist(db);
         Account account = accountPersist.read(accountID);
 
 
-        EditText editTextName = (EditText)this.findViewById(R.id.editTextName);
+        EditText editTextName = (EditText) this.findViewById(R.id.editTextName);
         editTextName.setText(account.getName());
-        EditText editTextNumber = (EditText)this.findViewById(R.id.editTextNumber);
+        EditText editTextNumber = (EditText) this.findViewById(R.id.editTextNumber);
         editTextNumber.setText(account.getAccountNumber());
-        EditText editTextBalance = (EditText)this.findViewById(R.id.editTextBalance);
+        EditText editTextBalance = (EditText) this.findViewById(R.id.editTextBalance);
         editTextBalance.setText(account.getBalance().toString());
-        EditText editTextNote = (EditText)this.findViewById(R.id.editTextNote);
+        EditText editTextNote = (EditText) this.findViewById(R.id.editTextNote);
         editTextNote.setText(account.getNote());
 
     }
@@ -62,32 +62,27 @@ public class EditAccountActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
-        SQLiteDatabase db =  dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         AccountPersist accountPersist = new AccountPersist(db);
 
-        switch(id){
-            case R.id.action_cancel:
-                this.setVisible(false);
-                break;
-            case R.id.action_delete:
-               accountPersist.delete(accountID);
-                break;
+        switch (id) {
+
             case R.id.action_save:
-                Account account  = new Account();
+                Account account = new Account();
                 account.setId(this.accountID);
-                EditText editTextName = (EditText)this.findViewById(R.id.editTextName);
-               account.setName(editTextName.getText().toString());
-                EditText editTextNumber = (EditText)this.findViewById(R.id.editTextNumber);
-               account.setAccountNumber(editTextNumber.getText().toString());
-                EditText editTextBalance = (EditText)this.findViewById(R.id.editTextBalance);
+                EditText editTextName = (EditText) this.findViewById(R.id.editTextName);
+                account.setName(editTextName.getText().toString());
+                EditText editTextNumber = (EditText) this.findViewById(R.id.editTextNumber);
+                account.setAccountNumber(editTextNumber.getText().toString());
+                EditText editTextBalance = (EditText) this.findViewById(R.id.editTextBalance);
                 account.setBalance(new BigDecimal(editTextBalance.getText().toString()));
-                EditText editTextNote = (EditText)this.findViewById(R.id.editTextNote);
+                EditText editTextNote = (EditText) this.findViewById(R.id.editTextNote);
                 account.setNote(editTextNote.getText().toString());
                 accountPersist.update(account);
                 break;
         }
 
-      this.finish();
+        this.finish();
         return super.onOptionsItemSelected(item);
     }
 }

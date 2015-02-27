@@ -11,7 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.quebecfresh.androidapp.simplebudget.model.Account;
 import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 
@@ -37,8 +39,15 @@ public class InitializeAccountActivity extends ActionBarActivity {
 
         AccountPersist accountPersist = new AccountPersist(db);
 
-        List accounts = accountPersist.readAll();
+        List<Account> accounts = accountPersist.readAll();
 
+        BigDecimal total = new BigDecimal("0");
+        for(int i = 0; i < accounts.size(); i++){
+            total = total.add(accounts.get(i).getBalance());
+        }
+
+        TextView textViewTotal = (TextView)this.findViewById(R.id.textViewTotal);
+        textViewTotal.setText("Total:" + total.toString());
         InitializeAccountListViewAdapter adapter = new InitializeAccountListViewAdapter(accounts, this);
         ListView listView = (ListView) this.findViewById(R.id.listViewAccount);
         listView.setAdapter(adapter);
@@ -82,9 +91,7 @@ public class InitializeAccountActivity extends ActionBarActivity {
                 return true;
 
             case R.id.action_done:
-                Intent intent = new Intent(this, BudgetIncomeActivity.class);
-                this.startActivity(intent);
-                return true;
+                this.finish();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -6,15 +6,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Category;
-import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.IncomeCategory;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 import com.quebecfresh.androidapp.simplebudget.persist.IncomeCategoryPersist;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +23,7 @@ import java.util.List;
 public class BudgetIncomeActivity extends ActionBarActivity {
 
     public static final String EXTRA_INCOME_CATEGORY_ID = "com.quebecfresh.androidapp.simplebudget.id";
+    private Integer expandedGroupPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class BudgetIncomeActivity extends ActionBarActivity {
 
         for(int i = 0; i < incomeCategories.size(); i++){
             IncomeCategory incomeCategory = incomeCategories.get(i);
-            switch (incomeCategory.getGroup()){
+            switch (incomeCategory.getCategoryGroup()){
                 case EMPLOYMENT:
                     employments.add(incomeCategory);
                     break;
@@ -64,10 +65,10 @@ public class BudgetIncomeActivity extends ActionBarActivity {
 
 
         List<String> group = new ArrayList<String>();
-        group.add(IncomeCategory.GROUP.EMPLOYMENT.getLabel(this));
-        group.add(IncomeCategory.GROUP.GOVERNMENT_BENEFIT.getLabel(this));
-        group.add(IncomeCategory.GROUP.INVESTMENT.getLabel(this));
-        group.add(IncomeCategory.GROUP.OTHERS.getLabel(this));
+        group.add(IncomeCategory.INCOME_CATEGORY_GROUP.EMPLOYMENT.getLabel(this));
+        group.add(IncomeCategory.INCOME_CATEGORY_GROUP.GOVERNMENT_BENEFIT.getLabel(this));
+        group.add(IncomeCategory.INCOME_CATEGORY_GROUP.INVESTMENT.getLabel(this));
+        group.add(IncomeCategory.INCOME_CATEGORY_GROUP.OTHERS.getLabel(this));
 
         HashMap<String, List<Category>> incomeCategoryMap = new HashMap<String, List<Category>>();
         incomeCategoryMap.put(group.get(0), employments);
@@ -78,25 +79,27 @@ public class BudgetIncomeActivity extends ActionBarActivity {
         CategoryExpandableListViewAdapter adapter = new CategoryExpandableListViewAdapter(group, incomeCategoryMap, this);
         ExpandableListView expandableListView = (ExpandableListView)this.findViewById(R.id.expandableListView_incomeCategory);
         expandableListView.setAdapter(adapter);
-        expandableListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(BudgetIncomeActivity.this, EditIncomeCategoryActivity.class);
-                intent.putExtra(EXTRA_INCOME_CATEGORY_ID, id);
-                startActivity(intent);
-            }
-        });
+
+        BigDecimal total = new BigDecimal("0");
+        for(int i = 0; i < incomeCategories.size(); i++){
+            total = total.add(incomeCategories.get(i).getBudgetAmount());
+        }
+        TextView textViewTotal = (TextView)this.findViewById(R.id.textViewTotal);
+        textViewTotal.setText("Total:" + total.toString());
 
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 Intent intent = new Intent(BudgetIncomeActivity.this, EditIncomeCategoryActivity.class);
                 intent.putExtra(EXTRA_INCOME_CATEGORY_ID, id);
+                expandedGroupPosition = groupPosition;
                 startActivity(intent);
                 return true;
             }
         });
-
+        if(this.expandedGroupPosition >= 0) {
+            expandableListView.expandGroup(expandedGroupPosition);
+        }
         super.onResume();
     }
 
@@ -114,11 +117,12 @@ public class BudgetIncomeActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_done) {
-            Intent intent =new Intent(this, BudgetExpenseActivity.class);
-            this.startActivity(intent);
-            return true;
+        switch(id){
+            case R.id.action_add:
+                break;
+            case R.id.action_done:
+                this.finish();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

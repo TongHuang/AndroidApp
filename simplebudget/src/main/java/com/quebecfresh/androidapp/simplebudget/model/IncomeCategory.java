@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  */
 public class IncomeCategory extends Category {
 
-    public enum GROUP {
+    public enum INCOME_CATEGORY_GROUP {
         EMPLOYMENT, GOVERNMENT_BENEFIT, INVESTMENT, OTHERS;
 
         public String getLabel(Context context) {
@@ -29,7 +29,7 @@ public class IncomeCategory extends Category {
         }
     }
 
-    private GROUP group = GROUP.EMPLOYMENT;
+    private INCOME_CATEGORY_GROUP categoryGroup = INCOME_CATEGORY_GROUP.EMPLOYMENT;
 
     public IncomeCategory() {
     }
@@ -49,12 +49,12 @@ public class IncomeCategory extends Category {
         super.setBudgetAmount(budgetAmount);
     }
 
-    public GROUP getGroup() {
-        return group;
+    public INCOME_CATEGORY_GROUP getCategoryGroup() {
+        return categoryGroup;
     }
 
-    public void setGroup(GROUP group) {
-        this.group = group;
+    public void setCategoryGroup(INCOME_CATEGORY_GROUP categoryGroup) {
+        this.categoryGroup = categoryGroup;
     }
 
     public static abstract class Contract implements BaseColumns {
@@ -63,11 +63,11 @@ public class IncomeCategory extends Category {
         public static final String _NOTE = "note";
         public static final String _CYCLE = "cycle";
         public static final String _BUDGET_AMOUNT = "budget_amount";
-        public static final String _INCOME_GROUP = "income_group";
+        public static final String _CATEGORY_GROUP = "category_group";
 
         public static final String CREATE = "Create table " + _TABLE + " (" + _ID + TYPE_ID
                 + COMMA + _NAME + TYPE_TEXT + COMMA + _NOTE + TYPE_TEXT + COMMA + _CYCLE
-                + TYPE_TEXT + COMMA + _BUDGET_AMOUNT + TYPE_TEXT + COMMA + _INCOME_GROUP + TYPE_TEXT + ")";
+                + TYPE_TEXT + COMMA + _BUDGET_AMOUNT + TYPE_TEXT + COMMA + _CATEGORY_GROUP + TYPE_TEXT + ")";
         public static final String DROP = "Drop table if exists " + _TABLE;
 
     }
