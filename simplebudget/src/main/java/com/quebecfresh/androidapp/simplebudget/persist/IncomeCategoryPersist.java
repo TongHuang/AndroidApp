@@ -121,6 +121,16 @@ public class IncomeCategoryPersist {
         this.insert(incomeCategory);
     }
 
+    public boolean save(IncomeCategory incomeCategory){
+        if(incomeCategory.getId() > 0){
+            this.update(incomeCategory);
+        }else{
+            this.insert(incomeCategory);
+        }
+
+        return true;
+    }
+
     public Boolean create(){
         this.db.execSQL(CREATE);
         return true;

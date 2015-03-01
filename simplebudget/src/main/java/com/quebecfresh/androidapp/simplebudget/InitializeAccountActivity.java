@@ -1,7 +1,9 @@
 package com.quebecfresh.androidapp.simplebudget;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
@@ -91,6 +93,10 @@ public class InitializeAccountActivity extends ActionBarActivity {
                 return true;
 
             case R.id.action_done:
+                SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(getString(R.string.initialize_account_done), true);
+                editor.commit();
                 this.finish();
         }
         return super.onOptionsItemSelected(item);

@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * Created by Tong Huang on 2015-02-19, 10:02 AM.
  */
 public class Category extends  BaseData{
-    private Cycle cycle;
+    private Cycle cycle = Cycle.Monthly;
     private BigDecimal budgetAmount = new BigDecimal("0");
 
     public Category(){
@@ -42,5 +42,13 @@ public class Category extends  BaseData{
 
     public void setBudgetAmount(BigDecimal budgetAmount) {
         this.budgetAmount = budgetAmount.setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public BigDecimal convertBudgetAmountTo(Cycle cycle){
+        BigDecimal convertedAmount = new BigDecimal("0");
+        convertedAmount.setScale(2, BigDecimal.ROUND_HALF_UP);
+        convertedAmount = this.budgetAmount;
+        convertedAmount = convertedAmount.multiply(new BigDecimal(this.cycle.ratio(cycle)));
+        return convertedAmount;
     }
 }

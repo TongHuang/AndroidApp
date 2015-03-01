@@ -165,6 +165,15 @@ public class ExpenseCategoryPersist {
 
     }
 
+    public Boolean save(ExpenseCategory expenseCategory){
+        if(expenseCategory.getId() > 0){
+            this.update(expenseCategory);
+        }else{
+            this.insert(expenseCategory);
+        }
+        return true;
+    }
+
     public Boolean create(){
          this.db.execSQL(CREATE);
         return true;

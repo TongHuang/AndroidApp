@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 public class EditExpenseCategoryActivity extends ActionBarActivity {
 
     private EditText editTextName;
+    private Spinner spinnerGroup;
     private Spinner spinnerCycle;
     private EditText editTextBudgetAmount;
     private EditText editTextNote;
@@ -38,11 +39,20 @@ public class EditExpenseCategoryActivity extends ActionBarActivity {
         rowID = intent.getLongExtra(BudgetExpenseActivity.EXTRA_EXPENSE_CATEGORY_ID, 0);
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+
         persist = new ExpenseCategoryPersist(db);
-        category = persist.read(rowID);
+        if(rowID>0) {
+            category = persist.read(rowID);
+        }else{
+            category = new ExpenseCategory();
+        }
 
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextName.setText(category.getName());
+        spinnerGroup = (Spinner) this.findViewById(R.id.spinnerExpenseCategoryGroup);
+        ExpenseCategoryGroupSpinnerAdapter expenseCategoryGroupSpinnerAdapter = new ExpenseCategoryGroupSpinnerAdapter(this, ExpenseCategory.EXPENSE_CATEGORY_GROUP.values());
+        spinnerGroup.setAdapter(expenseCategoryGroupSpinnerAdapter);
+        spinnerGroup.setSelection(category.getCategoryGroup().ordinal());
         spinnerCycle = (Spinner) findViewById(R.id.spinnerCycle);
         CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(this, Cycle.values());
         spinnerCycle.setAdapter(cycleSpinnerAdapter);
@@ -72,10 +82,11 @@ public class EditExpenseCategoryActivity extends ActionBarActivity {
 
             case R.id.action_save:
                 category.setName(editTextName.getText().toString());
+                category.setCategoryGroup((ExpenseCategory.EXPENSE_CATEGORY_GROUP)spinnerGroup.getSelectedItem());
                 category.setCycle(Cycle.valueOf(spinnerCycle.getSelectedItem().toString()));
                 category.setBudgetAmount(new BigDecimal(editTextBudgetAmount.getText().toString()));
                 category.setNote(editTextNote.getText().toString());
-                this.persist.update(category);
+                this.persist.save(category);
         }
 //        Intent intent = new Intent(this, BudgetExpenseActivity.class);
 //        startActivity(intent);

@@ -1,16 +1,21 @@
 package com.quebecfresh.androidapp.simplebudget;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Category;
+import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseCategory;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 import com.quebecfresh.androidapp.simplebudget.persist.ExpenseCategoryPersist;
@@ -27,7 +32,8 @@ public class BudgetExpenseActivity extends ActionBarActivity {
 
     public static final String EXTRA_EXPENSE_CATEGORY_ID = "com.quebecfresh.androidapp.simplebudget.id";
     private Integer expandedGroupPosition = 0;
-
+    List<ExpenseCategory> categoryList;
+    TextView textViewTotal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +50,14 @@ public class BudgetExpenseActivity extends ActionBarActivity {
         return true;
     }
 
+    private  BigDecimal calcTotal(Cycle cycle){
+        BigDecimal total = new BigDecimal("0");
+        for (int i = 0; i < categoryList.size(); i++) {
+            total = total.add(categoryList.get(i).convertBudgetAmountTo(cycle));
+        }
+        return total.setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -52,7 +66,7 @@ public class BudgetExpenseActivity extends ActionBarActivity {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         ExpenseCategoryPersist persist = new ExpenseCategoryPersist(db);
-        List<ExpenseCategory> categoryList = persist.readAll();
+        categoryList = persist.readAll();
 
         List<Category> foods = new ArrayList<Category>();
         List<Category> shelters = new ArrayList<Category>();
@@ -95,12 +109,23 @@ public class BudgetExpenseActivity extends ActionBarActivity {
         categoryMap.put(group.get(3), transportation);
         categoryMap.put(group.get(4), others);
 
-        BigDecimal total = new BigDecimal("0");
-        for (int i = 0; i < categoryList.size(); i++) {
-            total = total.add(categoryList.get(i).getBudgetAmount());
-        }
-        TextView textViewTotal = (TextView) this.findViewById(R.id.textViewTotal);
-        textViewTotal.setText(total.toString());
+        final Spinner spinnerCycle = (Spinner)this.findViewById(R.id.spinnerCycle);
+        CycleSpinnerAdapter spinnerAdapter = new CycleSpinnerAdapter(this, Cycle.values());
+        spinnerCycle.setAdapter(spinnerAdapter);
+        spinnerCycle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                textViewTotal.setText(calcTotal((Cycle)spinnerCycle.getItemAtPosition(position)).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinnerCycle.setSelection(3);
+        textViewTotal = (TextView) this.findViewById(R.id.textViewTotal);
+        textViewTotal.setText(this.calcTotal(Cycle.Monthly).toString());
 
         CategoryExpandableListViewAdapter adapter = new CategoryExpandableListViewAdapter(group, categoryMap, this);
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.expandableListViewExpenseCategory);
@@ -129,8 +154,15 @@ public class BudgetExpenseActivity extends ActionBarActivity {
 
         switch (id) {
             case R.id.action_add:
+                Intent intent = new Intent(this, EditExpenseCategoryActivity.class);
+                intent.putExtra(EXTRA_EXPENSE_CATEGORY_ID, -1L);
+                startActivity(intent);
                 break;
             case R.id.action_done:
+                SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(getString(R.string.initialize_expense_budget_done), true);
+                editor.commit();
                 this.finish();
                 break;
         }

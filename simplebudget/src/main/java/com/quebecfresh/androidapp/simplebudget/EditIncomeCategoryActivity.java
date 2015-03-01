@@ -5,10 +5,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.IncomeCategory;
@@ -22,6 +20,7 @@ public class EditIncomeCategoryActivity extends ActionBarActivity {
 
     private Long rowID;
     private EditText editTextName;
+    private Spinner spinnerIncomeGroup;
     private Spinner spinnerCycle;
     private EditText editTextAmount;
     private EditText editTextNote;
@@ -35,11 +34,19 @@ public class EditIncomeCategoryActivity extends ActionBarActivity {
         Intent intent = getIntent();
         rowID = intent.getLongExtra(BudgetIncomeActivity.EXTRA_INCOME_CATEGORY_ID, 0);
         DatabaseHelper dbHelper = new DatabaseHelper(this);
-         persist = new IncomeCategoryPersist(dbHelper.getReadableDatabase());
-         incomeCategory = persist.read(rowID);
+        persist = new IncomeCategoryPersist(dbHelper.getReadableDatabase());
+        if(rowID > 0) {
+            incomeCategory = persist.read(rowID);
+        }else{
+            incomeCategory = new IncomeCategory();
+        }
 
         editTextName = (EditText)this.findViewById(R.id.editTextName);
         editTextName.setText(incomeCategory.getName());
+        spinnerIncomeGroup  = (Spinner)this.findViewById(R.id.spinnerGroup);
+        IncomeCategoryGroupSpinnerAdapter incomeCategoryGroupSpinnerAdapter = new IncomeCategoryGroupSpinnerAdapter(this, IncomeCategory.INCOME_CATEGORY_GROUP.values());
+        spinnerIncomeGroup.setAdapter(incomeCategoryGroupSpinnerAdapter);
+        spinnerIncomeGroup.setSelection(incomeCategory.getCategoryGroup().ordinal());
         spinnerCycle = (Spinner)this.findViewById(R.id.spinnerCycle);
         CycleSpinnerAdapter adapter = new CycleSpinnerAdapter(this,  Cycle.values());
         spinnerCycle.setAdapter(adapter);
@@ -68,10 +75,11 @@ public class EditIncomeCategoryActivity extends ActionBarActivity {
 
             case R.id.action_save:
                 incomeCategory.setName(editTextName.getText().toString());
+                incomeCategory.setCategoryGroup((IncomeCategory.INCOME_CATEGORY_GROUP)spinnerIncomeGroup.getSelectedItem());
                 incomeCategory.setCycle((Cycle)spinnerCycle.getSelectedItem());
                 incomeCategory.setBudgetAmount(new BigDecimal(editTextAmount.getText().toString()));
                 incomeCategory.setNote(editTextNote.getText().toString());
-                persist.update(incomeCategory);
+                persist.save(incomeCategory);
                 break;
         }
         this.finish();
