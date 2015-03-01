@@ -1,10 +1,8 @@
 package com.quebecfresh.androidapp.simplebudget;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -20,12 +18,12 @@ import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class InitializeAccountActivity extends ActionBarActivity {
-    public static final String EXTRA_ACCOUNT = "com.quebecfresh.androidapp.simplebudget.account";
+    public static final String EXTRA_ACCOUNT_ID = "com.quebecfresh.androidapp.simplebudget.account";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,11 +42,11 @@ public class InitializeAccountActivity extends ActionBarActivity {
         List<Account> accounts = accountPersist.readAll();
 
         BigDecimal total = new BigDecimal("0");
-        for(int i = 0; i < accounts.size(); i++){
+        for (int i = 0; i < accounts.size(); i++) {
             total = total.add(accounts.get(i).getBalance());
         }
 
-        TextView textViewTotal = (TextView)this.findViewById(R.id.textViewTotal);
+        TextView textViewTotal = (TextView) this.findViewById(R.id.textViewTotal);
         textViewTotal.setText("Total:" + total.toString());
         InitializeAccountListViewAdapter adapter = new InitializeAccountListViewAdapter(accounts, this);
         ListView listView = (ListView) this.findViewById(R.id.listViewAccount);
@@ -57,15 +55,13 @@ public class InitializeAccountActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(InitializeAccountActivity.this, EditAccountActivity.class);
-                intent.putExtra(EXTRA_ACCOUNT, id);
+                intent.putExtra(EXTRA_ACCOUNT_ID, id);
                 startActivity(intent);
             }
         });
 
         super.onResume();
     }
-
-
 
 
     @Override
@@ -86,14 +82,11 @@ public class InitializeAccountActivity extends ActionBarActivity {
 
         switch (id) {
             case R.id.action_add:
-                ListView listView = (ListView)this.findViewById(R.id.listViewAccount);
-                InitializeAccountListViewAdapter adapter = (InitializeAccountListViewAdapter)listView.getAdapter();
-                adapter.addNewAccount();
-
-                return true;
-
+                Intent intent = new Intent(this, EditAccountActivity.class);
+                intent.putExtra(EXTRA_ACCOUNT_ID, -1L);
+                startActivity(intent);
             case R.id.action_done:
-                SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(getString(R.string.initialize_account_done), true);
                 editor.commit();

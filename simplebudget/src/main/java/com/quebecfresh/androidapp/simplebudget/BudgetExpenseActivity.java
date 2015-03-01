@@ -159,7 +159,7 @@ public class BudgetExpenseActivity extends ActionBarActivity {
                 startActivity(intent);
                 break;
             case R.id.action_done:
-                SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(getString(R.string.initialize_expense_budget_done), true);
                 editor.commit();

@@ -3,10 +3,8 @@ package com.quebecfresh.androidapp.simplebudget.persist;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.IncomeCategory;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

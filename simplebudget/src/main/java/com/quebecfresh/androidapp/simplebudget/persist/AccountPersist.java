@@ -5,9 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
-
 import static com.quebecfresh.androidapp.simplebudget.model.Account.Contract.*;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +100,16 @@ public class AccountPersist {
         account3.setName("Credit card");
         account3.setAccountNumber("000003");
         this.insert(account3);
+        return true;
+    }
+
+    public boolean save(Account account){
+        if(account.getId() > 0){
+            this.update(account);
+        }else{
+            this.insert(account);
+        }
+
         return true;
     }
 

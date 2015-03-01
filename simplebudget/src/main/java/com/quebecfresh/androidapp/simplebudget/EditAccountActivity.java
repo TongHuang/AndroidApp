@@ -1,9 +1,7 @@
 package com.quebecfresh.androidapp.simplebudget;
 
-import android.app.Application;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +18,12 @@ import java.math.BigDecimal;
 public class EditAccountActivity extends ActionBarActivity {
 
     private Long accountID;
+    private EditText editTextName;
+    private EditText editTextNumber;
+    private EditText editTextBalance;
+    private EditText editTextNote;
+    private AccountPersist accountPersist;
+    private Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,21 +31,25 @@ public class EditAccountActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account);
         Intent intent = getIntent();
-        accountID = intent.getLongExtra(InitializeAccountActivity.EXTRA_ACCOUNT, 0);
+        accountID = intent.getLongExtra(InitializeAccountActivity.EXTRA_ACCOUNT_ID, 0);
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        AccountPersist accountPersist = new AccountPersist(db);
-        Account account = accountPersist.read(accountID);
+        accountPersist = new AccountPersist(db);
+        if (accountID > 0) {
+            account = accountPersist.read(accountID);
+        } else {
+            account = new Account();
+        }
 
 
-        EditText editTextName = (EditText) this.findViewById(R.id.editTextName);
+        editTextName = (EditText) this.findViewById(R.id.editTextName);
         editTextName.setText(account.getName());
-        EditText editTextNumber = (EditText) this.findViewById(R.id.editTextNumber);
+        editTextNumber = (EditText) this.findViewById(R.id.editTextNumber);
         editTextNumber.setText(account.getAccountNumber());
-        EditText editTextBalance = (EditText) this.findViewById(R.id.editTextBalance);
+        editTextBalance = (EditText) this.findViewById(R.id.editTextBalance);
         editTextBalance.setText(account.getBalance().toString());
-        EditText editTextNote = (EditText) this.findViewById(R.id.editTextNote);
+        editTextNote = (EditText) this.findViewById(R.id.editTextNote);
         editTextNote.setText(account.getNote());
 
     }
@@ -61,15 +69,8 @@ public class EditAccountActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        AccountPersist accountPersist = new AccountPersist(db);
-
         switch (id) {
-
             case R.id.action_save:
-                Account account = new Account();
-                account.setId(this.accountID);
                 EditText editTextName = (EditText) this.findViewById(R.id.editTextName);
                 account.setName(editTextName.getText().toString());
                 EditText editTextNumber = (EditText) this.findViewById(R.id.editTextNumber);
@@ -78,7 +79,7 @@ public class EditAccountActivity extends ActionBarActivity {
                 account.setBalance(new BigDecimal(editTextBalance.getText().toString()));
                 EditText editTextNote = (EditText) this.findViewById(R.id.editTextNote);
                 account.setNote(editTextNote.getText().toString());
-                accountPersist.update(account);
+                accountPersist.save(account);
                 break;
         }
 
