@@ -60,7 +60,15 @@ public class BudgetExpenseActivity extends ActionBarActivity {
 
     @Override
     protected void onResume() {
-        super.onResume();
+
+        //When initialization is not done, disabled actionBar up button
+        SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
+        Boolean initializeDone = preferences.getBoolean(getString(R.string.initialize_done), false);
+        if(initializeDone){
+            this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }else{
+            this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -143,6 +151,9 @@ public class BudgetExpenseActivity extends ActionBarActivity {
         if (this.expandedGroupPosition >= 0) {
             listView.expandGroup(this.expandedGroupPosition);
         }
+
+
+        super.onResume();
     }
 
     @Override

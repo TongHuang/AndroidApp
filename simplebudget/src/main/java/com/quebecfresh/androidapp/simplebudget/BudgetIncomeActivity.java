@@ -36,6 +36,7 @@ public class BudgetIncomeActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget_income);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
 
@@ -50,6 +51,15 @@ public class BudgetIncomeActivity extends ActionBarActivity {
 
     @Override
     protected void onResume() {
+
+        //When initialization is not done, disabled actionBar up button
+        SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
+        Boolean initializeDone = preferences.getBoolean(getString(R.string.initialize_done), false);
+        if(initializeDone){
+            this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }else{
+            this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         IncomeCategoryPersist incomeCategoryPersist = new IncomeCategoryPersist(databaseHelper.getReadableDatabase());

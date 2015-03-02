@@ -34,6 +34,15 @@ public class InitializeAccountActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
 
+        //When initialization is not done, disabled actionBar up button
+        SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
+        Boolean initializeDone = preferences.getBoolean(getString(R.string.initialize_done), false);
+        if(initializeDone){
+            this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }else{
+            this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+
         DatabaseHelper dHelper = new DatabaseHelper(this);
         SQLiteDatabase db = dHelper.getWritableDatabase();
 
