@@ -1,0 +1,315 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity">
+
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="Spend Money"
+                android:id="@+id/button2"
+                android:layout_gravity="center"
+                android:background="@color/light_red"
+                android:layout_weight="10" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="Deposit Money"
+                android:id="@+id/button"
+                android:layout_gravity="center"
+                android:background="@color/light_blue"
+                android:layout_weight="10"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30"
+            android:id="@+id/scrollView"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="50">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Overview"
+                        android:id="@+id/textView13"
+                        android:gravity="center_vertical|center_horizontal" />
+                </LinearLayout>
+                //Account balance layout
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="10">
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="Account\nBalance"
+                        android:id="@+id/buttonAccountBalance"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_weight="10"
+                        android:onClick="editAccounts" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="25">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:id="@+id/textView15"
+                            android:layout_gravity="bottom"
+                            android:gravity="center_vertical|center_horizontal" />
+
+                        <ProgressBar
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/progressBarBalance"
+                            android:max="100"
+                            android:indeterminate="false"
+                            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_gravity="center_vertical" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:id="@+id/textViewProgressBarBalanceCenter"
+                            android:layout_gravity="bottom"
+                            android:gravity="center_vertical|center_horizontal" />
+                    </LinearLayout>
+
+                </LinearLayout>
+                //Income layout
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10">
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="Income"
+                        android:id="@+id/button4"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_weight="10" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="25">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:id="@+id/textView17"
+                            android:gravity="center_vertical|center_horizontal" />
+
+                        <ProgressBar
+                            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/progressBarIncome"
+                            android:max="100"
+                            android:layout_gravity="center_vertical" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:id="@+id/textViewProgressBarIncomeCenter"
+                            android:gravity="center_vertical|center_horizontal" />
+                    </LinearLayout>
+                </LinearLayout>
+                //Income budget Layout
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="10">
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Income\nBudget"
+                        android:id="@+id/buttonIncomeBudget"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_weight="10"
+                        android:onClick="editIncomeBudget" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="25">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:id="@+id/textView18"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:layout_gravity="top" />
+
+                        <ProgressBar
+                            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/progressBarIncomeBudget"
+                            android:max="100" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:id="@+id/textViewProgressBarIncomeBudgetCenter"
+                            android:layout_gravity="bottom"
+                            android:gravity="center_vertical|center_horizontal" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                //Expense Layout
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="10">
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="Expense"
+                        android:id="@+id/buttonExpense"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_weight="10"
+                        android:onClick="editExpense" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="25">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:id="@+id/textView20"
+                            android:layout_gravity="top"
+                            android:gravity="center_vertical|center_horizontal" />
+
+                        <ProgressBar
+                            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/progressBarExpense"
+                            android:max="100" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:id="@+id/textViewProgressBarExpenseCenter"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:layout_gravity="top|bottom" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                //Expense budget layout
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="10">
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="Expense\nBudget"
+                        android:id="@+id/buttonExpenseBudget"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_weight="10"
+                        android:onClick="editExpenseBudget" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="25">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:id="@+id/textView22"
+                            android:layout_gravity="top"
+                            android:gravity="center_vertical|center_horizontal" />
+
+                        <ProgressBar
+                            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/progressBarExpenseBudget"
+                            android:max="100"
+                            android:layout_gravity="center_vertical" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:id="@+id/textViewProgressBarExpenseBudgetCenter"
+                            android:layout_gravity="bottom"
+                            android:gravity="center_vertical|center_horizontal" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
