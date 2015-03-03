@@ -16,10 +16,6 @@ public class AddExpenseActivity extends ActionBarActivity {
         setContentView(R.layout.activity_add_expense);
     }
 
-    public void choosePayee(View view){
-        Intent intent = new Intent(this, PayeeActivity.class);
-        startActivity(intent);
-    }
 
 
     @Override
