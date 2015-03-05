@@ -220,6 +220,7 @@ public class Practice {
                         secondPara = 0;
                         //Second parameter can not be zero, and the result of division have to be integer
                         while (!isDivisionAnInteger(firstPara, secondPara)) {
+//                        while(secondPara > 0){
                             secondPara = random.nextInt(100);
                         }
                         this.expression = firstPara + "/" + secondPara;
