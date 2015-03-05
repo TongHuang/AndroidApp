@@ -9,13 +9,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
-import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseCategory;
 import com.quebecfresh.androidapp.simplebudget.model.IncomeCategory;
 import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
@@ -76,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
         Boolean initializeDone = preferences.getBoolean(getString(R.string.initialize_done), false);
         if(initializeDone == false) {
-            Intent intent = new Intent(this, InitializeActivity.class);
+            Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
             this.finish();
         }else{
@@ -141,8 +138,15 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id) {
+            case R.id.action_reInitialize:
+                SharedPreferences preferences = this.getSharedPreferences(getString(R.string.initialize_done), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean(getString(R.string.initialize_done), false);
+                editor.commit();
+                Intent intent = new Intent(this, WelcomeActivity.class);
+                startActivity(intent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

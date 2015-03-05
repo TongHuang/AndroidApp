@@ -28,6 +28,9 @@ public class ExpenseCategoryPersist {
         contentValues.put(_BUDGET_AMOUNT, expenseCategory.getBudgetAmount().toString());
         contentValues.put(_NOTE, expenseCategory.getNote());
         contentValues.put(_CATEGORY_GROUP, expenseCategory.getCategoryGroup().name());
+        contentValues.put(_UNUSED_BALANCE, expenseCategory.getUnusedBalance().toString());
+        contentValues.put(_ROLL_OVER, expenseCategory.getRollOver()==Boolean.TRUE?1:0);
+
         Long rowID = this.db.insert(_TABLE, null, contentValues);
         expenseCategory.setId(rowID);
         return expenseCategory;
@@ -44,6 +47,8 @@ public class ExpenseCategoryPersist {
         expenseCategory.setBudgetAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_AMOUNT))));
         expenseCategory.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
         expenseCategory.setCategoryGroup(ExpenseCategory.EXPENSE_CATEGORY_GROUP.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CATEGORY_GROUP))));
+        expenseCategory.setUnusedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNUSED_BALANCE))));
+        expenseCategory.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER))== 1?true:false);
         return expenseCategory;
     }
 
@@ -60,6 +65,8 @@ public class ExpenseCategoryPersist {
             expenseCategory.setBudgetAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_AMOUNT))));
             expenseCategory.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
             expenseCategory.setCategoryGroup(ExpenseCategory.EXPENSE_CATEGORY_GROUP.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CATEGORY_GROUP))));
+            expenseCategory.setUnusedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNUSED_BALANCE))));
+            expenseCategory.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true:false);
             categories.add(expenseCategory);
             cursor.moveToNext();
         }
@@ -73,6 +80,8 @@ public class ExpenseCategoryPersist {
         contentValues.put(_BUDGET_AMOUNT, expenseCategory.getBudgetAmount().toString());
         contentValues.put(_NOTE, expenseCategory.getNote());
         contentValues.put(_CATEGORY_GROUP, expenseCategory.getCategoryGroup().name());
+        contentValues.put(_UNUSED_BALANCE, expenseCategory.getUnusedBalance().toString());
+        contentValues.put(_ROLL_OVER, expenseCategory.getRollOver() == true?1:0);
         this.db.update(_TABLE, contentValues,_ID + " = " +expenseCategory.getId(), null);
         return expenseCategory;
     }

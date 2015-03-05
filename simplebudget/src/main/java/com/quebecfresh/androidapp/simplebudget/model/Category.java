@@ -1,6 +1,7 @@
 package com.quebecfresh.androidapp.simplebudget.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created by Tong Huang on 2015-02-19, 10:02 AM.
@@ -8,6 +9,9 @@ import java.math.BigDecimal;
 public class Category extends  BaseData{
     private Cycle cycle = Cycle.Monthly;
     private BigDecimal budgetAmount = new BigDecimal("0");
+    private BigDecimal unusedBalance = new BigDecimal("0");
+    private Boolean rollOver = Boolean.TRUE;
+
 
     public Category(){
 
@@ -42,6 +46,22 @@ public class Category extends  BaseData{
 
     public void setBudgetAmount(BigDecimal budgetAmount) {
         this.budgetAmount = budgetAmount.setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public BigDecimal getUnusedBalance() {
+        return unusedBalance;
+    }
+
+    public void setUnusedBalance(BigDecimal unusedBalance) {
+        this.unusedBalance = unusedBalance;
+    }
+
+    public Boolean getRollOver() {
+        return rollOver;
+    }
+
+    public void setRollOver(Boolean rollOver) {
+        this.rollOver = rollOver;
     }
 
     public BigDecimal convertBudgetAmountTo(Cycle cycle){

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="preference_file">com.quebecfresh.androidapp.simplebudget.preference_file</string>
+    <string name="initialize_done">com.quebecfresh.androidapp.simplebudget.initialize_done</string>
+    <string name="initialize_account_done">com.quebecfresh.androidapp.simplebudget.initialize_account_done</string>
+    <string name="initialize_income_budget_done">com.quebecfresh.androidapp.simplebudget.initialize_income_budget_done</string>
+    <string name="initialize_expense_budget_done">com.quebecfresh.androidapp.simplebudget.initialize_expense_budget_done</string>
+
+    <string name="app_name">123 Budget</string>
+    <string name="menu_income">Incomes</string>
+    <string name="menu_Expense">Expenses</string>
+    <string name="menu_asset">Assets</string>
+    <string name="menu_liability">Liabilities</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main_activity2">MainActivity2</string>
+    <string name="title_activity_expense">Expense</string>
+    <string name="title_activity_payee">Choose Payee</string>
+    <string name="button_edit">Edit</string>
+    <string name="button_delete">Delete</string>
+    <string name="add">Add</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="title_activity_add_expense">Add New Expense</string>
+    <string name="textview_name">Name</string>
+    <string name="button_save">Save</string>
+    <string name="textview_category">Category</string>
+    <string name="textview_payee">Payee</string>
+    <string name="textview_paycycle">Pay Cycle</string>
+    <string name="textview_amount">Amount</string>
+    <string name="title_activity_edit_expense">Edit Expense</string>
+    <string name="textview_note">Note</string>
+    <string name="textview_duedate">Due Date</string>
+    <string name="textview_paiddate">Paid Date</string>
+    <string name="delete">Delete</string>
+    <string name="title_activity_initialize_budget">Initialize Budget Activity</string>
+    <string name="budget_start_date">Budget Start Date:</string>
+    <string name="please_selected_incomes">Please selected incomes you will have</string>
+    <string name="initialize_budget">Initialize Budget</string>
+    <string name="expenses">Expenses</string>
+    <string name="add_more_expense">Add more expense</string>
+    <string name="accounts">Accounts</string>
+    <string name="reports">Reports</string>
+    <string name="expenses_budget">Expenses budget</string>
+    <string name="incomes_budget">Incomes budgets</string>
+    <string name="name">Name</string>
+    <string name="number">Number</string>
+    <string name="balance">Balance</string>
+    <string name="note">Note</string>
+    <string name="initialize_account">Initialize Account</string>
+    <string name="reinitialize">Reinitialize</string>
+    <string name="title_activity_welcome">Welcome</string>
+    <string name="let_us_start">Let\'s start</string>
+    <string name="welcome">Welcome</string>
+    <string name="done">Done</string>
+    <string name="incomes">"Incomes"</string>
+    <string name="edit_account">Edit Account</string>
+
+
+    <string name="Cycle_Daily">Daily</string>
+    <string name="Cycle_Weekly">Weekly</string>
+    <string name="Cycle_Every_2_Weeks">Bi-weekly</string>
+    <string name="Cycle_Monthly">Monthly</string>
+    <string name="Cycle_Every_2_Months">Bi-monthly</string>
+    <string name="Cycle_Every_3_Months">Quarterly</string>
+    <string name="Cycle_Every_6_Months">Semi-yearly</string>
+    <string name="Cycle_Yearly">Yearly</string>
+
+
+
+    <string name="Income_Category_Group_Employment">Employment</string>
+    <string name="Income_Category_Group_Government_Benefit">Government Benefit</string>
+    <string name="Income_Category_Group_Investment">Investment</string>
+    <string name="Income_Category_Group_Others">Others</string>
+    <string name="edit_income">"Edit Income"</string>
+    <string name="cycle">Cycle</string>
+    <string name="budget_amount">Budget amount</string>
+    <string name="edit_expense">Edit Expense</string>
+    <string name="first_how_much_you_have">First, how much you have?</string>
+    <string name="you_have">You have</string>
+    <string name="second_how_much_you_make">Second, how much you make?</string>
+
+    <string name="third_how_you_want_to_spend">Third, how you want to spend?</string>
+    <string name="you_will_spend">You will spend</string>
+    <string name="group">Group</string>
+    <string name="total_income">Total income</string>
+    <string name="total_expense">Total expense</string>
+    <string name="welcome_message">Welcome to 123 budget.\n Before you can start. \n Please click 1,2 and 3. \n To initialize your budget.</string>
+    <string name="welcome_budget_overview_message">Account Balance: %1$s $. \nYearly income: %2$s $ \nYearly expense: %3$s $ \nYearly surplus:%4$s $</string>
+    <string name="title_activity_initialize">Initialization</string>
+    <string name="amount">Amount</string>
+    <string name="date">Date</string>
+</resources>

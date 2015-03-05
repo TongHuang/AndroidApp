@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.quebecfresh.androidapp.simplebudget" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="21" />
+
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".InitializeAccountActivity"
+            android:label="@string/accounts"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".BudgetIncomeActivity"
+            android:label="@string/incomes"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".BudgetExpenseActivity"
+            android:label="@string/expenses"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".AddExpenseActivity"
+            android:label="@string/expenses"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".EditIncomeCategoryActivity"
+            android:label="@string/edit_income" >
+        </activity>
+        <activity
+            android:name=".EditExpenseCategoryActivity"
+            android:label="@string/edit_expense" >
+        </activity>
+
+        <activity
+            android:name=".WelcomeActivity"
+            android:label="@string/title_activity_initialize" >
+        </activity>
+
+
+
+
+        <activity
+            android:name=".InitializeBudgetActivity"
+            android:label="@string/title_activity_initialize_budget" >
+        </activity>
+        <activity
+            android:name=".EditAccountActivity"
+            android:label="@string/edit_account"
+            android:parentActivityName=".InitializeAccountActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.quebecfresh.androidapp.simplebudget.InitializeAccountActivity" />
+        </activity>
+
+
+    </application>
+
+</manifest>
