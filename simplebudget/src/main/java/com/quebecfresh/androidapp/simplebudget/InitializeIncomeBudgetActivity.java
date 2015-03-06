@@ -13,11 +13,11 @@ import android.widget.ExpandableListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.quebecfresh.androidapp.simplebudget.model.Category;
+import com.quebecfresh.androidapp.simplebudget.model.Budget;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
-import com.quebecfresh.androidapp.simplebudget.model.IncomeCategory;
+import com.quebecfresh.androidapp.simplebudget.model.IncomeBudget;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
-import com.quebecfresh.androidapp.simplebudget.persist.IncomeCategoryPersist;
+import com.quebecfresh.androidapp.simplebudget.persist.IncomeBudgetPersist;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,17 +25,17 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class BudgetIncomeActivity extends ActionBarActivity {
+public class InitializeIncomeBudgetActivity extends ActionBarActivity {
 
     public static final String EXTRA_INCOME_CATEGORY_ID = "com.quebecfresh.androidapp.simplebudget.id";
     private Integer expandedGroupPosition = 0;
-    private List<IncomeCategory> incomeCategories;
+    private List<IncomeBudget> incomeCategories;
     private  TextView textViewTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_budget_income);
+        setContentView(R.layout.activity_initialize_income_budget);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
@@ -62,17 +62,17 @@ public class BudgetIncomeActivity extends ActionBarActivity {
         }
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        IncomeCategoryPersist incomeCategoryPersist = new IncomeCategoryPersist(databaseHelper.getReadableDatabase());
+        IncomeBudgetPersist incomeCategoryPersist = new IncomeBudgetPersist(databaseHelper.getReadableDatabase());
 
         incomeCategories = incomeCategoryPersist.readAll();
 
-        List<Category> employments = new ArrayList<Category>();
-        List<Category> governmentBenefits = new ArrayList<Category>();
-        List<Category> investments = new ArrayList<Category>();
-        List<Category> others = new ArrayList<Category>();
+        List<Budget> employments = new ArrayList<Budget>();
+        List<Budget> governmentBenefits = new ArrayList<Budget>();
+        List<Budget> investments = new ArrayList<Budget>();
+        List<Budget> others = new ArrayList<Budget>();
 
         for (int i = 0; i < incomeCategories.size(); i++) {
-            IncomeCategory incomeCategory = incomeCategories.get(i);
+            IncomeBudget incomeCategory = incomeCategories.get(i);
             switch (incomeCategory.getCategoryGroup()) {
                 case EMPLOYMENT:
                     employments.add(incomeCategory);
@@ -91,12 +91,12 @@ public class BudgetIncomeActivity extends ActionBarActivity {
 
 
         List<String> group = new ArrayList<String>();
-        group.add(IncomeCategory.INCOME_CATEGORY_GROUP.EMPLOYMENT.getLabel(this));
-        group.add(IncomeCategory.INCOME_CATEGORY_GROUP.GOVERNMENT_BENEFIT.getLabel(this));
-        group.add(IncomeCategory.INCOME_CATEGORY_GROUP.INVESTMENT.getLabel(this));
-        group.add(IncomeCategory.INCOME_CATEGORY_GROUP.OTHERS.getLabel(this));
+        group.add(IncomeBudget.INCOME_BUDGET_CATEGORY.EMPLOYMENT.getLabel(this));
+        group.add(IncomeBudget.INCOME_BUDGET_CATEGORY.GOVERNMENT_BENEFIT.getLabel(this));
+        group.add(IncomeBudget.INCOME_BUDGET_CATEGORY.INVESTMENT.getLabel(this));
+        group.add(IncomeBudget.INCOME_BUDGET_CATEGORY.OTHERS.getLabel(this));
 
-        HashMap<String, List<Category>> incomeCategoryMap = new HashMap<String, List<Category>>();
+        HashMap<String, List<Budget>> incomeCategoryMap = new HashMap<String, List<Budget>>();
         incomeCategoryMap.put(group.get(0), employments);
         incomeCategoryMap.put(group.get(1), governmentBenefits);
         incomeCategoryMap.put(group.get(2), investments);
@@ -128,7 +128,7 @@ public class BudgetIncomeActivity extends ActionBarActivity {
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Intent intent = new Intent(BudgetIncomeActivity.this, EditIncomeCategoryActivity.class);
+                Intent intent = new Intent(InitializeIncomeBudgetActivity.this, EditIncomeBudgetActivity.class);
                 intent.putExtra(EXTRA_INCOME_CATEGORY_ID, id);
                 expandedGroupPosition = groupPosition;
                 startActivity(intent);
@@ -144,7 +144,7 @@ public class BudgetIncomeActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_budget_income, menu);
+        getMenuInflater().inflate(R.menu.menu_initialize_income_budget, menu);
         return true;
     }
 
@@ -157,7 +157,7 @@ public class BudgetIncomeActivity extends ActionBarActivity {
 
         switch (id) {
             case R.id.action_add:
-                Intent intent = new Intent(this, EditIncomeCategoryActivity.class);
+                Intent intent = new Intent(this, EditIncomeBudgetActivity.class);
                 intent.putExtra(EXTRA_INCOME_CATEGORY_ID, -1L);
                 startActivity(intent);
                 break;

@@ -31,7 +31,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".BudgetIncomeActivity"
+            android:name=".InitializeIncomeBudgetActivity"
             android:label="@string/incomes"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -39,7 +39,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".BudgetExpenseActivity"
+            android:name=".InitializeExpenseBudgetActivity"
             android:label="@string/expenses"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -57,11 +57,11 @@
 
 
         <activity
-            android:name=".EditIncomeCategoryActivity"
+            android:name=".EditIncomeBudgetActivity"
             android:label="@string/edit_income" >
         </activity>
         <activity
-            android:name=".EditExpenseCategoryActivity"
+            android:name=".EditExpenseBudgetActivity"
             android:label="@string/edit_expense" >
         </activity>
 
@@ -70,13 +70,6 @@
             android:label="@string/title_activity_initialize" >
         </activity>
 
-
-
-
-        <activity
-            android:name=".InitializeBudgetActivity"
-            android:label="@string/title_activity_initialize_budget" >
-        </activity>
         <activity
             android:name=".EditAccountActivity"
             android:label="@string/edit_account"

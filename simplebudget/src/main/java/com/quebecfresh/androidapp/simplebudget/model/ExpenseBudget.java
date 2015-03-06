@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 /**
  * Created by Tong Huang on 2015-02-13, 9:23 AM.
  */
-public class ExpenseCategory extends Category {
+public class ExpenseBudget extends Budget {
 
-    public enum EXPENSE_CATEGORY_GROUP {FOODS, SHELTER, UTILITIES, TRANSPORTATION, OTHERS;
+    public enum EXPENSE_BUDGET_CATEGORY {FOODS, SHELTER, UTILITIES, TRANSPORTATION, OTHERS;
     public String getLabel(Context context){
         switch(this){
             case FOODS:
@@ -27,32 +27,32 @@ public class ExpenseCategory extends Category {
     }
     }
 
-    private EXPENSE_CATEGORY_GROUP categoryGroup = EXPENSE_CATEGORY_GROUP.FOODS;
+    private EXPENSE_BUDGET_CATEGORY categoryGroup = EXPENSE_BUDGET_CATEGORY.FOODS;
 
-    public ExpenseCategory() {
+    public ExpenseBudget() {
 
     }
 
-    public  ExpenseCategory(String name){
+    public ExpenseBudget(String name){
         super.setName(name);
     }
 
-    public ExpenseCategory(String name, Cycle cycle){
+    public ExpenseBudget(String name, Cycle cycle){
         super.setName(name);
         super.setCycle(cycle);
     }
 
-    public ExpenseCategory(String name, Cycle cycle, BigDecimal budgetAmount){
+    public ExpenseBudget(String name, Cycle cycle, BigDecimal budgetAmount){
         super.setName(name);
         super.setCycle(cycle);
         super.setBudgetAmount(budgetAmount);
     }
 
-    public EXPENSE_CATEGORY_GROUP getCategoryGroup() {
+    public EXPENSE_BUDGET_CATEGORY getCategoryGroup() {
         return categoryGroup;
     }
 
-    public void setCategoryGroup(EXPENSE_CATEGORY_GROUP categoryGroup) {
+    public void setCategoryGroup(EXPENSE_BUDGET_CATEGORY categoryGroup) {
         this.categoryGroup = categoryGroup;
     }
 

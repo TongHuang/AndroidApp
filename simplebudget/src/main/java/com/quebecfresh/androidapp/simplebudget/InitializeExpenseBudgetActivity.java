@@ -14,13 +14,11 @@ import android.widget.ExpandableListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.quebecfresh.androidapp.simplebudget.model.Category;
+import com.quebecfresh.androidapp.simplebudget.model.Budget;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
-import com.quebecfresh.androidapp.simplebudget.model.ExpenseCategory;
+import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
-import com.quebecfresh.androidapp.simplebudget.persist.ExpenseCategoryPersist;
-
-import org.w3c.dom.Text;
+import com.quebecfresh.androidapp.simplebudget.persist.ExpenseBudgetPersist;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,16 +26,16 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class BudgetExpenseActivity extends ActionBarActivity {
+public class InitializeExpenseBudgetActivity extends ActionBarActivity {
 
-    public static final String EXTRA_EXPENSE_CATEGORY_ID = "com.quebecfresh.androidapp.simplebudget.id";
-    private Integer expandedGroupPosition = 0;
-    List<ExpenseCategory> categoryList;
+    public static final String EXTRA_EXPENSE_BUDGET_ID = "com.quebecfresh.androidapp.simplebudget.expense.budget.id";
+    private Integer expandedCategoryPosition = 0;
+    List<ExpenseBudget> expenseBudgetList;
     TextView textViewTotal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_budget__expense);
+        setContentView(R.layout.activity_initialize_expense_budget);
 
 
     }
@@ -46,14 +44,14 @@ public class BudgetExpenseActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_budget__expense, menu);
+        getMenuInflater().inflate(R.menu.menu_initialize_expense_budget, menu);
         return true;
     }
 
     private  BigDecimal calcTotal(Cycle cycle){
         BigDecimal total = new BigDecimal("0");
-        for (int i = 0; i < categoryList.size(); i++) {
-            total = total.add(categoryList.get(i).convertBudgetAmountTo(cycle));
+        for (int i = 0; i < expenseBudgetList.size(); i++) {
+            total = total.add(expenseBudgetList.get(i).convertBudgetAmountTo(cycle));
         }
         return total.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
@@ -73,17 +71,17 @@ public class BudgetExpenseActivity extends ActionBarActivity {
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        ExpenseCategoryPersist persist = new ExpenseCategoryPersist(db);
-        categoryList = persist.readAll();
+        ExpenseBudgetPersist persist = new ExpenseBudgetPersist(db);
+        expenseBudgetList = persist.readAll();
 
-        List<Category> foods = new ArrayList<Category>();
-        List<Category> shelters = new ArrayList<Category>();
-        List<Category> utilities = new ArrayList<Category>();
-        List<Category> transportation = new ArrayList<Category>();
-        List<Category> others = new ArrayList<Category>();
-        ExpenseCategory category;
-        for (int i = 0; i < categoryList.size(); i++) {
-            category = categoryList.get(i);
+        List<Budget> foods = new ArrayList<Budget>();
+        List<Budget> shelters = new ArrayList<Budget>();
+        List<Budget> utilities = new ArrayList<Budget>();
+        List<Budget> transportation = new ArrayList<Budget>();
+        List<Budget> others = new ArrayList<Budget>();
+        ExpenseBudget category;
+        for (int i = 0; i < expenseBudgetList.size(); i++) {
+            category = expenseBudgetList.get(i);
             switch (category.getCategoryGroup()) {
                 case FOODS:
                     foods.add(category);
@@ -104,13 +102,13 @@ public class BudgetExpenseActivity extends ActionBarActivity {
         }
 
         List<String> group = new ArrayList<String>();
-        group.add(ExpenseCategory.EXPENSE_CATEGORY_GROUP.FOODS.getLabel(this));
-        group.add(ExpenseCategory.EXPENSE_CATEGORY_GROUP.SHELTER.getLabel(this));
-        group.add(ExpenseCategory.EXPENSE_CATEGORY_GROUP.UTILITIES.getLabel(this));
-        group.add(ExpenseCategory.EXPENSE_CATEGORY_GROUP.TRANSPORTATION.getLabel(this));
-        group.add(ExpenseCategory.EXPENSE_CATEGORY_GROUP.OTHERS.getLabel(this));
+        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.FOODS.getLabel(this));
+        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER.getLabel(this));
+        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES.getLabel(this));
+        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION.getLabel(this));
+        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.OTHERS.getLabel(this));
 
-        HashMap<String, List<Category>> categoryMap = new HashMap<String, List<Category>>();
+        HashMap<String, List<Budget>> categoryMap = new HashMap<String, List<Budget>>();
         categoryMap.put(group.get(0), foods);
         categoryMap.put(group.get(1), shelters);
         categoryMap.put(group.get(2), utilities);
@@ -141,15 +139,15 @@ public class BudgetExpenseActivity extends ActionBarActivity {
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Intent intent = new Intent(BudgetExpenseActivity.this, EditExpenseCategoryActivity.class);
-                intent.putExtra(EXTRA_EXPENSE_CATEGORY_ID, id);
+                Intent intent = new Intent(InitializeExpenseBudgetActivity.this, EditExpenseBudgetActivity.class);
+                intent.putExtra(EXTRA_EXPENSE_BUDGET_ID, id);
                 startActivity(intent);
-                expandedGroupPosition = groupPosition;
+                expandedCategoryPosition = groupPosition;
                 return true;
             }
         });
-        if (this.expandedGroupPosition >= 0) {
-            listView.expandGroup(this.expandedGroupPosition);
+        if (this.expandedCategoryPosition >= 0) {
+            listView.expandGroup(this.expandedCategoryPosition);
         }
 
 
@@ -165,8 +163,8 @@ public class BudgetExpenseActivity extends ActionBarActivity {
 
         switch (id) {
             case R.id.action_add:
-                Intent intent = new Intent(this, EditExpenseCategoryActivity.class);
-                intent.putExtra(EXTRA_EXPENSE_CATEGORY_ID, -1L);
+                Intent intent = new Intent(this, EditExpenseBudgetActivity.class);
+                intent.putExtra(EXTRA_EXPENSE_BUDGET_ID, -1L);
                 startActivity(intent);
                 break;
             case R.id.action_done:

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.quebecfresh.androidapp.simplebudget.model.IncomeCategory;
-
 
 /**
  * Created by Tong Huang on 2015-02-20, 3:29 PM.
@@ -25,10 +23,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         AccountPersist accountPersist = new AccountPersist(db);
         accountPersist.create();
         accountPersist.initialize();
-        IncomeCategoryPersist incomeCategoryPersist = new IncomeCategoryPersist(db);
+        IncomeBudgetPersist incomeCategoryPersist = new IncomeBudgetPersist(db);
         incomeCategoryPersist.create();
         incomeCategoryPersist.initialize();
-        ExpenseCategoryPersist expenseCategoryPersist = new ExpenseCategoryPersist(db);
+        ExpenseBudgetPersist expenseCategoryPersist = new ExpenseBudgetPersist(db);
         expenseCategoryPersist.create();
         expenseCategoryPersist.initialize();
     }
@@ -37,9 +35,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         AccountPersist accountPersist = new AccountPersist(db);
         accountPersist.drop();
-        IncomeCategoryPersist incomeCategoryPersist = new IncomeCategoryPersist(db);
+        IncomeBudgetPersist incomeCategoryPersist = new IncomeBudgetPersist(db);
         incomeCategoryPersist.drop();
-        ExpenseCategoryPersist expenseCategoryPersist = new ExpenseCategoryPersist(db);
+        ExpenseBudgetPersist expenseCategoryPersist = new ExpenseBudgetPersist(db);
         expenseCategoryPersist.drop();
         onCreate(db);
     }

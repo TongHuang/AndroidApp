@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import com.quebecfresh.androidapp.simplebudget.model.IncomeCategory;
+import com.quebecfresh.androidapp.simplebudget.model.IncomeBudget;
 
 /**
  * Created by Tong Huang on 2015-02-27, 10:09 AM.
@@ -16,9 +16,9 @@ import com.quebecfresh.androidapp.simplebudget.model.IncomeCategory;
 public class IncomeCategoryGroupSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
 
     private Context context;
-    private IncomeCategory.INCOME_CATEGORY_GROUP[] groups;
+    private IncomeBudget.INCOME_BUDGET_CATEGORY[] groups;
 
-    public IncomeCategoryGroupSpinnerAdapter(Context context, IncomeCategory.INCOME_CATEGORY_GROUP[] groups){
+    public IncomeCategoryGroupSpinnerAdapter(Context context, IncomeBudget.INCOME_BUDGET_CATEGORY[] groups){
         this.context = context;
         this.groups = groups;
     }
@@ -41,7 +41,7 @@ public class IncomeCategoryGroupSpinnerAdapter extends BaseAdapter implements Sp
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        IncomeCategory.INCOME_CATEGORY_GROUP group = this.groups[position];
+        IncomeBudget.INCOME_BUDGET_CATEGORY group = this.groups[position];
         if(view == null){
             LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.spinner_item_income_group, null);

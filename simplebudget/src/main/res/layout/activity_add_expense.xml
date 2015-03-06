@@ -105,7 +105,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="20">
+        android:layout_weight="10">
 
         <TextView
             android:layout_width="0dp"
@@ -116,14 +116,15 @@
             android:layout_gravity="left|center_vertical"
             android:gravity="left|center_vertical" />
 
-        <DatePicker
+        <Button
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:id="@+id/datePicker"
-            android:layout_weight="30"
-            android:layout_gravity="center_vertical"
-            android:startYear="2015"
-            android:calendarViewShown="false" />
+            android:layout_height="wrap_content"
+            android:text="@string/choose_date"
+            android:id="@+id/buttonChooseDate"
+            android:layout_gravity="left|center_vertical"
+            android:layout_weight="20"
+            android:onClick="chooseDate" />
+
 
     </LinearLayout>
 

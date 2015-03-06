@@ -1,7 +1,5 @@
 package com.quebecfresh.androidapp.simplebudget.model;
 
-import com.quebecfresh.androidapp.simplebudget.R;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -10,7 +8,7 @@ import java.util.List;
  */
 public class Utils {
 
-    public static BigDecimal calcTotalAmount(List<IncomeCategory> incomes, Cycle cycle){
+    public static BigDecimal calcTotalAmount(List<IncomeBudget> incomes, Cycle cycle){
         BigDecimal amount = new BigDecimal("0");
         return amount;
     }

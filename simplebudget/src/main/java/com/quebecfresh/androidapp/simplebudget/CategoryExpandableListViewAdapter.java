@@ -4,15 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.quebecfresh.androidapp.simplebudget.model.Category;
-import com.quebecfresh.androidapp.simplebudget.model.Cycle;
-import com.quebecfresh.androidapp.simplebudget.model.ExpenseCategory;
+import com.quebecfresh.androidapp.simplebudget.model.Budget;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,11 +16,11 @@ import java.util.List;
  * Created by Tong Huang on 2015-02-17, 8:24 AM.
  */
 public class CategoryExpandableListViewAdapter extends BaseExpandableListAdapter {
-    private HashMap<String, List<Category>> categories;
+    private HashMap<String, List<Budget>> categories;
     private List<String> categoryGroup;
     private Context context;
 
-    public CategoryExpandableListViewAdapter(List<String> categoryGroup, HashMap<String, List<Category>> categories,  Context context) {
+    public CategoryExpandableListViewAdapter(List<String> categoryGroup, HashMap<String, List<Budget>> categories,  Context context) {
         this.categoryGroup = categoryGroup;
         this.categories = categories;
         this.context = context;
@@ -86,7 +81,7 @@ public class CategoryExpandableListViewAdapter extends BaseExpandableListAdapter
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         String group = this.categoryGroup.get(groupPosition);
-        Category category = this.categories.get(group).get(childPosition);
+        Budget category = this.categories.get(group).get(childPosition);
         View view = convertView;
 
         if (view == null) {

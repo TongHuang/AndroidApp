@@ -10,7 +10,7 @@ public class Expense extends BaseData{
     public enum EXPENSE_CYCLE{ANNUAL,MONTHLY,WEEKLY,DAILY,IRREGULAR}
 
 
-    private ExpenseCategory category;
+    private ExpenseBudget category;
     private Payee payee;
     private BigDecimal amount;
     private Date dueDate;
@@ -33,11 +33,11 @@ public class Expense extends BaseData{
         super(id, name, note);
     }
 
-    public ExpenseCategory getCategory() {
+    public ExpenseBudget getCategory() {
         return category;
     }
 
-    public void setCategory(ExpenseCategory category) {
+    public void setCategory(ExpenseBudget category) {
         this.category = category;
     }
 

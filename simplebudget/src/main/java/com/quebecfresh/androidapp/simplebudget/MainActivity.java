@@ -13,12 +13,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
-import com.quebecfresh.androidapp.simplebudget.model.ExpenseCategory;
-import com.quebecfresh.androidapp.simplebudget.model.IncomeCategory;
+import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
+import com.quebecfresh.androidapp.simplebudget.model.IncomeBudget;
 import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
-import com.quebecfresh.androidapp.simplebudget.persist.ExpenseCategoryPersist;
-import com.quebecfresh.androidapp.simplebudget.persist.IncomeCategoryPersist;
+import com.quebecfresh.androidapp.simplebudget.persist.ExpenseBudgetPersist;
+import com.quebecfresh.androidapp.simplebudget.persist.IncomeBudgetPersist;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -35,12 +35,12 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void editIncomeBudget(View view){
-        Intent intent = new Intent(this, BudgetIncomeActivity.class);
+        Intent intent = new Intent(this, InitializeIncomeBudgetActivity.class);
         startActivity(intent);
     }
 
     public void editExpenseBudget(View view){
-        Intent intent =  new Intent(this,BudgetExpenseActivity.class);
+        Intent intent =  new Intent(this,InitializeExpenseBudgetActivity.class);
         startActivity(intent);
     }
 
@@ -86,17 +86,17 @@ public class MainActivity extends ActionBarActivity {
                 accountTotal = accountTotal.add(accounts.get(i).getBalance());
             }
 
-            ExpenseCategoryPersist expenseCategoryPersist = new ExpenseCategoryPersist(sqLiteDatabase);
-            List<ExpenseCategory> expenseCategoryList = expenseCategoryPersist.readAll();
+            ExpenseBudgetPersist expenseCategoryPersist = new ExpenseBudgetPersist(sqLiteDatabase);
+            List<ExpenseBudget> expenseCategoryList = expenseCategoryPersist.readAll();
             BigDecimal expenseBudgetTotal = new BigDecimal("0");
             for(int i = 0; i < expenseCategoryList.size(); i++){
                 expenseBudgetTotal = expenseBudgetTotal.add(expenseCategoryList.get(i).getBudgetAmount());
             }
 
-            IncomeCategoryPersist incomeCategoryPersist = new IncomeCategoryPersist(sqLiteDatabase);
-            List<IncomeCategory> incomeCategoryList = incomeCategoryPersist.readAll();
+            IncomeBudgetPersist incomeCategoryPersist = new IncomeBudgetPersist(sqLiteDatabase);
+            List<IncomeBudget> incomeCategoryList = incomeCategoryPersist.readAll();
             BigDecimal incomeBudgetTotal = new BigDecimal("0");
-            for(IncomeCategory incomeCategory : incomeCategoryList){
+            for(IncomeBudget incomeCategory : incomeCategoryList){
                 incomeBudgetTotal = incomeBudgetTotal.add(incomeCategory.getBudgetAmount());
             }
 

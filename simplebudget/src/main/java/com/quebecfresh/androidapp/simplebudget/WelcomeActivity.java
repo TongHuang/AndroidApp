@@ -13,12 +13,12 @@ import android.widget.TextView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
-import com.quebecfresh.androidapp.simplebudget.model.ExpenseCategory;
-import com.quebecfresh.androidapp.simplebudget.model.IncomeCategory;
+import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
+import com.quebecfresh.androidapp.simplebudget.model.IncomeBudget;
 import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
-import com.quebecfresh.androidapp.simplebudget.persist.ExpenseCategoryPersist;
-import com.quebecfresh.androidapp.simplebudget.persist.IncomeCategoryPersist;
+import com.quebecfresh.androidapp.simplebudget.persist.ExpenseBudgetPersist;
+import com.quebecfresh.androidapp.simplebudget.persist.IncomeBudgetPersist;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,12 +27,12 @@ import java.util.List;
 public class WelcomeActivity extends ActionBarActivity {
 
     public void budgetIncome(View view) {
-        Intent intent = new Intent(this, BudgetIncomeActivity.class);
+        Intent intent = new Intent(this, InitializeIncomeBudgetActivity.class);
         this.startActivity(intent);
     }
 
     public void budgetExpense(View view) {
-        Intent intent = new Intent(this, BudgetExpenseActivity.class);
+        Intent intent = new Intent(this, InitializeExpenseBudgetActivity.class);
         this.startActivity(intent);
     }
 
@@ -87,8 +87,8 @@ public class WelcomeActivity extends ActionBarActivity {
 
 
         if (initializeIncomeBudgetDone) {
-            IncomeCategoryPersist incomeCategoryPersist = new IncomeCategoryPersist(dbHelper.getReadableDatabase());
-            List<IncomeCategory> incomeCategoryList = incomeCategoryPersist.readAll();
+            IncomeBudgetPersist incomeCategoryPersist = new IncomeBudgetPersist(dbHelper.getReadableDatabase());
+            List<IncomeBudget> incomeCategoryList = incomeCategoryPersist.readAll();
 
             for (int i = 0; i < incomeCategoryList.size(); i++) {
                 incomeTotal = incomeTotal.add(incomeCategoryList.get(i).convertBudgetAmountTo(Cycle.Yearly));
@@ -97,8 +97,8 @@ public class WelcomeActivity extends ActionBarActivity {
 
         Button buttonInitializeExpense = (Button) this.findViewById(R.id.buttonInitializeExpense);
         if (initializeExpenseBudgetDone) {
-            ExpenseCategoryPersist expenseCategoryPersist = new ExpenseCategoryPersist(dbHelper.getReadableDatabase());
-            List<ExpenseCategory> expenseCategoryList = expenseCategoryPersist.readAll();
+            ExpenseBudgetPersist expenseCategoryPersist = new ExpenseBudgetPersist(dbHelper.getReadableDatabase());
+            List<ExpenseBudget> expenseCategoryList = expenseCategoryPersist.readAll();
 
             for (int i = 0; i < expenseCategoryList.size(); i++) {
                 expenseTotal = expenseTotal.add(expenseCategoryList.get(i).convertBudgetAmountTo(Cycle.Yearly));

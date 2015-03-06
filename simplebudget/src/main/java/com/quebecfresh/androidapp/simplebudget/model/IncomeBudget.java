@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 /**
  * Created by Tong Huang on 2015-02-19, 9:00 AM.
  */
-public class IncomeCategory extends Category {
+public class IncomeBudget extends Budget {
 
-    public enum INCOME_CATEGORY_GROUP {
+    public enum INCOME_BUDGET_CATEGORY {
         EMPLOYMENT, GOVERNMENT_BENEFIT, INVESTMENT, OTHERS;
 
         public String getLabel(Context context) {
@@ -29,31 +29,31 @@ public class IncomeCategory extends Category {
         }
     }
 
-    private INCOME_CATEGORY_GROUP categoryGroup = INCOME_CATEGORY_GROUP.EMPLOYMENT;
+    private INCOME_BUDGET_CATEGORY categoryGroup = INCOME_BUDGET_CATEGORY.EMPLOYMENT;
 
-    public IncomeCategory() {
+    public IncomeBudget() {
     }
 
-    public IncomeCategory(String name) {
+    public IncomeBudget(String name) {
         super.setName(name);
     }
 
-    public IncomeCategory(String name, Cycle cycle) {
+    public IncomeBudget(String name, Cycle cycle) {
         super.setName(name);
         super.setCycle(cycle);
     }
 
-    public IncomeCategory(String name, Cycle cycle, BigDecimal budgetAmount) {
+    public IncomeBudget(String name, Cycle cycle, BigDecimal budgetAmount) {
         super.setName(name);
         super.setCycle(cycle);
         super.setBudgetAmount(budgetAmount);
     }
 
-    public INCOME_CATEGORY_GROUP getCategoryGroup() {
+    public INCOME_BUDGET_CATEGORY getCategoryGroup() {
         return categoryGroup;
     }
 
-    public void setCategoryGroup(INCOME_CATEGORY_GROUP categoryGroup) {
+    public void setCategoryGroup(INCOME_BUDGET_CATEGORY categoryGroup) {
         this.categoryGroup = categoryGroup;
     }
 
@@ -64,10 +64,14 @@ public class IncomeCategory extends Category {
         public static final String _CYCLE = "cycle";
         public static final String _BUDGET_AMOUNT = "budget_amount";
         public static final String _CATEGORY_GROUP = "category_group";
+        public static final String _UNUSED_BALANCE = "unused_balance";
+        public static final String _ROLL_OVER = "roll_over";
 
         public static final String CREATE = "Create table " + _TABLE + " (" + _ID + TYPE_ID
                 + COMMA + _NAME + TYPE_TEXT + COMMA + _NOTE + TYPE_TEXT + COMMA + _CYCLE
-                + TYPE_TEXT + COMMA + _BUDGET_AMOUNT + TYPE_TEXT + COMMA + _CATEGORY_GROUP + TYPE_TEXT + ")";
+                + TYPE_TEXT + COMMA + _BUDGET_AMOUNT + TYPE_TEXT + COMMA + _CATEGORY_GROUP
+                + TYPE_TEXT + COMMA + _UNUSED_BALANCE + TYPE_TEXT + COMMA
+                + _ROLL_OVER + TYPE_INTEGER + ")";
         public static final String DROP = "Drop table if exists " + _TABLE;
 
     }

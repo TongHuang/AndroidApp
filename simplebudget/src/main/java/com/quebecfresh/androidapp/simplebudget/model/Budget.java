@@ -6,27 +6,27 @@ import java.util.Date;
 /**
  * Created by Tong Huang on 2015-02-19, 10:02 AM.
  */
-public class Category extends  BaseData{
+public class Budget extends  BaseData{
     private Cycle cycle = Cycle.Monthly;
     private BigDecimal budgetAmount = new BigDecimal("0");
     private BigDecimal unusedBalance = new BigDecimal("0");
     private Boolean rollOver = Boolean.TRUE;
 
 
-    public Category(){
+    public Budget(){
 
     }
 
-    public Category(String name){
+    public Budget(String name){
         super.setName(name);
     }
 
-    public Category(String name, Cycle cycle){
+    public Budget(String name, Cycle cycle){
         super.setName(name);
         this.setCycle(cycle);
     }
 
-    public Category(String name, Cycle cycle, BigDecimal budgetAmount){
+    public Budget(String name, Cycle cycle, BigDecimal budgetAmount){
         super.setName(name);
         this.setCycle(cycle);
         this.setBudgetAmount(budgetAmount);

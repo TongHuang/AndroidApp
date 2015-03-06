@@ -68,7 +68,6 @@
     <string name="Cycle_Yearly">Yearly</string>
 
 
-
     <string name="Income_Category_Group_Employment">Employment</string>
     <string name="Income_Category_Group_Government_Benefit">Government Benefit</string>
     <string name="Income_Category_Group_Investment">Investment</string>
@@ -83,7 +82,7 @@
 
     <string name="third_how_you_want_to_spend">Third, how you want to spend?</string>
     <string name="you_will_spend">You will spend</string>
-    <string name="group">Group</string>
+    <string name="category">Category</string>
     <string name="total_income">Total income</string>
     <string name="total_expense">Total expense</string>
     <string name="welcome_message">Welcome to 123 budget.\n Before you can start. \n Please click 1,2 and 3. \n To initialize your budget.</string>
@@ -91,4 +90,13 @@
     <string name="title_activity_initialize">Initialization</string>
     <string name="amount">Amount</string>
     <string name="date">Date</string>
+    <string name="roll_over">Rollover</string>
+    <string name="what_is_this">What\'s this</string>
+    <string name="ok">OK</string>
+
+    <string name="what_is_roll_over_title">If you choose "Rollover"</string>
+    <string name="what_is_roll_over">You have a 50$ Weekly budget.\nFirst week will start with 50$. \nYou spend 30$, 20$ left.\nNext week will start with 20$ + 50$ = 70$.\nIt rollover minus(-20$) too</string>
+    <string name="choose_date">Choose date</string>
+
+
 </resources>
