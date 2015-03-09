@@ -2,7 +2,6 @@ package com.quebecfresh.androidapp.simplebudget;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -49,7 +48,7 @@ public class ChooseAccountDialogFragment extends DialogFragment {
         DatabaseHelper databaseHelper = new DatabaseHelper(this.getActivity());
         AccountPersist accountPersist = new AccountPersist(databaseHelper.getReadableDatabase());
         accountList = accountPersist.readAll();
-        InitializeAccountListViewAdapter initializeAccountListViewAdapter = new InitializeAccountListViewAdapter(accountList, this.getActivity());
+        AccountListViewAdapter initializeAccountListViewAdapter = new AccountListViewAdapter(accountList, this.getActivity());
         listView.setAdapter(initializeAccountListViewAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

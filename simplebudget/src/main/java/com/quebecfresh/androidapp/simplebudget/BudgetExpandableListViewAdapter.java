@@ -15,12 +15,12 @@ import java.util.List;
 /**
  * Created by Tong Huang on 2015-02-17, 8:24 AM.
  */
-public class CategoryExpandableListViewAdapter extends BaseExpandableListAdapter {
+public class BudgetExpandableListViewAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<Budget>> categories;
     private List<String> categoryGroup;
     private Context context;
 
-    public CategoryExpandableListViewAdapter(List<String> categoryGroup, HashMap<String, List<Budget>> categories,  Context context) {
+    public BudgetExpandableListViewAdapter(List<String> categoryGroup, HashMap<String, List<Budget>> categories, Context context) {
         this.categoryGroup = categoryGroup;
         this.categories = categories;
         this.context = context;
@@ -71,7 +71,7 @@ public class CategoryExpandableListViewAdapter extends BaseExpandableListAdapter
         View view = convertView;
         if (view == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.list_item_group_category, null);
+            view = layoutInflater.inflate(R.layout.list_item_budget_category, null);
         }
         TextView textViewGroup = (TextView) view.findViewById(R.id.textView_Group);
         textViewGroup.setText(group);
@@ -86,7 +86,7 @@ public class CategoryExpandableListViewAdapter extends BaseExpandableListAdapter
 
         if (view == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.list_item_category, null);
+            view = layoutInflater.inflate(R.layout.list_item_budget, null);
         }
 
         TextView textViewCategory = (TextView) view.findViewById(R.id.textViewCategory);

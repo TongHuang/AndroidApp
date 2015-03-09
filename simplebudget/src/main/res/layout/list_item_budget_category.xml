@@ -6,8 +6,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Expense Category Group"
-        android:id="@+id/textViewExpenseCategoryGroup"
+        android:text="New Text"
+        android:id="@+id/textView_Group"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_vertical|center_horizontal" />
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@color/light_red"
+        android:minHeight="50dp" />
 </LinearLayout>

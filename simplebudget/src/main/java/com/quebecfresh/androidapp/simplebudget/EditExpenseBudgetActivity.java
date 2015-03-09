@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 public class EditExpenseBudgetActivity extends ActionBarActivity {
 
     private EditText editTextName;
-    private Spinner spinnerGroup;
+    private Spinner spinnerExpenseBudgetCategory;
     private Spinner spinnerCycle;
     private EditText editTextBudgetAmount;
     private EditText editTextNote;
@@ -50,10 +50,10 @@ public class EditExpenseBudgetActivity extends ActionBarActivity {
 
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextName.setText(expenseBudget.getName());
-        spinnerGroup = (Spinner) this.findViewById(R.id.spinnerExpenseCategoryGroup);
+        spinnerExpenseBudgetCategory = (Spinner) this.findViewById(R.id.spinnerExpenseBudgetCategory);
         ExpenseCategoryGroupSpinnerAdapter expenseCategoryGroupSpinnerAdapter = new ExpenseCategoryGroupSpinnerAdapter(this, ExpenseBudget.EXPENSE_BUDGET_CATEGORY.values());
-        spinnerGroup.setAdapter(expenseCategoryGroupSpinnerAdapter);
-        spinnerGroup.setSelection(expenseBudget.getCategoryGroup().ordinal());
+        spinnerExpenseBudgetCategory.setAdapter(expenseCategoryGroupSpinnerAdapter);
+        spinnerExpenseBudgetCategory.setSelection(expenseBudget.getCategoryGroup().ordinal());
         spinnerCycle = (Spinner) findViewById(R.id.spinnerCycle);
         CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(this, Cycle.values());
         spinnerCycle.setAdapter(cycleSpinnerAdapter);
@@ -85,7 +85,7 @@ public class EditExpenseBudgetActivity extends ActionBarActivity {
 
             case R.id.action_save:
                 expenseBudget.setName(editTextName.getText().toString());
-                expenseBudget.setCategoryGroup((ExpenseBudget.EXPENSE_BUDGET_CATEGORY) spinnerGroup.getSelectedItem());
+                expenseBudget.setCategoryGroup((ExpenseBudget.EXPENSE_BUDGET_CATEGORY) spinnerExpenseBudgetCategory.getSelectedItem());
                 expenseBudget.setCycle(Cycle.valueOf(spinnerCycle.getSelectedItem().toString()));
                 expenseBudget.setBudgetAmount(new BigDecimal(editTextBudgetAmount.getText().toString()));
                 expenseBudget.setRollOver(checkBoxRollover.isChecked());

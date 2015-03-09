@@ -59,7 +59,7 @@ public class InitializeAccountActivity extends ActionBarActivity {
 
         TextView textViewTotal = (TextView) this.findViewById(R.id.textViewTotal);
         textViewTotal.setText("Total:" + total.toString());
-        InitializeAccountListViewAdapter adapter = new InitializeAccountListViewAdapter(accounts, this);
+        AccountListViewAdapter adapter = new AccountListViewAdapter(accounts, this);
         ListView listView = (ListView) this.findViewById(R.id.listViewAccount);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -44,9 +44,9 @@ public class IncomeCategoryGroupSpinnerAdapter extends BaseAdapter implements Sp
         IncomeBudget.INCOME_BUDGET_CATEGORY group = this.groups[position];
         if(view == null){
             LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.spinner_item_income_group, null);
+            view = layoutInflater.inflate(R.layout.spinner_item_budget_category, null);
         }
-        TextView textViewGroup = (TextView)view.findViewById(R.id.textViewIncomeGroup);
+        TextView textViewGroup = (TextView)view.findViewById(R.id.textViewExpenseCategoryGroup);
         textViewGroup.setText(group.getLabel(context));
         return view;
     }

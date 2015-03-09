@@ -102,7 +102,7 @@ public class InitializeIncomeBudgetActivity extends ActionBarActivity {
         incomeCategoryMap.put(group.get(2), investments);
         incomeCategoryMap.put(group.get(3), others);
 
-        CategoryExpandableListViewAdapter adapter = new CategoryExpandableListViewAdapter(group, incomeCategoryMap, this);
+        BudgetExpandableListViewAdapter adapter = new BudgetExpandableListViewAdapter(group, incomeCategoryMap, this);
         ExpandableListView expandableListView = (ExpandableListView) this.findViewById(R.id.expandableListView_incomeCategory);
         expandableListView.setAdapter(adapter);
 

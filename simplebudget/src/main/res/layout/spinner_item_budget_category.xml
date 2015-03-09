@@ -6,10 +6,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Income Group"
-        android:id="@+id/textViewIncomeGroup"
+        android:text="Expense Category Group"
+        android:id="@+id/textViewExpenseCategoryGroup"
         android:layout_gravity="center_horizontal"
         android:gravity="center_vertical|center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/light_blue" />
+        android:background="@color/accent_material_dark" />
 </LinearLayout>

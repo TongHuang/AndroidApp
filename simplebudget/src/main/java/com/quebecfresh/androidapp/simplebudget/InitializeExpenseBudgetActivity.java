@@ -133,7 +133,7 @@ public class InitializeExpenseBudgetActivity extends ActionBarActivity {
         textViewTotal = (TextView) this.findViewById(R.id.textViewTotal);
         textViewTotal.setText(this.calcTotal(Cycle.Monthly).toString());
 
-        CategoryExpandableListViewAdapter adapter = new CategoryExpandableListViewAdapter(group, categoryMap, this);
+        BudgetExpandableListViewAdapter adapter = new BudgetExpandableListViewAdapter(group, categoryMap, this);
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.expandableListViewExpenseCategory);
         listView.setAdapter(adapter);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
