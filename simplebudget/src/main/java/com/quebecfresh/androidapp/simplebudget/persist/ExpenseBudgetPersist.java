@@ -224,7 +224,9 @@ public class ExpenseBudgetPersist {
 
     public void fillAllEnvelopes(){
         List<ExpenseBudget> expenseBudgetList = this.readAllBudgetAmountNotZero();
-
+        for(ExpenseBudget expenseBudget : expenseBudgetList){
+            this.fillEnvelope(expenseBudget);
+        }
     }
 
     public Boolean save(ExpenseBudget expenseBudget){

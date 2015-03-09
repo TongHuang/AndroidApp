@@ -47,8 +47,10 @@ public class WelcomeActivity extends ActionBarActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(getString(R.string.initialize_done), true);
         editor.commit();
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(dbHelper.getWritableDatabase());
+        expenseBudgetPersist.fillAllEnvelopes();
         this.finish();
-
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

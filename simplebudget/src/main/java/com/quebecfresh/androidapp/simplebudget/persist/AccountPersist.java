@@ -67,6 +67,26 @@ public class AccountPersist {
         return accounts;
     }
 
+
+    public List<Account> readAllBalanceNotZero(){
+        String sql = "Select * from " + _TABLENAME + " where " + _BALANCE + " != 0";
+
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        List<Account> accounts = new ArrayList<Account>();
+        while (!cursor.isAfterLast()) {
+            Account account = new Account();
+            account.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
+            account.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
+            account.setAccountNumber(cursor.getString(cursor.getColumnIndexOrThrow(_NUMBER)));
+            account.setBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_BALANCE))));
+            account.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
+            accounts.add(account);
+            cursor.moveToNext();
+        }
+        return accounts;
+    }
+
     public Account update(Account account) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, account.getName());
