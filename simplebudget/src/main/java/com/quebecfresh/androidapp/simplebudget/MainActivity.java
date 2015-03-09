@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void editExpense(View view){
+    public void newExpense(View view){
         Intent intent = new Intent(this, AddExpenseActivity.class);
         startActivity(intent);
     }

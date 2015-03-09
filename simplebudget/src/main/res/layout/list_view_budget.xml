@@ -7,8 +7,17 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listViewAccounts"
-        android:layout_gravity="left|center_vertical"
-        android:dividerHeight="2dp" />
-
+        android:id="@+id/listViewBudget"
+        android:dividerHeight="2dp"
+        android:drawSelectorOnTop="true" />
 </LinearLayout>
+
+
+
+
+
+
+
+
+
+

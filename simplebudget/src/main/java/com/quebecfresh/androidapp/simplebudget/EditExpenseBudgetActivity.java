@@ -53,7 +53,7 @@ public class EditExpenseBudgetActivity extends ActionBarActivity {
         spinnerExpenseBudgetCategory = (Spinner) this.findViewById(R.id.spinnerExpenseBudgetCategory);
         ExpenseCategoryGroupSpinnerAdapter expenseCategoryGroupSpinnerAdapter = new ExpenseCategoryGroupSpinnerAdapter(this, ExpenseBudget.EXPENSE_BUDGET_CATEGORY.values());
         spinnerExpenseBudgetCategory.setAdapter(expenseCategoryGroupSpinnerAdapter);
-        spinnerExpenseBudgetCategory.setSelection(expenseBudget.getCategoryGroup().ordinal());
+        spinnerExpenseBudgetCategory.setSelection(expenseBudget.getExpenseBudgetCategory().ordinal());
         spinnerCycle = (Spinner) findViewById(R.id.spinnerCycle);
         CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(this, Cycle.values());
         spinnerCycle.setAdapter(cycleSpinnerAdapter);
@@ -85,7 +85,7 @@ public class EditExpenseBudgetActivity extends ActionBarActivity {
 
             case R.id.action_save:
                 expenseBudget.setName(editTextName.getText().toString());
-                expenseBudget.setCategoryGroup((ExpenseBudget.EXPENSE_BUDGET_CATEGORY) spinnerExpenseBudgetCategory.getSelectedItem());
+                expenseBudget.setExpenseBudgetCategory((ExpenseBudget.EXPENSE_BUDGET_CATEGORY) spinnerExpenseBudgetCategory.getSelectedItem());
                 expenseBudget.setCycle(Cycle.valueOf(spinnerCycle.getSelectedItem().toString()));
                 expenseBudget.setBudgetAmount(new BigDecimal(editTextBudgetAmount.getText().toString()));
                 expenseBudget.setRollOver(checkBoxRollover.isChecked());

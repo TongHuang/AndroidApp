@@ -25,7 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
-public class AddExpenseActivity extends ActionBarActivity implements ChooseAccountDialogFragment.AccountClickListener{
+public class AddExpenseActivity extends ActionBarActivity implements ChooseAccountDialogFragment.AccountClickListener,
+        ChooseExpenseBudgetDialogFragment.ExpenseBudgetClickListener {
 
     public static final int CHOOSE_ACCOUNT_FOR_RESULT_CODE = 1;
     public static final int CHOOSE_BUDGET_FOR_RESULT_CODE = 2;
@@ -40,6 +41,11 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseAccou
     @Override
     public void click(Account account) {
         this.buttonChooseAccount.setText(account.getName() + " : " + account.getBalance().toString());
+    }
+
+    @Override
+    public void click(ExpenseBudget expenseBudge) {
+        this.buttonChooseExpenseBudget.setText(expenseBudge.getName() + " : " +expenseBudge.getUnusedBalance());
     }
 
     public void chooseDate(View view) {
@@ -62,7 +68,7 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseAccou
 
     public void chooseAccount(View view) {
         ChooseAccountDialogFragment chooseAccountDialog = new ChooseAccountDialogFragment();
-      chooseAccountDialog.show(getSupportFragmentManager(), "Dialog");
+        chooseAccountDialog.show(getSupportFragmentManager(), "Dialog");
         chooseAccountDialog.setAccountClickListener(this);
 
 //        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -71,6 +77,13 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseAccou
 //        Intent intent = new Intent(this, InitializeAccountActivity.class);
 //        startActivityForResult(intent, CHOOSE_ACCOUNT_FOR_RESULT_CODE);
     }
+
+    public void chooseExpenseBudget(View view){
+        ChooseExpenseBudgetDialogFragment chooseExpenseBudgetDialogFragment = new ChooseExpenseBudgetDialogFragment();
+        chooseExpenseBudgetDialogFragment.show(getSupportFragmentManager(), "ChooseExpenseBudget");
+        chooseExpenseBudgetDialogFragment.setExpenseBudgetClickListener(this);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -105,9 +118,9 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseAccou
         ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(db);
         expenseBudget = expenseBudgetPersist.read(1L);
 
-         buttonChooseAccount = (Button) findViewById(R.id.buttonChooseAccount);
+        buttonChooseAccount = (Button) findViewById(R.id.buttonChooseAccount);
         buttonChooseAccount.setText(account.getName());
-         buttonChooseExpenseBudget = (Button) findViewById(R.id.buttonChooseExpenseBudget);
+        buttonChooseExpenseBudget = (Button) findViewById(R.id.buttonChooseExpenseBudget);
         buttonChooseExpenseBudget.setText(expenseBudget.getName());
         EditText editTextExpenseAmount = (EditText) findViewById(R.id.editTextExpenseAmount);
         editTextExpenseAmount.setText(expenseBudget.getBudgetAmount().toString());

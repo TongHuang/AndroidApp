@@ -3,6 +3,7 @@ package com.quebecfresh.androidapp.simplebudget.persist;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
 
@@ -22,69 +23,114 @@ public class ExpenseBudgetPersist {
         this.db = db;
     }
 
-    public ExpenseBudget insert(ExpenseBudget expenseCategory) {
+    public ExpenseBudget insert(ExpenseBudget expenseBudget) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(_NAME, expenseCategory.getName());
-        contentValues.put(_CYCLE, expenseCategory.getCycle().name());
-        contentValues.put(_BUDGET_AMOUNT, expenseCategory.getBudgetAmount().toString());
-        contentValues.put(_NOTE, expenseCategory.getNote());
-        contentValues.put(_CATEGORY_GROUP, expenseCategory.getCategoryGroup().name());
-        contentValues.put(_UNUSED_BALANCE, expenseCategory.getUnusedBalance().toString());
-        contentValues.put(_ROLL_OVER, expenseCategory.getRollOver()==Boolean.TRUE?1:0);
+        contentValues.put(_NAME, expenseBudget.getName());
+        contentValues.put(_CYCLE, expenseBudget.getCycle().name());
+        contentValues.put(_BUDGET_AMOUNT, expenseBudget.getBudgetAmount().toString());
+        contentValues.put(_NOTE, expenseBudget.getNote());
+        contentValues.put(_CATEGORY_GROUP, expenseBudget.getExpenseBudgetCategory().name());
+        contentValues.put(_UNUSED_BALANCE, expenseBudget.getUnusedBalance().toString());
+        contentValues.put(_ROLL_OVER, expenseBudget.getRollOver()==Boolean.TRUE?1:0);
 
         Long rowID = this.db.insert(_TABLE, null, contentValues);
-        expenseCategory.setId(rowID);
-        return expenseCategory;
+        expenseBudget.setId(rowID);
+        return expenseBudget;
     }
 
     public ExpenseBudget read(Long rowID) {
         String sql = "select * from " + _TABLE + " where " + _ID + "=" + rowID;
         Cursor cursor = this.db.rawQuery(sql, null);
         cursor.moveToFirst();
-        ExpenseBudget expenseCategory = new ExpenseBudget();
-        expenseCategory.setId(rowID);
-        expenseCategory.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
-        expenseCategory.setCycle(Cycle.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CYCLE))));
-        expenseCategory.setBudgetAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_AMOUNT))));
-        expenseCategory.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CATEGORY_GROUP))));
-        expenseCategory.setUnusedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNUSED_BALANCE))));
-        expenseCategory.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER))== 1?true:false);
-        return expenseCategory;
+        ExpenseBudget expenseBudget = new ExpenseBudget();
+        expenseBudget.setId(rowID);
+        expenseBudget.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
+        expenseBudget.setCycle(Cycle.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CYCLE))));
+        expenseBudget.setBudgetAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_AMOUNT))));
+        expenseBudget.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CATEGORY_GROUP))));
+        expenseBudget.setUnusedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNUSED_BALANCE))));
+        expenseBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true : false);
+        return expenseBudget;
     }
 
     public List<ExpenseBudget> readAll(){
         String sql = "select * from " + _TABLE;
         Cursor cursor = this.db.rawQuery(sql, null);
         cursor.moveToFirst();
-        List<ExpenseBudget> categories = new ArrayList<ExpenseBudget>();
+        List<ExpenseBudget> expenseBudgetList = new ArrayList<ExpenseBudget>();
         while(!cursor.isAfterLast()){
-            ExpenseBudget expenseCategory = new ExpenseBudget();
-            expenseCategory.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
-            expenseCategory.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
-            expenseCategory.setCycle(Cycle.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CYCLE))));
-            expenseCategory.setBudgetAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_AMOUNT))));
-            expenseCategory.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
-            expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CATEGORY_GROUP))));
-            expenseCategory.setUnusedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNUSED_BALANCE))));
-            expenseCategory.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true:false);
-            categories.add(expenseCategory);
+            ExpenseBudget expenseBudget = new ExpenseBudget();
+            expenseBudget.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
+            expenseBudget.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
+            expenseBudget.setCycle(Cycle.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CYCLE))));
+            expenseBudget.setBudgetAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_AMOUNT))));
+            expenseBudget.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
+            expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CATEGORY_GROUP))));
+            expenseBudget.setUnusedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNUSED_BALANCE))));
+            expenseBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true : false);
+            expenseBudgetList.add(expenseBudget);
             cursor.moveToNext();
         }
-        return categories;
+        return expenseBudgetList;
     }
 
-    public ExpenseBudget update(ExpenseBudget expenseCategory){
+    /*
+
+     */
+    public List<ExpenseBudget> readAllBudgetAmountNotZero(){
+        String sql = "select * from " + _TABLE + " where " + _BUDGET_AMOUNT  + " != 0 ";
+        Cursor cursor = this.db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        List<ExpenseBudget> budgetList = new ArrayList<ExpenseBudget>();
+        while(!cursor.isAfterLast()){
+            ExpenseBudget expenseBudget = new ExpenseBudget();
+            expenseBudget.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
+            expenseBudget.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
+            expenseBudget.setCycle(Cycle.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CYCLE))));
+            expenseBudget.setBudgetAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_AMOUNT))));
+            expenseBudget.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
+            expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CATEGORY_GROUP))));
+            expenseBudget.setUnusedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNUSED_BALANCE))));
+            expenseBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true : false);
+            budgetList.add(expenseBudget);
+            cursor.moveToNext();
+        }
+        return budgetList;
+    }
+
+    public List<ExpenseBudget> readAllUnusedBalanceNotZero(){
+        String sql = "select * from " + _TABLE + " where " + _UNUSED_BALANCE  + " != 0 ";
+        Cursor cursor = this.db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        List<ExpenseBudget> budgetList = new ArrayList<ExpenseBudget>();
+        while(!cursor.isAfterLast()){
+            ExpenseBudget expenseBudget = new ExpenseBudget();
+            expenseBudget.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
+            expenseBudget.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
+            expenseBudget.setCycle(Cycle.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CYCLE))));
+            expenseBudget.setBudgetAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_AMOUNT))));
+            expenseBudget.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
+            expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CATEGORY_GROUP))));
+            expenseBudget.setUnusedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNUSED_BALANCE))));
+            expenseBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true : false);
+            budgetList.add(expenseBudget);
+            cursor.moveToNext();
+        }
+        return budgetList;
+    }
+
+    public ExpenseBudget update(ExpenseBudget expenseBudget){
         ContentValues contentValues = new ContentValues();
-        contentValues.put(_NAME, expenseCategory.getName());
-        contentValues.put(_CYCLE, expenseCategory.getCycle().name());
-        contentValues.put(_BUDGET_AMOUNT, expenseCategory.getBudgetAmount().toString());
-        contentValues.put(_NOTE, expenseCategory.getNote());
-        contentValues.put(_CATEGORY_GROUP, expenseCategory.getCategoryGroup().name());
-        contentValues.put(_UNUSED_BALANCE, expenseCategory.getUnusedBalance().toString());
-        contentValues.put(_ROLL_OVER, expenseCategory.getRollOver() == true?1:0);
-        this.db.update(_TABLE, contentValues,_ID + " = " +expenseCategory.getId(), null);
-        return expenseCategory;
+        contentValues.put(_NAME, expenseBudget.getName());
+        contentValues.put(_CYCLE, expenseBudget.getCycle().name());
+        contentValues.put(_BUDGET_AMOUNT, expenseBudget.getBudgetAmount().toString());
+        contentValues.put(_NOTE, expenseBudget.getNote());
+        contentValues.put(_CATEGORY_GROUP, expenseBudget.getExpenseBudgetCategory().name());
+        contentValues.put(_UNUSED_BALANCE, expenseBudget.getUnusedBalance().toString());
+        contentValues.put(_ROLL_OVER, expenseBudget.getRollOver() == true?1:0);
+        this.db.update(_TABLE, contentValues, _ID + " = " + expenseBudget.getId(), null);
+        return expenseBudget;
     }
 
     public Boolean delete(Long rowID){
@@ -94,88 +140,98 @@ public class ExpenseBudgetPersist {
 
     public void initialize(){
 
-        ExpenseBudget expenseCategory;
-        expenseCategory = new ExpenseBudget("Groceries", Cycle.Weekly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.FOODS);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Restaurant", Cycle.Weekly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.FOODS);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Pet foods", Cycle.Weekly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.FOODS);
-        this.insert(expenseCategory);
+        ExpenseBudget expenseBudget;
+        expenseBudget = new ExpenseBudget("Groceries", Cycle.Weekly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.FOODS);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Restaurant", Cycle.Weekly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.FOODS);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Pet foods", Cycle.Weekly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.FOODS);
+        this.insert(expenseBudget);
 
 
 
 
-        expenseCategory = new ExpenseBudget("Mortgage", Cycle.Every_2_Weeks);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Rent", Cycle.Monthly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Property Taxes", Cycle.Yearly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("House repair", Cycle.Yearly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Insurance", Cycle.Yearly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
-        this.insert(expenseCategory);
+        expenseBudget = new ExpenseBudget("Mortgage", Cycle.Every_2_Weeks);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Rent", Cycle.Monthly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Property Taxes", Cycle.Yearly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("House repair", Cycle.Yearly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Insurance", Cycle.Yearly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
+        this.insert(expenseBudget);
 
-        expenseCategory = new ExpenseBudget("Electricity", Cycle.Monthly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Phone", Cycle.Monthly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Cable TV", Cycle.Monthly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Internet service", Cycle.Monthly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Water", Cycle.Yearly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Garbage", Cycle.Yearly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Heating", Cycle.Yearly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-        this.insert(expenseCategory);
+        expenseBudget = new ExpenseBudget("Electricity", Cycle.Monthly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Phone", Cycle.Monthly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Cable TV", Cycle.Monthly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Internet service", Cycle.Monthly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Water", Cycle.Yearly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Garbage", Cycle.Yearly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Heating", Cycle.Yearly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
+        this.insert(expenseBudget);
 
 
-        expenseCategory = new ExpenseBudget("Fuel", Cycle.Weekly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Tire", Cycle.Every_6_Months);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Oil change", Cycle.Every_6_Months);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Insurance", Cycle.Monthly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Auto plate", Cycle.Yearly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Driver licence", Cycle.Yearly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-        this.insert(expenseCategory);
-        expenseCategory = new ExpenseBudget("Bus ticket", Cycle.Monthly);
-        expenseCategory.setCategoryGroup(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-        this.insert(expenseCategory);
+        expenseBudget = new ExpenseBudget("Fuel", Cycle.Weekly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Tire", Cycle.Every_6_Months);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Oil change", Cycle.Every_6_Months);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Insurance", Cycle.Monthly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Auto plate", Cycle.Yearly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Driver licence", Cycle.Yearly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
+        this.insert(expenseBudget);
+        expenseBudget = new ExpenseBudget("Bus ticket", Cycle.Monthly);
+        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
+        this.insert(expenseBudget);
 
     }
 
-    public Boolean save(ExpenseBudget expenseCategory){
-        if(expenseCategory.getId() > 0){
-            this.update(expenseCategory);
+    public void fillEnvelope(ExpenseBudget expenseBudget){
+        expenseBudget.setUnusedBalance(expenseBudget.getUnusedBalance().add(expenseBudget.getBudgetAmount()));
+        this.update(expenseBudget);
+    }
+
+    public void fillAllEnvelopes(){
+        List<ExpenseBudget> expenseBudgetList = this.readAllBudgetAmountNotZero();
+
+    }
+
+    public Boolean save(ExpenseBudget expenseBudget){
+        if(expenseBudget.getId() > 0){
+            this.update(expenseBudget);
         }else{
-            this.insert(expenseCategory);
+            this.insert(expenseBudget);
         }
         return true;
     }

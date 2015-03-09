@@ -82,7 +82,7 @@ public class InitializeExpenseBudgetActivity extends ActionBarActivity {
         ExpenseBudget category;
         for (int i = 0; i < expenseBudgetList.size(); i++) {
             category = expenseBudgetList.get(i);
-            switch (category.getCategoryGroup()) {
+            switch (category.getExpenseBudgetCategory()) {
                 case FOODS:
                     foods.add(category);
                     break;

@@ -21,10 +21,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="Spend Money"
-                android:id="@+id/button2"
+                android:id="@+id/buttonSpendMoney"
                 android:layout_gravity="center"
                 android:background="@color/light_red"
-                android:layout_weight="10" />
+                android:layout_weight="10"
+                android:onClick="newExpense" />
 
             <Button
                 android:layout_width="match_parent"
@@ -223,8 +224,7 @@
                         android:text="Expense"
                         android:id="@+id/buttonExpense"
                         android:layout_gravity="left|center_vertical"
-                        android:layout_weight="10"
-                        android:onClick="editExpense" />
+                        android:layout_weight="10" />
 
                     <LinearLayout
                         android:orientation="vertical"

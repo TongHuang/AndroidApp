@@ -29,7 +29,7 @@ public class IncomeBudget extends Budget {
         }
     }
 
-    private INCOME_BUDGET_CATEGORY categoryGroup = INCOME_BUDGET_CATEGORY.EMPLOYMENT;
+    private INCOME_BUDGET_CATEGORY incomeBudgetCategory = INCOME_BUDGET_CATEGORY.EMPLOYMENT;
 
     public IncomeBudget() {
     }
@@ -49,12 +49,12 @@ public class IncomeBudget extends Budget {
         super.setBudgetAmount(budgetAmount);
     }
 
-    public INCOME_BUDGET_CATEGORY getCategoryGroup() {
-        return categoryGroup;
+    public INCOME_BUDGET_CATEGORY getIncomeBudgetCategory() {
+        return incomeBudgetCategory;
     }
 
-    public void setCategoryGroup(INCOME_BUDGET_CATEGORY categoryGroup) {
-        this.categoryGroup = categoryGroup;
+    public void setIncomeBudgetCategory(INCOME_BUDGET_CATEGORY incomeBudgetCategory) {
+        this.incomeBudgetCategory = incomeBudgetCategory;
     }
 
     public static abstract class Contract implements BaseColumns {
@@ -63,13 +63,13 @@ public class IncomeBudget extends Budget {
         public static final String _NOTE = "note";
         public static final String _CYCLE = "cycle";
         public static final String _BUDGET_AMOUNT = "budget_amount";
-        public static final String _CATEGORY_GROUP = "category_group";
+        public static final String _BUDGET_CATEGORY = "budget_category";
         public static final String _UNUSED_BALANCE = "unused_balance";
         public static final String _ROLL_OVER = "roll_over";
 
         public static final String CREATE = "Create table " + _TABLE + " (" + _ID + TYPE_ID
                 + COMMA + _NAME + TYPE_TEXT + COMMA + _NOTE + TYPE_TEXT + COMMA + _CYCLE
-                + TYPE_TEXT + COMMA + _BUDGET_AMOUNT + TYPE_TEXT + COMMA + _CATEGORY_GROUP
+                + TYPE_TEXT + COMMA + _BUDGET_AMOUNT + TYPE_TEXT + COMMA + _BUDGET_CATEGORY
                 + TYPE_TEXT + COMMA + _UNUSED_BALANCE + TYPE_TEXT + COMMA
                 + _ROLL_OVER + TYPE_INTEGER + ")";
         public static final String DROP = "Drop table if exists " + _TABLE;

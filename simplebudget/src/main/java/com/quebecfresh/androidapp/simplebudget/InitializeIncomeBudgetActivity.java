@@ -73,7 +73,7 @@ public class InitializeIncomeBudgetActivity extends ActionBarActivity {
 
         for (int i = 0; i < incomeCategories.size(); i++) {
             IncomeBudget incomeCategory = incomeCategories.get(i);
-            switch (incomeCategory.getCategoryGroup()) {
+            switch (incomeCategory.getIncomeBudgetCategory()) {
                 case EMPLOYMENT:
                     employments.add(incomeCategory);
                     break;

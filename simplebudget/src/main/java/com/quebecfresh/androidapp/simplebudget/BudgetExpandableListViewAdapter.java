@@ -16,36 +16,34 @@ import java.util.List;
  * Created by Tong Huang on 2015-02-17, 8:24 AM.
  */
 public class BudgetExpandableListViewAdapter extends BaseExpandableListAdapter {
-    private HashMap<String, List<Budget>> categories;
-    private List<String> categoryGroup;
-    private Context context;
-
-    public BudgetExpandableListViewAdapter(List<String> categoryGroup, HashMap<String, List<Budget>> categories, Context context) {
-        this.categoryGroup = categoryGroup;
-        this.categories = categories;
+    private HashMap<String, List<Budget>> budgetHashMap;
+    private List<String> categoryList;
+    private Context context;  public BudgetExpandableListViewAdapter(List<String> categoryGroup, HashMap<String, List<Budget>> categories, Context context) {
+        this.categoryList = categoryGroup;
+        this.budgetHashMap = categories;
         this.context = context;
     }
 
     @Override
     public int getGroupCount() {
-        return this.categoryGroup.size();
+        return this.categoryList.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        String group = categoryGroup.get(groupPosition);
-        return categories.get(group).size();
+        String group = categoryList.get(groupPosition);
+        return budgetHashMap.get(group).size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return categoryGroup.get(groupPosition);
+        return categoryList.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        String group = categoryGroup.get(groupPosition);
-        return categories.get(group).get(childPosition);
+        String group = categoryList.get(groupPosition);
+        return budgetHashMap.get(group).get(childPosition);
     }
 
     @Override
@@ -55,8 +53,8 @@ public class BudgetExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        String group = this.categoryGroup.get(groupPosition);
-        return categories.get(group).get(childPosition).getId();
+        String group = this.categoryList.get(groupPosition);
+        return budgetHashMap.get(group).get(childPosition).getId();
 
     }
 
@@ -67,21 +65,24 @@ public class BudgetExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        String group = this.categoryGroup.get(groupPosition);
-        View view = convertView;
-        if (view == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.list_item_budget_category, null);
-        }
-        TextView textViewGroup = (TextView) view.findViewById(R.id.textView_Group);
-        textViewGroup.setText(group);
-        return view;
+
+
+            String group = this.categoryList.get(groupPosition);
+            View view = convertView;
+            if (view == null) {
+                LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = layoutInflater.inflate(R.layout.list_item_budget_category, null);
+            }
+            TextView textViewGroup = (TextView) view.findViewById(R.id.textView_Group);
+            textViewGroup.setText(group);
+            return view;
+
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        String group = this.categoryGroup.get(groupPosition);
-        Budget category = this.categories.get(group).get(childPosition);
+        String category = this.categoryList.get(groupPosition);
+        Budget budget = this.budgetHashMap.get(category).get(childPosition);
         View view = convertView;
 
         if (view == null) {
@@ -89,12 +90,12 @@ public class BudgetExpandableListViewAdapter extends BaseExpandableListAdapter {
             view = layoutInflater.inflate(R.layout.list_item_budget, null);
         }
 
-        TextView textViewCategory = (TextView) view.findViewById(R.id.textViewCategory);
-        textViewCategory.setText(category.getName());
+        TextView textViewCategory = (TextView) view.findViewById(R.id.textViewBudgetName);
+        textViewCategory.setText(budget.getName());
         TextView textViewCycle = (TextView) view.findViewById(R.id.textViewCycle);
-        textViewCycle.setText(category.getCycle().getLabel(context));
+        textViewCycle.setText(budget.getCycle().getLabel(context));
         TextView textViewAmount = (TextView) view.findViewById(R.id.textViewAmount);
-        textViewAmount.setText(category.getBudgetAmount().toString());
+        textViewAmount.setText(budget.getBudgetAmount().toString());
 
         return view;
     }

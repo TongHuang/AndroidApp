@@ -49,7 +49,7 @@ public class EditIncomeBudgetActivity extends ActionBarActivity {
         spinnerIncomeGroup  = (Spinner)this.findViewById(R.id.spinnerGroup);
         IncomeCategoryGroupSpinnerAdapter incomeCategoryGroupSpinnerAdapter = new IncomeCategoryGroupSpinnerAdapter(this, IncomeBudget.INCOME_BUDGET_CATEGORY.values());
         spinnerIncomeGroup.setAdapter(incomeCategoryGroupSpinnerAdapter);
-        spinnerIncomeGroup.setSelection(incomeBudget.getCategoryGroup().ordinal());
+        spinnerIncomeGroup.setSelection(incomeBudget.getIncomeBudgetCategory().ordinal());
         spinnerCycle = (Spinner)this.findViewById(R.id.spinnerCycle);
         CycleSpinnerAdapter adapter = new CycleSpinnerAdapter(this,  Cycle.values());
         spinnerCycle.setAdapter(adapter);
@@ -80,7 +80,7 @@ public class EditIncomeBudgetActivity extends ActionBarActivity {
 
             case R.id.action_save:
                 incomeBudget.setName(editTextName.getText().toString());
-                incomeBudget.setCategoryGroup((IncomeBudget.INCOME_BUDGET_CATEGORY) spinnerIncomeGroup.getSelectedItem());
+                incomeBudget.setIncomeBudgetCategory((IncomeBudget.INCOME_BUDGET_CATEGORY) spinnerIncomeGroup.getSelectedItem());
                 incomeBudget.setCycle((Cycle) spinnerCycle.getSelectedItem());
                 incomeBudget.setBudgetAmount(new BigDecimal(editTextAmount.getText().toString()));
                 incomeBudget.setNote(editTextNote.getText().toString());

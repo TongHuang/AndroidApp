@@ -55,7 +55,8 @@
             android:text="Choose budget"
             android:id="@+id/buttonChooseExpenseBudget"
             android:layout_weight="30"
-            android:layout_gravity="left|center_vertical" />
+            android:layout_gravity="left|center_vertical"
+            android:onClick="chooseExpenseBudget" />
 
     </LinearLayout>
 
