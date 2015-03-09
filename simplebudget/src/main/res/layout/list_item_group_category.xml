@@ -9,5 +9,6 @@
         android:text="New Text"
         android:id="@+id/textView_Group"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_vertical|center_horizontal" />
+        android:gravity="center_vertical|center_horizontal"
+        android:background="@color/light_red" />
 </LinearLayout>

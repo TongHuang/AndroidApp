@@ -31,6 +31,8 @@ public class InitializeAccountActivity extends ActionBarActivity {
 
     }
 
+
+
     @Override
     protected void onResume() {
 
