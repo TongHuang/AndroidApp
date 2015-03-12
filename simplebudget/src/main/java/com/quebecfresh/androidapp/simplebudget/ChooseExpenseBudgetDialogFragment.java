@@ -62,10 +62,15 @@ public class ChooseExpenseBudgetDialogFragment extends DialogFragment {
         listViewBudget.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                budgetClickListener.click( budgetList.get(position));
-                ChooseExpenseBudgetDialogFragment.this.dismiss();
+                if(position >= 0) {
+                    budgetClickListener.click(budgetList.get(position));
+                    ChooseExpenseBudgetDialogFragment.this.dismiss();
+                }
             }
         });
+
+//        View headerView = inflater.inflate(R.layout.list_header_budget, null);
+//        listViewBudget.addHeaderView(headerView);
         return view;
 
     }
@@ -74,7 +79,9 @@ public class ChooseExpenseBudgetDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
+//        dialog.setTitle("Please choose a pocket");
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         return dialog;
+
     }
 }

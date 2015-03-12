@@ -48,8 +48,9 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseAccou
 
     @Override
     public void click(Budget budget) {
-        this.buttonChooseExpenseBudget.setText(budget.getName() + " : " + budget.getUnusedBalance());
-        this.editTextExpenseAmount.setText(budget.getUnusedBalance().toString());
+        this.buttonChooseExpenseBudget.setText(budget.getName());
+        this.editTextExpenseAmount.setText(null);
+        this.editTextExpenseAmount.setHint("Unused balance:" + budget.getUnusedBalance().toString());
     }
 
     public void chooseDate(View view) {
@@ -124,15 +125,15 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseAccou
         expenseBudgetPersist = new ExpenseBudgetPersist(db);
         expenseBudgetBalanceNotZeroList.clear();
         expenseBudgetBalanceNotZeroList.addAll(expenseBudgetPersist.readAllUnusedBalanceNotZero());
-        if (accountBalanceNotZeroList.size() > 0) {
-            Account account = accountBalanceNotZeroList.get(0);
-            buttonChooseAccount = (Button) findViewById(R.id.buttonChooseAccount);
-            buttonChooseAccount.setText(account.getName() + " : "  + account.getBalance().toString());
-        }
+//        if (accountBalanceNotZeroList.size() > 0) {
+//            Account account = accountBalanceNotZeroList.get(0);
+//            buttonChooseAccount = (Button) findViewById(R.id.buttonChooseAccount);
+//            buttonChooseAccount.setText(account.getName() + " : "  + account.getBalance().toString());
+//        }
         if(expenseBudgetBalanceNotZeroList.size() > 0) {
             Budget budget = expenseBudgetBalanceNotZeroList.get(0);
             buttonChooseExpenseBudget = (Button) findViewById(R.id.buttonChooseExpenseBudget);
-            buttonChooseExpenseBudget.setText(budget.getName() + " : " + budget.getUnusedBalance());
+            buttonChooseExpenseBudget.setText(budget.getName());
             editTextExpenseAmount = (EditText) findViewById(R.id.editTextExpenseAmount);
             editTextExpenseAmount.setText(budget.getBudgetAmount().toString());
         }

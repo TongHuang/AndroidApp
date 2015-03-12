@@ -30,12 +30,13 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:text="Deposit Money"
-                android:id="@+id/button"
+                android:text="Demo"
+                android:id="@+id/buttonDemo"
                 android:layout_gravity="center"
                 android:background="@color/light_blue"
                 android:layout_weight="10"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:onClick="demo" />
 
         </LinearLayout>
 

@@ -58,6 +58,8 @@ public class BudgetListViewAdapter extends BaseAdapter implements ListAdapter {
         textViewCycle.setText(budget.getCycle().getLabel(context));
         TextView textViewBudgetAmount = (TextView) view.findViewById(R.id.textViewAmount);
         textViewBudgetAmount.setText(budget.getBudgetAmount().toString());
+        TextView textViewUnusedBalance = (TextView)view.findViewById(R.id.textViewUnusedBalance);
+        textViewUnusedBalance.setText(budget.getUnusedBalance().toString());
         return view;
     }
 }

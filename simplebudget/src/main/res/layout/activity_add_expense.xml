@@ -17,33 +17,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/accounts"
-            android:id="@+id/textViewAccounts"
-            android:layout_weight="10"
-            android:layout_gravity="center_vertical"
-            android:gravity="left|center_vertical" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonChooseAccount"
-            android:layout_gravity="left|center_vertical"
-            android:layout_weight="30"
-            android:text="Choose account"
-            android:onClick="chooseAccount" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="Budget"
+            android:text="@string/pocket"
             android:id="@+id/textViewExpenseBudget"
             android:layout_weight="10"
             android:layout_gravity="left|center_vertical"
@@ -52,7 +26,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Choose budget"
+            android:text="@string/choose_pocket"
             android:id="@+id/buttonChooseExpenseBudget"
             android:layout_weight="30"
             android:layout_gravity="left|center_vertical"

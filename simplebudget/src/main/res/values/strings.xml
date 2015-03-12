@@ -97,6 +97,9 @@
     <string name="what_is_roll_over_title">If you choose "Rollover"</string>
     <string name="what_is_roll_over">You have a 50$ Weekly budget.\nFirst week will start with 50$. \nYou spend 30$, 20$ left.\nNext week will start with 20$ + 50$ = 70$.\nIt rollover minus(-20$) too</string>
     <string name="choose_date">Choose date</string>
+    <string name="pocket">Pocket</string>
+    <string name="choose_pocket">Choose Pocket</string>
+    <string name="title_activity_demo">DemoActivity</string>
 
 
 </resources>

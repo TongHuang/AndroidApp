@@ -96,7 +96,8 @@ public class BudgetExpandableListViewAdapter extends BaseExpandableListAdapter {
         textViewCycle.setText(budget.getCycle().getLabel(context));
         TextView textViewAmount = (TextView) view.findViewById(R.id.textViewAmount);
         textViewAmount.setText(budget.getBudgetAmount().toString());
-
+        TextView textViewUnusedBalance = (TextView) view.findViewById(R.id.textViewUnusedBalance);
+        textViewUnusedBalance.setText(budget.getUnusedBalance().toString());
         return view;
     }
 

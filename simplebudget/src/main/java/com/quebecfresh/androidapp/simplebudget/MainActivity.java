@@ -49,6 +49,11 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void demo(View view){
+        Intent intent = new Intent(this, DemoActivity.class);
+        startActivity(intent);
+    }
+
 
 
     @Override

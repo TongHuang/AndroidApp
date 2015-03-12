@@ -6,7 +6,13 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="21" />
 
-
+    <android:uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -18,10 +24,10 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".InitializeAccountActivity"
             android:label="@string/accounts"
@@ -54,8 +60,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
         </activity>
-
-
         <activity
             android:name=".EditIncomeBudgetActivity"
             android:label="@string/edit_income" >
@@ -64,12 +68,10 @@
             android:name=".EditExpenseBudgetActivity"
             android:label="@string/edit_expense" >
         </activity>
-
         <activity
             android:name=".WelcomeActivity"
             android:label="@string/title_activity_initialize" >
         </activity>
-
         <activity
             android:name=".EditAccountActivity"
             android:label="@string/edit_account"
@@ -78,8 +80,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.quebecfresh.androidapp.simplebudget.InitializeAccountActivity" />
         </activity>
-
-
+        <activity
+            android:name=".DemoActivity"
+            android:label="@string/title_activity_demo"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

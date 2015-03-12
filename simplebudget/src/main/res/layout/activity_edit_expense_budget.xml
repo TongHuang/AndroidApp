@@ -39,6 +39,27 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:text="@string/accounts"
+            android:id="@+id/textView2"
+            android:layout_weight="10"
+            android:gravity="left|center_vertical" />
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerAccount"
+            android:layout_weight="20" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:text="@string/category"
             android:id="@+id/textView10"
             android:layout_weight="10"
@@ -92,7 +113,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/editTextBudgetAmount"
-            android:layout_weight="20" />
+            android:layout_weight="20"
+            android:gravity="right" />
     </LinearLayout>
 
     <LinearLayout
