@@ -1,52 +1,26 @@
 package com.quebecfresh.androidapp.simplebudget.model;
 
+import android.provider.BaseColumns;
+
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by Tong Huang on 2015-02-13, 9:04 AM.
  */
-public class Expense extends BaseData{
-    public enum EXPENSE_CYCLE{ANNUAL,MONTHLY,WEEKLY,DAILY,IRREGULAR}
+public class Expense extends BaseData {
 
-
-    private ExpenseBudget category;
-    private Payee payee;
+    private ExpenseBudget expenseBudget;
     private BigDecimal amount;
-    private Date dueDate;
-    private Date paidDate;
-    private Boolean isPaid = Boolean.FALSE;
+    private Long spentDate;
 
-    public Expense(){
-
+    public ExpenseBudget getExpenseBudget() {
+        return expenseBudget;
     }
 
-    public Expense(String name){
-        super(name);
-    }
-
-    public Expense(String name, String note){
-        super(name, note);
-    }
-
-    public Expense(Long id, String name, String note){
-        super(id, name, note);
-    }
-
-    public ExpenseBudget getCategory() {
-        return category;
-    }
-
-    public void setCategory(ExpenseBudget category) {
-        this.category = category;
-    }
-
-    public Payee getPayee() {
-        return payee;
-    }
-
-    public void setPayee(Payee payee) {
-        this.payee = payee;
+    public void setExpenseBudget(ExpenseBudget expenseBudget) {
+        this.expenseBudget = expenseBudget;
     }
 
     public BigDecimal getAmount() {
@@ -54,30 +28,34 @@ public class Expense extends BaseData{
     }
 
     public void setAmount(BigDecimal amount) {
-        this.amount = amount.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.amount = amount;
     }
 
-    public Date getDueDate() {
-        return dueDate;
+    public String getSpendDateLabel() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy ");
+        return simpleDateFormat.format(this.spentDate);
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public Long getSpentDate() {
+        return spentDate;
     }
 
-    public Date getPaidDate() {
-        return paidDate;
+    public void setSpentDate(Long spentDate) {
+        this.spentDate = spentDate;
     }
 
-    public void setPaidDate(Date paidDate) {
-        this.paidDate = paidDate;
-    }
+    public static abstract class Contract implements BaseColumns {
+        public static final String _TABLE = "expense";
+        public static final String _NAME = "name";
+        public static final String _NOTE = "note";
+        public static final String _BUDGET_ID = "budget_id";
+        public static final String _AMOUNT = "amount";
+        public static final String _SPENT_DATE = "spent_date";
 
-    public Boolean getIsPaid() {
-        return isPaid;
-    }
-
-    public void setIsPaid(Boolean isPaid) {
-        this.isPaid = isPaid;
+        public static final String CREATE = "Create table " + _TABLE + " (" + _ID + TYPE_ID
+                + COMMA + _NAME + TYPE_TEXT + COMMA + _NOTE + TYPE_TEXT + COMMA + _BUDGET_ID
+                + TYPE_INTEGER + COMMA + _AMOUNT + TYPE_TEXT + COMMA + _SPENT_DATE
+                + TYPE_INTEGER + ")";
+        public static final String DROP = "drop table if exists " + _TABLE;
     }
 }

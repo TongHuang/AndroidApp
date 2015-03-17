@@ -1,7 +1,6 @@
 package com.quebecfresh.androidapp.simplebudget;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,45 +11,37 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import com.quebecfresh.androidapp.simplebudget.model.Account;
-import com.quebecfresh.androidapp.simplebudget.model.Budget;
+import com.quebecfresh.androidapp.simplebudget.model.Expense;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
-import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 import com.quebecfresh.androidapp.simplebudget.persist.ExpenseBudgetPersist;
+import com.quebecfresh.androidapp.simplebudget.persist.ExpensePersist;
 
-import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 
-public class AddExpenseActivity extends ActionBarActivity implements ChooseAccountDialogFragment.AccountClickListener,
-        ChooseExpenseBudgetDialogFragment.BudgetClickListener {
-
-    public static final int CHOOSE_ACCOUNT_FOR_RESULT_CODE = 1;
-    public static final int CHOOSE_BUDGET_FOR_RESULT_CODE = 2;
+public class AddExpenseActivity extends ActionBarActivity implements ChooseExpenseBudgetDialogFragment.ExpenseBudgetChooseListener {
 
     private Button buttonDate;
     private DatabaseHelper databaseHelper = new DatabaseHelper(this);
-    private AccountPersist accountPersist;
+    private Expense expense = new Expense();
+    private ExpensePersist expensePersist;
     private ExpenseBudgetPersist expenseBudgetPersist;
-    private List<Account> accountBalanceNotZeroList = new ArrayList<Account>();
-    private List<Budget> expenseBudgetBalanceNotZeroList = new ArrayList<Budget>();
-    private Button buttonChooseAccount;
+    private List<ExpenseBudget> expenseBudgetList = new ArrayList<ExpenseBudget>();
     private Button buttonChooseExpenseBudget;
     private EditText editTextExpenseAmount;
 
-    @Override
-    public void click(Account account) {
-        this.buttonChooseAccount.setText(account.getName() + " : " + account.getBalance().toString());
-    }
+
 
     @Override
-    public void click(Budget budget) {
-        this.buttonChooseExpenseBudget.setText(budget.getName());
+    public void Choose(ExpenseBudget expenseBudget) {
+        this.expense.setExpenseBudget(expenseBudget);
+        this.buttonChooseExpenseBudget.setText(this.expense.getExpenseBudget().getName());
         this.editTextExpenseAmount.setText(null);
-        this.editTextExpenseAmount.setHint("Unused balance:" + budget.getUnusedBalance().toString());
+        this.editTextExpenseAmount.setHint(getResources().getString(R.string.unused_balance) + this.expense.getExpenseBudget().getUnusedBalance().toString());
     }
 
     public void chooseDate(View view) {
@@ -62,31 +53,19 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseAccou
                 c.set(Calendar.YEAR, year);
                 c.set(Calendar.MONTH, monthOfYear);
                 c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy ");
-
-                buttonDate.setText(simpleDateFormat.format(c.getTime()));
+                expense.setSpentDate(c.getTimeInMillis());
+                buttonDate.setText(expense.getSpendDateLabel());
             }
         });
 
         datePickerFragment.show(getSupportFragmentManager(), "DatePicker");
     }
 
-    public void chooseAccount(View view) {
-        ChooseAccountDialogFragment chooseAccountDialog = new ChooseAccountDialogFragment();
-        chooseAccountDialog.show(getSupportFragmentManager(), "Dialog");
-        chooseAccountDialog.setAccountClickListener(this);
-
-//        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//       fragmentTransaction.setTransition(android.support.v4.app.FragmentTransaction.TRANSIT_NONE);
-//        fragmentTransaction.add(android.R.id.content, chooseAccountDialog).addToBackStack(null).commit();
-//        Intent intent = new Intent(this, InitializeAccountActivity.class);
-//        startActivityForResult(intent, CHOOSE_ACCOUNT_FOR_RESULT_CODE);
-    }
 
     public void chooseExpenseBudget(View view) {
         ChooseExpenseBudgetDialogFragment chooseExpenseBudgetDialogFragment = new ChooseExpenseBudgetDialogFragment();
-        chooseExpenseBudgetDialogFragment.setBudgetClickListener(this);
-        chooseExpenseBudgetDialogFragment.setBudgetList(this.expenseBudgetBalanceNotZeroList);
+        chooseExpenseBudgetDialogFragment.setExpenseBudgetChooseListener(this);
+        chooseExpenseBudgetDialogFragment.setBudgetList(this.expenseBudgetList);
         chooseExpenseBudgetDialogFragment.show(getSupportFragmentManager(), "ChooseExpenseBudget");
 
     }
@@ -112,34 +91,23 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseAccou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
 
-        Calendar c = Calendar.getInstance();
-        buttonDate = (Button) findViewById(R.id.buttonChooseDate);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy ");
-
-        buttonDate.setText(simpleDateFormat.format(c.getTime()));
-
-
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        accountPersist = new AccountPersist(db);
-        accountBalanceNotZeroList = accountPersist.readAllBalanceNotZero();
+        expensePersist = new ExpensePersist(db);
         expenseBudgetPersist = new ExpenseBudgetPersist(db);
-        expenseBudgetBalanceNotZeroList.clear();
-        expenseBudgetBalanceNotZeroList.addAll(expenseBudgetPersist.readAllUnusedBalanceNotZero());
-//        if (accountBalanceNotZeroList.size() > 0) {
-//            Account account = accountBalanceNotZeroList.get(0);
-//            buttonChooseAccount = (Button) findViewById(R.id.buttonChooseAccount);
-//            buttonChooseAccount.setText(account.getName() + " : "  + account.getBalance().toString());
-//        }
-        if(expenseBudgetBalanceNotZeroList.size() > 0) {
-            Budget budget = expenseBudgetBalanceNotZeroList.get(0);
-            buttonChooseExpenseBudget = (Button) findViewById(R.id.buttonChooseExpenseBudget);
-            buttonChooseExpenseBudget.setText(budget.getName());
-            editTextExpenseAmount = (EditText) findViewById(R.id.editTextExpenseAmount);
-            editTextExpenseAmount.setText(budget.getBudgetAmount().toString());
-        }
+        expenseBudgetList = expenseBudgetPersist.readAllUnusedBalanceNotZero();
 
+        this.expense =  new Expense();
+        this.expense.setExpenseBudget(expenseBudgetList.get(0));
+        this.expense.setSpentDate(System.currentTimeMillis());
 
-//        buttonDate.setText(c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH) + "-" + c.get(Calendar.DAY_OF_MONTH));
+        buttonDate = (Button) findViewById(R.id.buttonChooseDate);
+        buttonDate.setText(this.expense.getSpendDateLabel());
+        buttonChooseExpenseBudget = (Button) findViewById(R.id.buttonChooseExpenseBudget);
+        buttonChooseExpenseBudget.setText(expense.getExpenseBudget().getName());
+        editTextExpenseAmount = (EditText) findViewById(R.id.editTextExpenseAmount);
+        editTextExpenseAmount.setText(null);
+        editTextExpenseAmount.setHint(getResources().getString(R.string.unused_balance) + expense.getExpenseBudget().getUnusedBalance().toString());
+
     }
 
 
@@ -158,8 +126,14 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseAccou
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_save:
+                expense.setAmount(new BigDecimal(editTextExpenseAmount.getText().toString()));
+                ExpenseBudget expenseBudget = expense.getExpenseBudget();
+                expenseBudget.setUnusedBalance(expenseBudget.getUnusedBalance().subtract(expense.getAmount()));
+                this.expenseBudgetPersist.update(expenseBudget);
+                this.expensePersist.insert(this.expense);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

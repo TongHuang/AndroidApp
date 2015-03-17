@@ -39,6 +39,28 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:text="@string/accounts"
+            android:id="@+id/textView5"
+            android:layout_weight="10"
+            android:gravity="left|center_vertical" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="@string/accounts"
+            android:id="@+id/buttonAccount"
+            android:layout_weight="20" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:text="@string/category"
             android:id="@+id/textViewCategory"
             android:layout_weight="10"

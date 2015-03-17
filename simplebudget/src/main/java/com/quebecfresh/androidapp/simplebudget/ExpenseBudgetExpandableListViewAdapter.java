@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.quebecfresh.androidapp.simplebudget.model.Budget;
+import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,10 +15,10 @@ import java.util.List;
 /**
  * Created by Tong Huang on 2015-02-17, 8:24 AM.
  */
-public class BudgetExpandableListViewAdapter extends BaseExpandableListAdapter {
-    private HashMap<String, List<Budget>> budgetHashMap;
+public class ExpenseBudgetExpandableListViewAdapter extends BaseExpandableListAdapter {
+    private HashMap<String, List<ExpenseBudget>> budgetHashMap;
     private List<String> categoryList;
-    private Context context;  public BudgetExpandableListViewAdapter(List<String> categoryGroup, HashMap<String, List<Budget>> categories, Context context) {
+    private Context context;  public ExpenseBudgetExpandableListViewAdapter(List<String> categoryGroup, HashMap<String, List<ExpenseBudget>> categories, Context context) {
         this.categoryList = categoryGroup;
         this.budgetHashMap = categories;
         this.context = context;
@@ -82,12 +82,12 @@ public class BudgetExpandableListViewAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         String category = this.categoryList.get(groupPosition);
-        Budget budget = this.budgetHashMap.get(category).get(childPosition);
+        ExpenseBudget budget = this.budgetHashMap.get(category).get(childPosition);
         View view = convertView;
 
         if (view == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.list_item_budget, null);
+            view = layoutInflater.inflate(R.layout.list_item_expense_budget, null);
         }
 
         TextView textViewCategory = (TextView) view.findViewById(R.id.textViewBudgetName);

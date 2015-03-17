@@ -6,6 +6,7 @@
     <string name="initialize_account_done">com.quebecfresh.androidapp.simplebudget.initialize_account_done</string>
     <string name="initialize_income_budget_done">com.quebecfresh.androidapp.simplebudget.initialize_income_budget_done</string>
     <string name="initialize_expense_budget_done">com.quebecfresh.androidapp.simplebudget.initialize_expense_budget_done</string>
+    <string name="initialize_date">com.quebecfresh.androidapp.simplebudget.initialize_date</string>
 
     <string name="app_name">123 Budget</string>
     <string name="menu_income">Incomes</string>
@@ -100,6 +101,7 @@
     <string name="pocket">Pocket</string>
     <string name="choose_pocket">Choose Pocket</string>
     <string name="title_activity_demo">DemoActivity</string>
+    <string name="unused_balance">Unused Balance</string>
 
 
 </resources>

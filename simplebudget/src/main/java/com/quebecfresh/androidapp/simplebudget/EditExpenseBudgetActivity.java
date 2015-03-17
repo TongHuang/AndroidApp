@@ -7,21 +7,28 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.quebecfresh.androidapp.simplebudget.model.Account;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
+import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 import com.quebecfresh.androidapp.simplebudget.persist.ExpenseBudgetPersist;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
-public class EditExpenseBudgetActivity extends ActionBarActivity {
+public class EditExpenseBudgetActivity extends ActionBarActivity implements ChooseAccountDialogFragment.AccountClickListener {
 
     private EditText editTextName;
+    private Button buttonAccount;
     private Spinner spinnerExpenseBudgetCategory;
     private Spinner spinnerCycle;
     private EditText editTextBudgetAmount;
@@ -30,6 +37,24 @@ public class EditExpenseBudgetActivity extends ActionBarActivity {
     private ExpenseBudget expenseBudget;
     private ExpenseBudgetPersist persist;
     private Long rowID;
+
+    @Override
+    public void click(Account account) {
+        this.expenseBudget.setAccount(account);
+        this.buttonAccount.setText(account.getName() + " : " + account.getBalance().toString());
+    }
+
+    public void chooseAccount(View view) {
+        ChooseAccountDialogFragment chooseAccountDialogFragment = new ChooseAccountDialogFragment();
+        chooseAccountDialogFragment.show(this.getSupportFragmentManager(), "Choose account");
+        chooseAccountDialogFragment.setAccountClickListener(this);
+    }
+
+    public void calFillAmount(View view){
+        System.out.println(expenseBudget.calcFillAmount());
+        TextView textViewBudgetDate  = (TextView)this.findViewById(R.id.textViewBudgetDate);
+        textViewBudgetDate.setText(expenseBudget.calcFillAmount().toString());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +73,59 @@ public class EditExpenseBudgetActivity extends ActionBarActivity {
             expenseBudget = new ExpenseBudget();
         }
 
+
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextName.setText(expenseBudget.getName());
+        buttonAccount = (Button) findViewById(R.id.buttonAccount);
+        if (expenseBudget.getAccount() != null) {
+            buttonAccount.setText(expenseBudget.getAccount().getName() + " : " + expenseBudget.getAccount().getBalance().toString());
+        }
         spinnerExpenseBudgetCategory = (Spinner) this.findViewById(R.id.spinnerExpenseBudgetCategory);
         ExpenseCategoryGroupSpinnerAdapter expenseCategoryGroupSpinnerAdapter = new ExpenseCategoryGroupSpinnerAdapter(this, ExpenseBudget.EXPENSE_BUDGET_CATEGORY.values());
         spinnerExpenseBudgetCategory.setAdapter(expenseCategoryGroupSpinnerAdapter);
         spinnerExpenseBudgetCategory.setSelection(expenseBudget.getExpenseBudgetCategory().ordinal());
         spinnerCycle = (Spinner) findViewById(R.id.spinnerCycle);
         CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(this, Cycle.values());
+        spinnerCycle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TextView textViewBudgetDate = (TextView) findViewById(R.id.textViewBudgetDate);
+
+                switch ((Cycle) parent.getSelectedItem()) {
+                    case Daily:
+                        textViewBudgetDate.setText("Every day");
+                        break;
+                    case Weekly:
+                        textViewBudgetDate.setText("Every Sunday");
+                        break;
+                    case Every_2_Weeks:
+                        textViewBudgetDate.setText("Every 2 Sunday");
+                        break;
+                     case Monthly:
+                         textViewBudgetDate.setText("First day of every month");
+                         break;
+                     case Every_2_Months:
+                         textViewBudgetDate.setText("First day of every 2 months");
+                         break;
+                     case Every_3_Months:
+                         textViewBudgetDate.setText("First day of every 3 months");
+                          break;
+                     case Every_6_Months:
+                         textViewBudgetDate.setText("First day of every 6 months");
+                         break;
+                     case Yearly:
+                         textViewBudgetDate.setText("First day of year");
+                         break;
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         spinnerCycle.setAdapter(cycleSpinnerAdapter);
         spinnerCycle.setSelection(expenseBudget.getCycle().ordinal());
         editTextBudgetAmount = (EditText) findViewById(R.id.editTextBudgetAmount);

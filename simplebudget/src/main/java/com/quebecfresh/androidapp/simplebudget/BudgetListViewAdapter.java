@@ -5,13 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.quebecfresh.androidapp.simplebudget.model.Budget;
-import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
+import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
 
 import java.util.List;
 
@@ -20,10 +17,10 @@ import java.util.List;
  */
 public class BudgetListViewAdapter extends BaseAdapter implements ListAdapter {
 
-    private List<Budget> budgetList;
+    private List<ExpenseBudget> budgetList;
     private Context context;
 
-    public BudgetListViewAdapter(List<Budget> budgetList, Context context) {
+    public BudgetListViewAdapter(List<ExpenseBudget> budgetList, Context context) {
         this.budgetList = budgetList;
         this.context = context;
     }
@@ -46,10 +43,10 @@ public class BudgetListViewAdapter extends BaseAdapter implements ListAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        Budget budget = budgetList.get(position);
+        ExpenseBudget budget = budgetList.get(position);
         if (view == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = layoutInflater.inflate(R.layout.list_item_budget, null);
+            view = layoutInflater.inflate(R.layout.list_item_expense_budget, null);
         }
 
         TextView textViewBudgetName = (TextView) view.findViewById(R.id.textViewBudgetName);

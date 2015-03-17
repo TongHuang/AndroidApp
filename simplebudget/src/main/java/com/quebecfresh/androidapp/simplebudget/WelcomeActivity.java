@@ -46,6 +46,7 @@ public class WelcomeActivity extends ActionBarActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(getString(R.string.initialize_done), true);
+        editor.putLong(getString(R.string.initialize_date), System.currentTimeMillis());
         editor.commit();
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(dbHelper.getWritableDatabase());

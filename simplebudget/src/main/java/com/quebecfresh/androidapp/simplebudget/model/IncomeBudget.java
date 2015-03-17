@@ -58,20 +58,18 @@ public class IncomeBudget extends Budget {
     }
 
     public static abstract class Contract implements BaseColumns {
-        public static final String _TABLE = "income_category";
+        public static final String _TABLE = "income_budget";
         public static final String _NAME = "name";
         public static final String _NOTE = "note";
         public static final String _CYCLE = "cycle";
         public static final String _BUDGET_AMOUNT = "budget_amount";
         public static final String _BUDGET_CATEGORY = "budget_category";
-        public static final String _UNUSED_BALANCE = "unused_balance";
-        public static final String _ROLL_OVER = "roll_over";
+        public static final String _ACCOUNT_ID = "account_id";
 
         public static final String CREATE = "Create table " + _TABLE + " (" + _ID + TYPE_ID
                 + COMMA + _NAME + TYPE_TEXT + COMMA + _NOTE + TYPE_TEXT + COMMA + _CYCLE
                 + TYPE_TEXT + COMMA + _BUDGET_AMOUNT + TYPE_TEXT + COMMA + _BUDGET_CATEGORY
-                + TYPE_TEXT + COMMA + _UNUSED_BALANCE + TYPE_TEXT + COMMA
-                + _ROLL_OVER + TYPE_INTEGER + ")";
+                + TYPE_TEXT + COMMA + _ACCOUNT_ID + TYPE_INTEGER +  ")";
         public static final String DROP = "Drop table if exists " + _TABLE;
 
     }

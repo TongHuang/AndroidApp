@@ -148,6 +148,7 @@ public class MainActivity extends ActionBarActivity {
                 SharedPreferences preferences = this.getSharedPreferences(getString(R.string.initialize_done), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean(getString(R.string.initialize_done), false);
+                editor.putLong(getString(R.string.initialize_date), 0);
                 editor.commit();
                 Intent intent = new Intent(this, WelcomeActivity.class);
                 startActivity(intent);

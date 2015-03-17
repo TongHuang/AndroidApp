@@ -12,10 +12,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.quebecfresh.androidapp.simplebudget.model.Budget;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
-import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
-import com.quebecfresh.androidapp.simplebudget.persist.ExpenseBudgetPersist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,28 +22,28 @@ import java.util.List;
  */
 public class ChooseExpenseBudgetDialogFragment extends DialogFragment {
 
-    private List<Budget> budgetList = new ArrayList<Budget>();
-    private BudgetClickListener budgetClickListener;
+    private List<ExpenseBudget> budgetList = new ArrayList<ExpenseBudget>();
+    private ExpenseBudgetChooseListener expenseBudgetChooseListener;
 
-    public interface BudgetClickListener {
-        public void click(Budget budget);
+    public interface ExpenseBudgetChooseListener {
+        public void Choose(ExpenseBudget expenseBudget);
     }
 
-    public List<Budget> getBudgetList() {
+    public List<ExpenseBudget> getBudgetList() {
         return budgetList;
     }
 
-    public void setBudgetList(List<Budget> budgetList) {
+    public void setBudgetList(List<ExpenseBudget> budgetList) {
         this.budgetList.clear();
         this.budgetList.addAll(budgetList);
     }
 
-    public BudgetClickListener getBudgetClickListener() {
-        return budgetClickListener;
+    public ExpenseBudgetChooseListener getExpenseBudgetChooseListener() {
+        return expenseBudgetChooseListener;
     }
 
-    public void setBudgetClickListener(BudgetClickListener budgetClickListener) {
-        this.budgetClickListener = budgetClickListener;
+    public void setExpenseBudgetChooseListener(ExpenseBudgetChooseListener expenseBudgetChooseListener) {
+        this.expenseBudgetChooseListener = expenseBudgetChooseListener;
     }
 
     @Override
@@ -63,7 +60,7 @@ public class ChooseExpenseBudgetDialogFragment extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position >= 0) {
-                    budgetClickListener.click(budgetList.get(position));
+                    expenseBudgetChooseListener.Choose(budgetList.get(position));
                     ChooseExpenseBudgetDialogFragment.this.dismiss();
                 }
             }

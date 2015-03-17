@@ -66,10 +66,10 @@ public class InitializeIncomeBudgetActivity extends ActionBarActivity {
 
         incomeCategories = incomeCategoryPersist.readAll();
 
-        List<Budget> employments = new ArrayList<Budget>();
-        List<Budget> governmentBenefits = new ArrayList<Budget>();
-        List<Budget> investments = new ArrayList<Budget>();
-        List<Budget> others = new ArrayList<Budget>();
+        List<IncomeBudget> employments = new ArrayList<IncomeBudget>();
+        List<IncomeBudget> governmentBenefits = new ArrayList<IncomeBudget>();
+        List<IncomeBudget> investments = new ArrayList<IncomeBudget>();
+        List<IncomeBudget> others = new ArrayList<IncomeBudget>();
 
         for (int i = 0; i < incomeCategories.size(); i++) {
             IncomeBudget incomeCategory = incomeCategories.get(i);
@@ -96,13 +96,13 @@ public class InitializeIncomeBudgetActivity extends ActionBarActivity {
         group.add(IncomeBudget.INCOME_BUDGET_CATEGORY.INVESTMENT.getLabel(this));
         group.add(IncomeBudget.INCOME_BUDGET_CATEGORY.OTHERS.getLabel(this));
 
-        HashMap<String, List<Budget>> incomeCategoryMap = new HashMap<String, List<Budget>>();
+        HashMap<String, List<IncomeBudget>> incomeCategoryMap = new HashMap<String, List<IncomeBudget>>();
         incomeCategoryMap.put(group.get(0), employments);
         incomeCategoryMap.put(group.get(1), governmentBenefits);
         incomeCategoryMap.put(group.get(2), investments);
         incomeCategoryMap.put(group.get(3), others);
 
-        BudgetExpandableListViewAdapter adapter = new BudgetExpandableListViewAdapter(group, incomeCategoryMap, this);
+        IncomeBudgetExpandableListViewAdapter adapter = new IncomeBudgetExpandableListViewAdapter(group, incomeCategoryMap, this);
         ExpandableListView expandableListView = (ExpandableListView) this.findViewById(R.id.expandableListView_incomeCategory);
         expandableListView.setAdapter(adapter);
 

@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="New Text"
+        android:text="@string/balance"
         android:id="@+id/textViewAccountName"
         android:layout_weight="20"
         android:gravity="left|center_vertical"

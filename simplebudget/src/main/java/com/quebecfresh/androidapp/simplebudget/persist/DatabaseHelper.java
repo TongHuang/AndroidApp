@@ -4,13 +4,15 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.quebecfresh.androidapp.simplebudget.model.Expense;
+
 
 /**
  * Created by Tong Huang on 2015-02-20, 3:29 PM.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 7;
     public static final String DATABASE_NAME = "simplebudget";
 
     public DatabaseHelper(Context context) {
@@ -29,6 +31,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ExpenseBudgetPersist expenseCategoryPersist = new ExpenseBudgetPersist(db);
         expenseCategoryPersist.create();
         expenseCategoryPersist.initialize();
+        IncomePersist incomePersist = new IncomePersist(db);
+        incomePersist.create();
+        ExpensePersist expensePersist = new ExpensePersist(db);
+        expensePersist.create();
     }
 
     @Override
@@ -39,6 +45,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         incomeCategoryPersist.drop();
         ExpenseBudgetPersist expenseCategoryPersist = new ExpenseBudgetPersist(db);
         expenseCategoryPersist.drop();
+        IncomePersist incomePersist = new IncomePersist(db);
+        incomePersist.drop();
+        ExpensePersist expensePersist = new ExpensePersist(db);
+        expensePersist.drop();
         onCreate(db);
     }
 }

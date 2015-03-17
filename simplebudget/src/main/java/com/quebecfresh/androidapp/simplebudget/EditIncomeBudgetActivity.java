@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.quebecfresh.androidapp.simplebudget.model.Account;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.IncomeBudget;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
@@ -18,10 +20,11 @@ import com.quebecfresh.androidapp.simplebudget.persist.IncomeBudgetPersist;
 import java.math.BigDecimal;
 
 
-public class EditIncomeBudgetActivity extends ActionBarActivity {
+public class EditIncomeBudgetActivity extends ActionBarActivity implements ChooseAccountDialogFragment.AccountClickListener {
 
     private Long rowID;
     private EditText editTextName;
+    private Button buttonAccount;
     private Spinner spinnerIncomeGroup;
     private Spinner spinnerCycle;
     private EditText editTextAmount;
@@ -29,6 +32,19 @@ public class EditIncomeBudgetActivity extends ActionBarActivity {
     private CheckBox checkBoxRollover;
     private IncomeBudget incomeBudget;
     IncomeBudgetPersist persist;
+
+    public void chooseAccount(View view){
+        ChooseAccountDialogFragment chooseAccountDialogFragment = new ChooseAccountDialogFragment();
+        chooseAccountDialogFragment.show(this.getSupportFragmentManager(), "Choose account");
+        chooseAccountDialogFragment.setAccountClickListener(this);
+    }
+
+    @Override
+    public void click(Account account) {
+        this.incomeBudget.setAccount(account);
+        this.buttonAccount.setText(account.getName() + " : " + account.getBalance().toString());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +62,10 @@ public class EditIncomeBudgetActivity extends ActionBarActivity {
 
         editTextName = (EditText)this.findViewById(R.id.editTextName);
         editTextName.setText(incomeBudget.getName());
+        buttonAccount = (Button)this.findViewById(R.id.buttonAccount);
+        if(incomeBudget.getAccount() != null){
+            buttonAccount.setText(incomeBudget.getAccount().getName() + " : " + incomeBudget.getAccount().getBalance().toString());
+        }
         spinnerIncomeGroup  = (Spinner)this.findViewById(R.id.spinnerGroup);
         IncomeCategoryGroupSpinnerAdapter incomeCategoryGroupSpinnerAdapter = new IncomeCategoryGroupSpinnerAdapter(this, IncomeBudget.INCOME_BUDGET_CATEGORY.values());
         spinnerIncomeGroup.setAdapter(incomeCategoryGroupSpinnerAdapter);
@@ -56,8 +76,6 @@ public class EditIncomeBudgetActivity extends ActionBarActivity {
         spinnerCycle.setSelection(incomeBudget.getCycle().ordinal());
         editTextAmount = (EditText)this.findViewById(R.id.editTextAmount);
         editTextAmount.setText(incomeBudget.getBudgetAmount().toString());
-        checkBoxRollover = (CheckBox)findViewById(R.id.checkBoxRollover);
-        checkBoxRollover.setChecked(incomeBudget.getRollOver());
         editTextNote = (EditText)this.findViewById(R.id.editTextNote);
         editTextNote.setText(incomeBudget.getNote());
     }
@@ -84,7 +102,6 @@ public class EditIncomeBudgetActivity extends ActionBarActivity {
                 incomeBudget.setCycle((Cycle) spinnerCycle.getSelectedItem());
                 incomeBudget.setBudgetAmount(new BigDecimal(editTextAmount.getText().toString()));
                 incomeBudget.setNote(editTextNote.getText().toString());
-                incomeBudget.setRollOver(checkBoxRollover.isChecked());
                 persist.save(incomeBudget);
                 break;
         }

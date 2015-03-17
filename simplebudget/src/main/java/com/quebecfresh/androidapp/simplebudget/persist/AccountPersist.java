@@ -103,23 +103,26 @@ public class AccountPersist {
     }
 
     public Boolean initialize() {
-        Account account1 = new Account();
-        account1.setName("Cash on Hand");
-        account1.setAccountNumber("000001");
-        account1.setNote("Cash cash cash !!!!.");
 
-        this.insert(account1);
+        Account account = new Account();
+        account.setName("Bank account");
+        account.setAccountNumber("000002");
 
-        Account account2 = new Account();
-        account2.setName("Bank account");
-        account2.setAccountNumber("000002");
+        this.insert(account);
 
-        this.insert(account2);
+         account = new Account();
+        account.setName("Cash on Hand");
+        account.setAccountNumber("000001");
+        account.setNote("Cash cash cash !!!!.");
 
-        Account account3 = new Account();
-        account3.setName("Credit card");
-        account3.setAccountNumber("000003");
-        this.insert(account3);
+        this.insert(account);
+
+
+
+        account = new Account();
+        account.setName("Credit card");
+        account.setAccountNumber("000003");
+        this.insert(account);
         return true;
     }
 

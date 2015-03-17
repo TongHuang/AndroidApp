@@ -14,7 +14,6 @@ import android.widget.ExpandableListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.quebecfresh.androidapp.simplebudget.model.Budget;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
@@ -74,11 +73,11 @@ public class InitializeExpenseBudgetActivity extends ActionBarActivity {
         ExpenseBudgetPersist persist = new ExpenseBudgetPersist(db);
         expenseBudgetList = persist.readAll();
 
-        List<Budget> foods = new ArrayList<Budget>();
-        List<Budget> shelters = new ArrayList<Budget>();
-        List<Budget> utilities = new ArrayList<Budget>();
-        List<Budget> transportation = new ArrayList<Budget>();
-        List<Budget> others = new ArrayList<Budget>();
+        List<ExpenseBudget> foods = new ArrayList<ExpenseBudget>();
+        List<ExpenseBudget> shelters = new ArrayList<ExpenseBudget>();
+        List<ExpenseBudget> utilities = new ArrayList<ExpenseBudget>();
+        List<ExpenseBudget> transportation = new ArrayList<ExpenseBudget>();
+        List<ExpenseBudget> others = new ArrayList<ExpenseBudget>();
         ExpenseBudget category;
         for (int i = 0; i < expenseBudgetList.size(); i++) {
             category = expenseBudgetList.get(i);
@@ -108,7 +107,7 @@ public class InitializeExpenseBudgetActivity extends ActionBarActivity {
         group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION.getLabel(this));
         group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.OTHERS.getLabel(this));
 
-        HashMap<String, List<Budget>> categoryMap = new HashMap<String, List<Budget>>();
+        HashMap<String, List<ExpenseBudget>> categoryMap = new HashMap<String, List<ExpenseBudget>>();
         categoryMap.put(group.get(0), foods);
         categoryMap.put(group.get(1), shelters);
         categoryMap.put(group.get(2), utilities);
@@ -133,7 +132,7 @@ public class InitializeExpenseBudgetActivity extends ActionBarActivity {
         textViewTotal = (TextView) this.findViewById(R.id.textViewTotal);
         textViewTotal.setText(this.calcTotal(Cycle.Monthly).toString());
 
-        BudgetExpandableListViewAdapter adapter = new BudgetExpandableListViewAdapter(group, categoryMap, this);
+        ExpenseBudgetExpandableListViewAdapter adapter = new ExpenseBudgetExpandableListViewAdapter(group, categoryMap, this);
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.expandableListViewExpenseCategory);
         listView.setAdapter(adapter);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {

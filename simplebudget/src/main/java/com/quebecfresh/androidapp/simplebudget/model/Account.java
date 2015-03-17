@@ -65,7 +65,7 @@ public class Account extends BaseData {
 
 //    public static  String CREATE="CREATE TABLE " + Contract._TABLENAME + " ( " + Contract._ID + TYPE_ID
 //            + COMMA + Contract._NAME + TYPE_TEXT + COMMA + Contract._NUMBER + TYPE_TEXT
-//            + COMMA + Contract._BALANCE + TYPE_TEXT + COMMA + Contract._NOTE + TYPE_TEXT + " ) ";
+//            + COMMA + Contract._UNUSED_BALANCE + TYPE_TEXT + COMMA + Contract._NOTE + TYPE_TEXT + " ) ";
 //    public static final String DROP="DROP TABLE IF EXISTS " + Contract._TABLENAME;
 
     public static  abstract class Contract implements BaseColumns {

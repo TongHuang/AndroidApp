@@ -44,11 +44,14 @@
             android:layout_weight="10"
             android:gravity="left|center_vertical" />
 
-        <Spinner
+        <Button
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinnerAccount"
-            android:layout_weight="20" />
+            android:layout_height="match_parent"
+            android:text="Account"
+            android:id="@+id/buttonAccount"
+            android:layout_weight="20"
+            android:onClick="chooseAccount" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -67,10 +70,11 @@
 
         <Spinner
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/spinnerExpenseBudgetCategory"
             android:layout_gravity="center_vertical|right"
-            android:layout_weight="20" />
+            android:layout_weight="20"
+            android:gravity="center_vertical|center_horizontal" />
     </LinearLayout>
 
     <LinearLayout
@@ -92,7 +96,23 @@
             android:layout_height="wrap_content"
             android:id="@+id/spinnerCycle"
             android:layout_weight="20"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical|center_horizontal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Budget Date"
+            android:id="@+id/textViewBudgetDate"
+            android:gravity="center_vertical|center_horizontal"
+            android:onClick="calFillAmount" />
     </LinearLayout>
 
     <LinearLayout
