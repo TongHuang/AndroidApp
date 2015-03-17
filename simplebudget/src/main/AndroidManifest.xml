@@ -53,7 +53,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".AddExpenseActivity"
+            android:name=".NewExpenseActivity"
             android:label="@string/expenses"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -83,6 +83,22 @@
         <activity
             android:name=".DemoActivity"
             android:label="@string/title_activity_demo"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ExpenseActivity"
+            android:label="@string/title_activity_expense"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
+        </activity>
+        <activity
+            android:name=".NewIncomeActivity"
+            android:label="@string/title_activity_new_income"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

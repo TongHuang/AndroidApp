@@ -84,6 +84,7 @@ public class IncomePersist {
             income.setReceivedDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
             income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true:false);
             incomeList.add(income);
+            cursor.moveToNext();
         }
         return incomeList;
     }
@@ -109,6 +110,7 @@ public class IncomePersist {
             income.setReceivedDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
             income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true:false);
             incomeList.add(income);
+            cursor.moveToNext();
         }
         return incomeList;
     }

@@ -102,6 +102,8 @@
     <string name="choose_pocket">Choose Pocket</string>
     <string name="title_activity_demo">DemoActivity</string>
     <string name="unused_balance">Unused Balance</string>
+    <string name="input_expense_name">Input Expense Name</string>
+    <string name="title_activity_new_income">"New Income "</string>
 
 
 </resources>

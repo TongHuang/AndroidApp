@@ -56,7 +56,7 @@ public class ExpensePersist {
     }
 
     public List<Expense> readAll() {
-        String sql = " select * from " + _TABLE;
+        String sql = " select * from " + _TABLE + " order by " + _SPENT_DATE + " desc";
         List<Expense> expenseList = new ArrayList<Expense>();
         Cursor cursor = this.db.rawQuery(sql, null);
         cursor.moveToFirst();
@@ -70,6 +70,7 @@ public class ExpensePersist {
             expense.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
             expense.setSpentDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
             expenseList.add(expense);
+            cursor.moveToNext();
         }
         return expenseList;
     }

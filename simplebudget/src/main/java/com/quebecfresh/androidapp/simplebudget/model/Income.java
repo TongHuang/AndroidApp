@@ -3,6 +3,7 @@ package com.quebecfresh.androidapp.simplebudget.model;
 import android.provider.BaseColumns;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by Tong Huang on 2015-03-15, 11:06 PM.
@@ -48,7 +49,15 @@ public class Income extends BaseData {
         this.receivedDate = receivedDate;
     }
 
+    public String getReceivedDateShortLabel(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd ");
+        return simpleDateFormat.format(this.receivedDate);
+    }
 
+    public String getReceivedDateLabel() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy ");
+        return simpleDateFormat.format(this.receivedDate);
+    }
 
     public Boolean getConfirmed() {
         return confirmed;

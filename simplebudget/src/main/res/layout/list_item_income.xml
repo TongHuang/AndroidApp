@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:text="ReceivedDate"
+        android:id="@+id/textViewIncomeReceivedDate"
+        android:layout_weight="4"
+        android:gravity="left|center_vertical"
+        android:background="@color/light_blue"
+        android:layout_marginBottom="2dp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:text="Budget Name"
+        android:id="@+id/textViewIncomeBudgetName"
+        android:layout_weight="4"
+        android:background="@color/light_red"
+        android:gravity="left|center_vertical"
+        android:layout_marginBottom="2dp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:text="5.60"
+        android:id="@+id/textViewIncomeAmount"
+        android:layout_marginBottom="2dp"
+        android:background="@color/light_green"
+        android:gravity="center_vertical|right"
+        android:layout_weight="2" />
+</LinearLayout>

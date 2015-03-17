@@ -225,7 +225,8 @@
                         android:text="Expense"
                         android:id="@+id/buttonExpense"
                         android:layout_gravity="left|center_vertical"
-                        android:layout_weight="10" />
+                        android:layout_weight="10"
+                        android:onClick="showExpenseList" />
 
                     <LinearLayout
                         android:orientation="vertical"

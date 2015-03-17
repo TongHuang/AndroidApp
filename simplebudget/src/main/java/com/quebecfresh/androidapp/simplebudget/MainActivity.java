@@ -29,6 +29,11 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+    public void showExpenseList(View view){
+        Intent intent = new Intent(this, ExpenseActivity.class);
+        startActivity(intent);
+    }
+
     public void editAccounts(View view){
         Intent intent = new Intent(this, InitializeAccountActivity.class);
         startActivity(intent);
@@ -45,9 +50,12 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void newExpense(View view){
-        Intent intent = new Intent(this, AddExpenseActivity.class);
+        Intent intent = new Intent(this, NewExpenseActivity.class);
         startActivity(intent);
     }
+
+    public void newIncome(View view){}
+
 
     public void demo(View view){
         Intent intent = new Intent(this, DemoActivity.class);

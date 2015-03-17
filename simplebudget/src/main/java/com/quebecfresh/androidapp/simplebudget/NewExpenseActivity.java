@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class AddExpenseActivity extends ActionBarActivity implements ChooseExpenseBudgetDialogFragment.ExpenseBudgetChooseListener {
+public class NewExpenseActivity extends ActionBarActivity {
 
     private Button buttonDate;
     private DatabaseHelper databaseHelper = new DatabaseHelper(this);
@@ -33,16 +33,7 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseExpen
     private List<ExpenseBudget> expenseBudgetList = new ArrayList<ExpenseBudget>();
     private Button buttonChooseExpenseBudget;
     private EditText editTextExpenseAmount;
-
-
-
-    @Override
-    public void Choose(ExpenseBudget expenseBudget) {
-        this.expense.setExpenseBudget(expenseBudget);
-        this.buttonChooseExpenseBudget.setText(this.expense.getExpenseBudget().getName());
-        this.editTextExpenseAmount.setText(null);
-        this.editTextExpenseAmount.setHint(getResources().getString(R.string.unused_balance) + this.expense.getExpenseBudget().getUnusedBalance().toString());
-    }
+    private EditText editTextNote;
 
     public void chooseDate(View view) {
         ChooseDateDialogFragment datePickerFragment = new ChooseDateDialogFragment();
@@ -64,8 +55,16 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseExpen
 
     public void chooseExpenseBudget(View view) {
         ChooseExpenseBudgetDialogFragment chooseExpenseBudgetDialogFragment = new ChooseExpenseBudgetDialogFragment();
-        chooseExpenseBudgetDialogFragment.setExpenseBudgetChooseListener(this);
         chooseExpenseBudgetDialogFragment.setBudgetList(this.expenseBudgetList);
+        chooseExpenseBudgetDialogFragment.setExpenseBudgetChooseListener(new ChooseExpenseBudgetDialogFragment.ExpenseBudgetChooseListener() {
+            @Override
+            public void Choose(ExpenseBudget expenseBudget) {
+                expense.setExpenseBudget(expenseBudget);
+                buttonChooseExpenseBudget.setText(expense.getExpenseBudget().getName());
+                editTextExpenseAmount.setText(null);
+                editTextExpenseAmount.setHint(getResources().getString(R.string.unused_balance) +   " " + expense.getExpenseBudget().getUnusedBalance().toString());
+            }
+        });
         chooseExpenseBudgetDialogFragment.show(getSupportFragmentManager(), "ChooseExpenseBudget");
 
     }
@@ -89,14 +88,14 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseExpen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_expense);
+        setContentView(R.layout.activity_new_expense);
 
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         expensePersist = new ExpensePersist(db);
         expenseBudgetPersist = new ExpenseBudgetPersist(db);
         expenseBudgetList = expenseBudgetPersist.readAllUnusedBalanceNotZero();
 
-        this.expense =  new Expense();
+        this.expense = new Expense();
         this.expense.setExpenseBudget(expenseBudgetList.get(0));
         this.expense.setSpentDate(System.currentTimeMillis());
 
@@ -106,15 +105,15 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseExpen
         buttonChooseExpenseBudget.setText(expense.getExpenseBudget().getName());
         editTextExpenseAmount = (EditText) findViewById(R.id.editTextExpenseAmount);
         editTextExpenseAmount.setText(null);
-        editTextExpenseAmount.setHint(getResources().getString(R.string.unused_balance) + expense.getExpenseBudget().getUnusedBalance().toString());
-
+        editTextExpenseAmount.setHint(getResources().getString(R.string.unused_balance) + " " + expense.getExpenseBudget().getUnusedBalance().toString());
+        editTextNote = (EditText) findViewById(R.id.editTextExpenseNote);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_expense, menu);
+        getMenuInflater().inflate(R.menu.menu_new_expense, menu);
         return true;
     }
 
@@ -125,17 +124,15 @@ public class AddExpenseActivity extends ActionBarActivity implements ChooseExpen
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        switch (id) {
-            case R.id.action_save:
-                expense.setAmount(new BigDecimal(editTextExpenseAmount.getText().toString()));
-                ExpenseBudget expenseBudget = expense.getExpenseBudget();
-                expenseBudget.setUnusedBalance(expenseBudget.getUnusedBalance().subtract(expense.getAmount()));
-                this.expenseBudgetPersist.update(expenseBudget);
-                this.expensePersist.insert(this.expense);
-                return true;
+        if (id == R.id.action_save) {
+            expense.setAmount(new BigDecimal(editTextExpenseAmount.getText().toString()));
+            expense.setNote(editTextNote.getText().toString());
+            ExpenseBudget expenseBudget = expense.getExpenseBudget();
+            expenseBudget.setUnusedBalance(expenseBudget.getUnusedBalance().subtract(expense.getAmount()));
+            this.expenseBudgetPersist.update(expenseBudget);
+            this.expensePersist.insert(this.expense);
         }
-
+        this.finish();
         return super.onOptionsItemSelected(item);
     }
 }

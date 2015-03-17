@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:minHeight="50dp"
     android:divider="@color/light_blue">
-
+    //Use in ChooseExpenseBudgetDialogFragment
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -31,6 +31,11 @@ public class Expense extends BaseData {
         this.amount = amount;
     }
 
+    public String getSpendDateShortLabel(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd ");
+        return simpleDateFormat.format(this.spentDate);
+    }
+
     public String getSpendDateLabel() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy ");
         return simpleDateFormat.format(this.spentDate);
