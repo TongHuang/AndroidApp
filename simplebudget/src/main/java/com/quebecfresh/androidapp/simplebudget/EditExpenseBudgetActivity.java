@@ -17,15 +17,13 @@ import android.widget.TextView;
 import com.quebecfresh.androidapp.simplebudget.model.Account;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
-import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 import com.quebecfresh.androidapp.simplebudget.persist.ExpenseBudgetPersist;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 
-public class EditExpenseBudgetActivity extends ActionBarActivity implements ChooseAccountDialogFragment.AccountClickListener {
+public class EditExpenseBudgetActivity extends ActionBarActivity implements ChooseAccountDialogFragment.AccountChooseListener {
 
     private EditText editTextName;
     private Button buttonAccount;
@@ -39,7 +37,7 @@ public class EditExpenseBudgetActivity extends ActionBarActivity implements Choo
     private Long rowID;
 
     @Override
-    public void click(Account account) {
+    public void choose(Account account) {
         this.expenseBudget.setAccount(account);
         this.buttonAccount.setText(account.getName() + " : " + account.getBalance().toString());
     }
@@ -47,7 +45,7 @@ public class EditExpenseBudgetActivity extends ActionBarActivity implements Choo
     public void chooseAccount(View view) {
         ChooseAccountDialogFragment chooseAccountDialogFragment = new ChooseAccountDialogFragment();
         chooseAccountDialogFragment.show(this.getSupportFragmentManager(), "Choose account");
-        chooseAccountDialogFragment.setAccountClickListener(this);
+        chooseAccountDialogFragment.setAccountChooseListener(this);
     }
 
     public void calFillAmount(View view){

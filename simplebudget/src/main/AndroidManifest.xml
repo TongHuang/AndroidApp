@@ -104,6 +104,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
         </activity>
+        <activity
+            android:name=".IncomeActivity"
+            android:label="@string/title_activity_income"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

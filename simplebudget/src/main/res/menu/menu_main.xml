@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/action_reInitialize" android:title="@string/reinitialize"
         android:orderInCategory="100" app:showAsAction="always" />
+    <item android:id="@+id/action_demo" android:title="Demo"
+        android:orderInCategory="100" app:showAsAction="always" />
     <item android:id="@+id/action_accounts" android:title="@string/accounts"
         android:orderInCategory="100" app:showAsAction="ifRoom" />
     <item android:id="@+id/action_reports" android:title="@string/reports"

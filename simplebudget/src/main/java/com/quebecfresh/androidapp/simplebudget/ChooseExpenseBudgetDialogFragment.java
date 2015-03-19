@@ -54,7 +54,7 @@ public class ChooseExpenseBudgetDialogFragment extends DialogFragment {
 //        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(databaseHelper.getReadableDatabase());
 //        budgetList.clear();
 //        budgetList.addAll(expenseBudgetPersist.readAllUnusedBalanceNotZero());
-        BudgetListViewAdapter adapter = new BudgetListViewAdapter(budgetList, this.getActivity());
+        ExpenseBudgetListViewAdapter adapter = new ExpenseBudgetListViewAdapter(budgetList, this.getActivity());
         listViewBudget.setAdapter(adapter);
         listViewBudget.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

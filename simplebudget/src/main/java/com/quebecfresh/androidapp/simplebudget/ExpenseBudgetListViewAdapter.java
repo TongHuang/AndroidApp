@@ -15,12 +15,12 @@ import java.util.List;
 /**
  * Created by Tong Huang on 2015-03-09, 10:47 AM.
  */
-public class BudgetListViewAdapter extends BaseAdapter implements ListAdapter {
+public class ExpenseBudgetListViewAdapter extends BaseAdapter implements ListAdapter {
 
     private List<ExpenseBudget> budgetList;
     private Context context;
 
-    public BudgetListViewAdapter(List<ExpenseBudget> budgetList, Context context) {
+    public ExpenseBudgetListViewAdapter(List<ExpenseBudget> budgetList, Context context) {
         this.budgetList = budgetList;
         this.context = context;
     }

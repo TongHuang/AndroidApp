@@ -1,12 +1,15 @@
 package com.quebecfresh.androidapp.simplebudget;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -25,12 +28,13 @@ import java.util.List;
 
 public class NewExpenseActivity extends ActionBarActivity {
 
-    private Button buttonDate;
+
     private DatabaseHelper databaseHelper = new DatabaseHelper(this);
     private Expense expense = new Expense();
     private ExpensePersist expensePersist;
     private ExpenseBudgetPersist expenseBudgetPersist;
     private List<ExpenseBudget> expenseBudgetList = new ArrayList<ExpenseBudget>();
+    private Button buttonDate;
     private Button buttonChooseExpenseBudget;
     private EditText editTextExpenseAmount;
     private EditText editTextNote;
@@ -135,4 +139,6 @@ public class NewExpenseActivity extends ActionBarActivity {
         this.finish();
         return super.onOptionsItemSelected(item);
     }
+
+
 }

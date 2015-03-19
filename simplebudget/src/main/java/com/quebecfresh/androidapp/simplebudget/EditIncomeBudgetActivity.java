@@ -14,13 +14,15 @@ import android.widget.Spinner;
 import com.quebecfresh.androidapp.simplebudget.model.Account;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.IncomeBudget;
+import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 import com.quebecfresh.androidapp.simplebudget.persist.IncomeBudgetPersist;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
-public class EditIncomeBudgetActivity extends ActionBarActivity implements ChooseAccountDialogFragment.AccountClickListener {
+public class EditIncomeBudgetActivity extends ActionBarActivity {
 
     private Long rowID;
     private EditText editTextName;
@@ -31,20 +33,23 @@ public class EditIncomeBudgetActivity extends ActionBarActivity implements Choos
     private EditText editTextNote;
     private CheckBox checkBoxRollover;
     private IncomeBudget incomeBudget;
-    IncomeBudgetPersist persist;
+    private List<Account> accountList;
+    private IncomeBudgetPersist incomeBudgetPersist;
+    private AccountPersist accountPersist;
 
-    public void chooseAccount(View view){
+    public void chooseIncomeAccount(View view) {
         ChooseAccountDialogFragment chooseAccountDialogFragment = new ChooseAccountDialogFragment();
+        chooseAccountDialogFragment.setAccountList(this.accountList);
+        chooseAccountDialogFragment.setAccountChooseListener(new ChooseAccountDialogFragment.AccountChooseListener() {
+            @Override
+            public void choose(Account account) {
+                incomeBudget.setAccount(account);
+                buttonAccount.setText(account.getName() + ":" + account.getBalance().toString());
+            }
+        });
+
         chooseAccountDialogFragment.show(this.getSupportFragmentManager(), "Choose account");
-        chooseAccountDialogFragment.setAccountClickListener(this);
     }
-
-    @Override
-    public void click(Account account) {
-        this.incomeBudget.setAccount(account);
-        this.buttonAccount.setText(account.getName() + " : " + account.getBalance().toString());
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +58,11 @@ public class EditIncomeBudgetActivity extends ActionBarActivity implements Choos
         Intent intent = getIntent();
         rowID = intent.getLongExtra(InitializeIncomeBudgetActivity.EXTRA_INCOME_CATEGORY_ID, 0);
         DatabaseHelper dbHelper = new DatabaseHelper(this);
-        persist = new IncomeBudgetPersist(dbHelper.getReadableDatabase());
+        accountPersist = new AccountPersist(dbHelper.getWritableDatabase());
+        accountList = accountPersist.readAll();
+        incomeBudgetPersist = new IncomeBudgetPersist(dbHelper.getWritableDatabase());
         if(rowID > 0) {
-            incomeBudget = persist.read(rowID);
+            incomeBudget = incomeBudgetPersist.read(rowID);
         }else{
             incomeBudget = new IncomeBudget();
         }
@@ -102,7 +109,7 @@ public class EditIncomeBudgetActivity extends ActionBarActivity implements Choos
                 incomeBudget.setCycle((Cycle) spinnerCycle.getSelectedItem());
                 incomeBudget.setBudgetAmount(new BigDecimal(editTextAmount.getText().toString()));
                 incomeBudget.setNote(editTextNote.getText().toString());
-                persist.save(incomeBudget);
+                incomeBudgetPersist.save(incomeBudget);
                 break;
         }
         this.finish();

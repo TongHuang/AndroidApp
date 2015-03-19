@@ -20,6 +20,11 @@ public enum Cycle {
     Every_6_Months,
     Yearly;
 
+    private  static Cycle[] shortValues = {Cycle.Weekly,Cycle.Monthly, Cycle.Yearly};
+
+    public static Cycle[] valuesShort(){
+        return shortValues;
+    }
 
     public Double toDailyRatio() {
         Double ratio = 1D;
@@ -118,5 +123,7 @@ public enum Cycle {
         }
 
     }
+
+
 
 }

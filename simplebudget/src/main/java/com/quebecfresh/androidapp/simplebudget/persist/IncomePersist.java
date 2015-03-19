@@ -90,7 +90,7 @@ public class IncomePersist {
     }
 
 
-    public List<Income> readAllNotConfirmed(){
+    public List<Income> readAllUnconfirmedConfirmed(){
         String sql = "select * from " + _TABLE + " where " + _CONFIRMED + " = 0";
         List<Income> incomeList = new ArrayList<Income>();
         Cursor cursor = db.rawQuery(sql, null);
