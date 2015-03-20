@@ -6,16 +6,13 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.MonthDisplayHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
@@ -29,6 +26,7 @@ import com.quebecfresh.androidapp.simplebudget.persist.IncomeBudgetPersist;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -36,49 +34,83 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
 
 
-    private Calendar calendar = Calendar.getInstance();
+    private Calendar calendar = new GregorianCalendar();
     private Spinner spinnerCycle;
-    private TextView textViewCurrentCycle;
+    private TextView textViewSelectedCycle;
+
+    /**
+     * Calculate the string for textViewSelectedCycle
+     *
+     * @param cycle
+     * @param calendar
+     * @param value    the value will be roll by calendar, it can be zero, zero means don't roll.
+     * @return
+     */
+    private String calcCycleString(Cycle cycle, Calendar calendar, int value) {
+        SimpleDateFormat simpleDateFormat;
+        switch (cycle) {
+            case Weekly:
+                calendar.add(Calendar.WEEK_OF_YEAR, value);
+                this.calcIncomes(Cycle.Weekly, calendar);
+                simpleDateFormat = new SimpleDateFormat("yyyy-w");
+                return simpleDateFormat.format(calendar.getTime());
+            case Monthly:
+                calendar.add(Calendar.MONTH, value);
+                simpleDateFormat = new SimpleDateFormat("yyyy-MMM");
+                return simpleDateFormat.format(calendar.getTime());
+            case Yearly:
+                calendar.add(Calendar.YEAR, value);
+                simpleDateFormat = new SimpleDateFormat("yyyy");
+                return simpleDateFormat.format(calendar.getTime());
+        }
+        return null;
+    }
+
+    private BigDecimal calcIncomes(Cycle cycle, Calendar calendar) {
+        long start;
+        long end;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        switch (cycle) {
+            case Weekly:
+                calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMinimum(Calendar.DAY_OF_WEEK));
+                start = calendar.getTimeInMillis();
+                System.out.println(sdf.format(new Date(start)));
+                calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMaximum(Calendar.DAY_OF_WEEK));
+                end = calendar.getTimeInMillis();
+                System.out.println(sdf.format(new Date(end)));
+                break;
+            case Monthly:
+                calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+                start = calendar.getTimeInMillis();
+                System.out.println(sdf.format(new Date(start)));
+                calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                end = calendar.getTimeInMillis();
+                System.out.println(sdf.format(new Date(end)));
+                break;
+            case Yearly:
+                calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMinimum(Calendar.DAY_OF_YEAR));
+                start = calendar.getTimeInMillis();
+                System.out.println(sdf.format(new Date(start)));
+                calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
+                end = calendar.getTimeInMillis();
+                System.out.println(sdf.format(new Date(end)));
+                break;
+        }
+
+        return null;
+    }
 
 
     public void moveToPreviousCycle(View view) {
         Cycle cycle = (Cycle) spinnerCycle.getSelectedItem();
-        SimpleDateFormat simpleDateFormat;
-        switch (cycle) {
-            case Weekly:
-                calendar.roll(Calendar.WEEK_OF_YEAR, false);
-                 simpleDateFormat = new SimpleDateFormat("yyyy-w");
-                textViewCurrentCycle.setText(simpleDateFormat.format(calendar.getTime()));
-                break;
-            case Monthly:
-                calendar.roll(Calendar.MONTH, false);
-                simpleDateFormat = new SimpleDateFormat("yyyy-MMM");
-                textViewCurrentCycle.setText(simpleDateFormat.format(calendar.getTime()));
-                break;
-            case Yearly:
-                calendar.roll(Calendar.YEAR, false);
-                simpleDateFormat = new SimpleDateFormat("yyyy");
-                textViewCurrentCycle.setText(simpleDateFormat.format(calendar.getTime()));
-                break;
-        }
+        textViewSelectedCycle.setText(this.calcCycleString(cycle, calendar, -1));
     }
 
     public void moveToNextCycle(View view) {
         Cycle cycle = (Cycle) spinnerCycle.getSelectedItem();
-        switch (cycle) {
-            case Weekly:
-                calendar.roll(Calendar.WEEK_OF_YEAR, true);
-                textViewCurrentCycle.setText(calendar.get(Calendar.YEAR) + "." + calendar.get(Calendar.WEEK_OF_YEAR));
-                break;
-            case Monthly:
-                calendar.roll(Calendar.MONTH, true);
-                textViewCurrentCycle.setText(calendar.get(Calendar.YEAR) + "." + calendar.get(Calendar.MONTH));
-                break;
-            case Yearly:
-                calendar.roll(Calendar.YEAR, true);
-                textViewCurrentCycle.setText(calendar.get(Calendar.YEAR));
-                break;
-        }
+        textViewSelectedCycle.setText(this.calcCycleString(cycle, calendar, 1));
     }
 
     public void showIncomeList(View view) {
@@ -140,18 +172,8 @@ public class MainActivity extends ActionBarActivity {
         spinnerCycle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Cycle cycle = (Cycle)parent.getSelectedItem();
-                switch (cycle) {
-                    case Weekly:
-                        textViewCurrentCycle.setText(calendar.get(Calendar.WEEK_OF_YEAR) + "/" + calendar.get(Calendar.YEAR));
-                        break;
-                    case Monthly:
-                        textViewCurrentCycle.setText(calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.YEAR));
-                        break;
-                    case Yearly:
-                        textViewCurrentCycle.setText(calendar.get(Calendar.YEAR));
-                        break;
-                }
+                Cycle cycle = (Cycle) parent.getSelectedItem();
+                textViewSelectedCycle.setText(calcCycleString(cycle, calendar, 0));
             }
 
             @Override
@@ -160,7 +182,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        textViewCurrentCycle = (TextView) findViewById(R.id.textViewCurrentCycle);
+        textViewSelectedCycle = (TextView) findViewById(R.id.textViewCurrentCycle);
     }
 
     @Override
