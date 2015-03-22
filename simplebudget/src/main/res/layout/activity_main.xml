@@ -81,39 +81,20 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:id="@+id/spinnerCycle"
-                        android:layout_weight="10" />
+                        android:layout_weight="10"
+                        android:layout_gravity="left|center_vertical"
+                        android:gravity="left|center_vertical" />
 
-                    <FrameLayout
+                    <Button
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="25">
+                        android:layout_height="wrap_content"
+                        android:text="Date"
+                        android:id="@+id/buttonChooseDate"
+                        android:layout_gravity="center_vertical|right"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:layout_weight="10"
+                        android:onClick="chooseOverViewDate" />
 
-                        <Button
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:text=">"
-                            android:id="@+id/buttonNext"
-                            android:layout_gravity="right|center_vertical"
-                            android:onClick="moveToNextCycle" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2015.03"
-                            android:id="@+id/textViewCurrentCycle"
-                            android:layout_gravity="center"
-                            android:textSize="20dp"
-                            android:textStyle="bold" />
-
-                        <Button
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content"
-                            android:text="&lt;"
-                            android:id="@+id/buttonPrevious"
-                            android:layout_gravity="left|center_vertical"
-                            android:onClick="moveToPreviousCycle" />
-
-                    </FrameLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -129,7 +110,8 @@
                         android:id="@+id/buttonAccountBalance"
                         android:layout_gravity="left|center_vertical"
                         android:layout_weight="10"
-                        android:onClick="editAccounts" />
+                        android:nestedScrollingEnabled="true"
+                        android:onClick="showBalance" />
 
                     <LinearLayout
                         android:orientation="vertical"

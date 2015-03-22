@@ -1,56 +1,57 @@
 package com.quebecfresh.androidapp.simplebudget.model;
 
-import java.math.BigDecimal;
-import java.util.List;
+import java.util.Calendar;
 
 /**
- * Created by Tong Huang on 2015-02-27, 2:37 PM.
+ * Created by Tong Huang on 2015-03-21, 5:41 PM.
  */
-public class Utils {
+public  final  class Utils {
 
-    public static BigDecimal calcTotalAmount(List<IncomeBudget> incomes, Cycle cycle){
-        BigDecimal amount = new BigDecimal("0");
-        return amount;
+    public static long getStartOfDay(Calendar calendar){
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        long start =  calendar.getTimeInMillis();
+        return  start;
     }
 
-//    public static BigDecimal unifyAmount(BigDecimal amount, Cycle from, Cycle to){
-//        switch (from) {
-//            case Daily:
-//                return  context.getString(R.string.Cycle_Daily);
-//            case Weekly:
-//                return context.getString(R.string.Cycle_Weekly);
-//            case Every_2_Weeks:
-//                return context.getString(R.string.Cycle_Every_2_Weeks);
-//            case Every_3_Weeks:
-//                return context.getString(R.string.Cycle_Every_3_Weeks);
-//            case Every_4_Weeks:
-//                return context.getString(R.string.Cycle_Every_4_Weeks);
-//            case Monthly:
-//                return context.getString(R.string.Cycle_Monthly);
-//            case Every_2_Months:
-//                return context.getString(R.string.Cycle_Every_2_Months);
-//            case Every_3_Months:
-//                return context.getString(R.string.Cycle_Every_3_Months);
-//            case Every_4_Months:
-//                return context.getString(R.string.Cycle_Every_4_Months);
-//            case Every_5_Months:
-//                return context.getString(R.string.Cycle_Every_5_Months);
-//            case Every_6_Months:
-//                return context.getString(R.string.Cycle_Every_6_Months);
-//            case Every_7_Months:
-//                return context.getString(R.string.Cycle_Every_7_Months);
-//            case Every_8_Months:
-//                return context.getString(R.string.Cycle_Every_8_Months);
-//            case Every_9_Months:
-//                return context.getString(R.string.Cycle_Every_9_Months);
-//            case Every_10_Months:
-//                return context.getString(R.string.Cycle_Every_10_Months);
-//            case Every_11_Months:
-//                return context.getString(R.string.Cycle_Every_11_Months);
-//            default:
-//                return context.getString(R.string.Cycle_Yearly);
-//        }
-//    }
+    public static  long getEndOfDay(Calendar calendar){
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        long end = calendar.getTimeInMillis();
+        return  end;
+    }
 
+    public static long getStartOfWeek(Calendar calendar){
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMinimum(Calendar.DAY_OF_WEEK));
+        return  getStartOfDay(calendar);
+    }
 
+    public static long getEndOfWeek(Calendar calendar){
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMaximum(Calendar.DAY_OF_WEEK));
+        return getEndOfDay(calendar);
+    }
+
+    public static long getStartOfMonth(Calendar calendar){
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        return getStartOfDay(calendar);
+    }
+
+    public static long getEndOfMonth(Calendar calendar){
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        return  getEndOfDay(calendar);
+    }
+
+    public static long getStartOfYear(Calendar calendar){
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMinimum(Calendar.DAY_OF_YEAR));
+        return getStartOfDay(calendar);
+    }
+
+    public static long getEndOfYear(Calendar calendar){
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
+        return getEndOfDay(calendar);
+    }
 }

@@ -75,6 +75,40 @@ public class ExpensePersist {
         return expenseList;
     }
 
+    public List<Expense> readAll(long begin, long end) {
+        String sql = " select * from " + _TABLE + " where " + _SPENT_DATE + " >= " + begin
+        + " and " + _SPENT_DATE + " <= " + end + " order by " + _SPENT_DATE + " desc";
+        List<Expense> expenseList = new ArrayList<Expense>();
+        Cursor cursor = this.db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Long expenseBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
+            Expense expense = new Expense();
+            expense.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
+            expense.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
+            expense.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
+            expense.setExpenseBudget(expenseBudgetPersist.read(expenseBudgetID));
+            expense.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
+            expense.setSpentDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
+            expenseList.add(expense);
+            cursor.moveToNext();
+        }
+        return expenseList;
+    }
+
+    public BigDecimal readTotalAmount(long begin, long end){
+        String sql = " select sum(" + _AMOUNT + ") as total from " + _TABLE + " where " + _SPENT_DATE + " >= " + begin
+                + " and " + _SPENT_DATE + " <= " + end ;
+        List<Expense> expenseList = new ArrayList<Expense>();
+        Cursor cursor = this.db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        String totalStr = cursor.getString(cursor.getColumnIndexOrThrow("total"));
+        if(totalStr != null){
+            return new BigDecimal(totalStr);
+        }
+        return new BigDecimal("0");
+    }
+
     public Expense update(Expense expense) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, expense.getName());

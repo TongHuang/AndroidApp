@@ -65,7 +65,7 @@ public class IncomePersist {
     }
 
     public List<Income> readAll(){
-        String sql = "select * from " + _TABLE;
+        String sql = "select * from " + _TABLE + " order by " + _RECEIVED_DATE + " desc";
         List<Income> incomeList = new ArrayList<Income>();
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
@@ -91,7 +91,7 @@ public class IncomePersist {
 
     public List<Income> readAll(long startDate, long endDate){
         String sql = "select * from " + _TABLE + " where " + _RECEIVED_DATE + " >= " + startDate
-                + " and " + _RECEIVED_DATE + " <= " + endDate  ;
+                + " and "+ _RECEIVED_DATE + " <= " + endDate + " order by " + _RECEIVED_DATE + " desc";
         List<Income> incomeList = new ArrayList<Income>();
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
@@ -115,9 +115,23 @@ public class IncomePersist {
         return incomeList;
     }
 
+    public BigDecimal readTotal(long begin, long end){
+        String sql = "select sum(" + _AMOUNT + ") as total from " + _TABLE + " where " + _RECEIVED_DATE + " >= " + begin
+                + " and "+ _RECEIVED_DATE + " <= " + end ;
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        String totalStr = cursor.getString(cursor.getColumnIndexOrThrow("total"));
+
+        if(totalStr != null){
+            return new BigDecimal(totalStr);
+        }
+        return new BigDecimal("0");
+    }
+
 
     public List<Income> readAllUnconfirmedConfirmed(){
-        String sql = "select * from " + _TABLE + " where " + _CONFIRMED + " = 0";
+        String sql = "select * from " + _TABLE + " where " + _CONFIRMED + " = 0"
+                + " order by " + _RECEIVED_DATE + " desc";
         List<Income> incomeList = new ArrayList<Income>();
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();

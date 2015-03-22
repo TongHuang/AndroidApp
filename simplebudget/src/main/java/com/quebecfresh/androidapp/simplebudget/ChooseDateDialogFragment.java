@@ -13,7 +13,13 @@ import java.util.Calendar;
  */
 public class ChooseDateDialogFragment extends DialogFragment {
 
+    private Calendar calendar;
+
     private DatePickerDialog.OnDateSetListener dateSetListener;
+
+    public ChooseDateDialogFragment(Calendar calendar) {
+        this.calendar = calendar;
+    }
 
     public DatePickerDialog.OnDateSetListener getDateSetListener() {
         return dateSetListener;
@@ -26,10 +32,9 @@ public class ChooseDateDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
         return new DatePickerDialog(getActivity(),this.dateSetListener, year,month,day);
 
     }

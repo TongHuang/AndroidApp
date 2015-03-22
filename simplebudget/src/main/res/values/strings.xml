@@ -94,6 +94,11 @@
     <string name="roll_over">Rollover</string>
     <string name="what_is_this">What\'s this</string>
     <string name="ok">OK</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+
+
 
     <string name="what_is_roll_over_title">If you choose "Rollover"</string>
     <string name="what_is_roll_over">You have a 50$ Weekly budget.\nFirst week will start with 50$. \nYou spend 30$, 20$ left.\nNext week will start with 20$ + 50$ = 70$.\nIt rollover minus(-20$) too</string>
@@ -109,6 +114,7 @@
     <string name="income_budget">Income Budget</string>
     <string name="expense_budget">Expense Budget</string>
     <string name="over_view">Overview</string>
+    <string name="title_activity_balance">Balance</string>
 
 
 </resources>

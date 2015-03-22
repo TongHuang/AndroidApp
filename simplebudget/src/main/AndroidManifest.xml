@@ -112,6 +112,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
         </activity>
+        <activity
+            android:name=".BalanceActivity"
+            android:label="@string/title_activity_balance"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

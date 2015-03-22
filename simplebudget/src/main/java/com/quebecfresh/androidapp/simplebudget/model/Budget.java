@@ -1,6 +1,7 @@
 package com.quebecfresh.androidapp.simplebudget.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -211,6 +212,7 @@ public class Budget extends BaseData {
     public BigDecimal convertBudgetAmountTo(Cycle cycle) {
         BigDecimal convertedAmount = this.budgetAmount;
         convertedAmount = convertedAmount.multiply(new BigDecimal(this.cycle.ratio(cycle)));
+        convertedAmount = convertedAmount.setScale(2, RoundingMode.HALF_UP);
         return convertedAmount;
     }
 

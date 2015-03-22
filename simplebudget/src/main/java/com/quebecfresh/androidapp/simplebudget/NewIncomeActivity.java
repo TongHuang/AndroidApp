@@ -72,7 +72,7 @@ public class NewIncomeActivity extends ActionBarActivity {
 
 
     public void chooseIncomeDate(View view) {
-        ChooseDateDialogFragment chooseDateDialogFragment = new ChooseDateDialogFragment();
+        ChooseDateDialogFragment chooseDateDialogFragment = new ChooseDateDialogFragment(Calendar.getInstance());
         chooseDateDialogFragment.setDateSetListener(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {

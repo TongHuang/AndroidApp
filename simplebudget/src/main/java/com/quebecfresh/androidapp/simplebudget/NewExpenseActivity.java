@@ -40,7 +40,7 @@ public class NewExpenseActivity extends ActionBarActivity {
     private EditText editTextNote;
 
     public void chooseDate(View view) {
-        ChooseDateDialogFragment datePickerFragment = new ChooseDateDialogFragment();
+        ChooseDateDialogFragment datePickerFragment = new ChooseDateDialogFragment(Calendar.getInstance());
         datePickerFragment.setDateSetListener(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
