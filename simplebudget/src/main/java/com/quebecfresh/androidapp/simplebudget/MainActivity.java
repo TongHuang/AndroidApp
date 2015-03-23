@@ -19,9 +19,7 @@ import android.widget.TextView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
-import com.quebecfresh.androidapp.simplebudget.model.Expense;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
-import com.quebecfresh.androidapp.simplebudget.model.Income;
 import com.quebecfresh.androidapp.simplebudget.model.IncomeBudget;
 import com.quebecfresh.androidapp.simplebudget.model.Utils;
 import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
@@ -34,14 +32,16 @@ import com.quebecfresh.androidapp.simplebudget.persist.IncomePersist;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
 
 
-    private Calendar calendar = Calendar.getInstance();
+    public static final String EXTRA_SELECTED_CYCLE = "com.quebecfresh.androidapp.123budget.mainactivity.cycle";
+    public static final String EXTRA_SELECTED_DATE = "com.quebecfresh.androidapp.123budget.mainactivity.date";
+
+    private Calendar selectedDate = Calendar.getInstance();
     private Cycle selectedCycle = Cycle.Monthly;
     private Spinner spinnerCycle;
     private Button buttonChooseDate;
@@ -53,64 +53,14 @@ public class MainActivity extends ActionBarActivity {
     private BigDecimal expenseTotal;
     private BigDecimal expenseBudgetTotal;
 
-//
-//    /**
-//     * Calculate the string for textViewSelectedCycle
-//     *
-//     * @param cycle
-//     * @param calendar
-//     * @param value    the value will be added to calendar, it can be zero, zero means don't roll.
-//     * @return
-//     */
-//    private String calcCycleString(Cycle cycle, Calendar calendar, int value) {
-//        SimpleDateFormat simpleDateFormat;
-//        switch (cycle) {
-//            case Weekly:
-//                calendar.add(Calendar.WEEK_OF_YEAR, value);
-//                this.calcTotalIncomesAndExpenses(Cycle.Weekly, calendar);
-//                simpleDateFormat = new SimpleDateFormat("yyyy-w");
-//                return simpleDateFormat.format(calendar.getTime());
-//            case Monthly:
-//                calendar.add(Calendar.MONTH, value);
-//                simpleDateFormat = new SimpleDateFormat("yyyy-MMM");
-//                return simpleDateFormat.format(calendar.getTime());
-//            case Yearly:
-//                calendar.add(Calendar.YEAR, value);
-//                simpleDateFormat = new SimpleDateFormat("yyyy");
-//                return simpleDateFormat.format(calendar.getTime());
-//        }
-//        return null;
-//    }
-
     private void calcTotalIncomesAndExpenses() {
-        long begin = 0;
-        long end = 0;
-        long current = this.calendar.getTimeInMillis();
-
-        switch (selectedCycle) {
-            case Weekly:
-                begin = Utils.getStartOfWeek(calendar);
-                end = Utils.getEndOfWeek(calendar);
-                calendar.setTimeInMillis(current); //Restore time;
-                break;
-            case Monthly:
-                begin = Utils.getStartOfMonth(calendar);
-                end = Utils.getEndOfMonth(calendar);
-                calendar.setTimeInMillis(current); //Restore time;
-                break;
-            case Yearly:
-                begin = Utils.getStartOfYear(calendar);
-                end = Utils.getEndOfYear(calendar);
-                calendar.setTimeInMillis(current); //Restore time;
-                break;
-        }
-
+        long begin = Utils.getBeginOfCycle(this.selectedCycle, this.selectedDate);
+        long end = Utils.getEndOfCycle(this.selectedCycle, this.selectedDate);
         IncomePersist incomePersist = new IncomePersist(this.readableDB);
         incomeTotal =incomePersist.readTotal(begin, end);
 
         ExpensePersist expensePersist = new ExpensePersist(this.readableDB);
         expenseTotal = expensePersist.readTotalAmount(begin, end);
-
 
     }
 
@@ -119,15 +69,15 @@ public class MainActivity extends ActionBarActivity {
         switch (selectedCycle) {
             case Weekly:
                 simpleDateFormat = new SimpleDateFormat("yyyy-w");
-                buttonChooseDate.setText(simpleDateFormat.format(calendar.getTime()));
+                buttonChooseDate.setText(simpleDateFormat.format(selectedDate.getTime()));
                 break;
             case Monthly:
                 simpleDateFormat = new SimpleDateFormat("yyyy-MMM");
-                buttonChooseDate.setText(simpleDateFormat.format(calendar.getTime()));
+                buttonChooseDate.setText(simpleDateFormat.format(selectedDate.getTime()));
                 break;
             case Yearly:
                 simpleDateFormat = new SimpleDateFormat("yyyy");
-                buttonChooseDate.setText(simpleDateFormat.format(calendar.getTime()));
+                buttonChooseDate.setText(simpleDateFormat.format(selectedDate.getTime()));
                 break;
         }
 
@@ -191,13 +141,14 @@ public class MainActivity extends ActionBarActivity {
 
 
     public void chooseOverViewDate(View view) {
-        ChooseDateDialogFragment chooseDateDialogFragment = new ChooseDateDialogFragment(calendar);
+        ChooseDateDialogFragment chooseDateDialogFragment = new ChooseDateDialogFragment();
+        chooseDateDialogFragment.setCalendar(this.selectedDate);
         chooseDateDialogFragment.setDateSetListener(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, monthOfYear);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                selectedDate.set(Calendar.YEAR, year);
+                selectedDate.set(Calendar.MONTH, monthOfYear);
+                selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateOverView();
             }
         });
@@ -207,6 +158,8 @@ public class MainActivity extends ActionBarActivity {
 
     public void showIncomeList(View view) {
         Intent intent = new Intent(this, IncomeActivity.class);
+        intent.putExtra(EXTRA_SELECTED_CYCLE, this.selectedCycle.toString());
+        intent.putExtra(EXTRA_SELECTED_DATE, this.selectedDate.getTimeInMillis());
         startActivity(intent);
     }
 
@@ -275,14 +228,11 @@ public class MainActivity extends ActionBarActivity {
 
             }
         });
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        calendar = Calendar.getInstance();  //Get current time.
-
         SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
         Boolean initializeDone = preferences.getBoolean(getString(R.string.initialize_done), false);
         if (initializeDone == false) {
@@ -290,11 +240,12 @@ public class MainActivity extends ActionBarActivity {
             startActivity(intent);
             this.finish();
         } else {
-
             this.updateOverView();
-
         }
+
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

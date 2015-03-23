@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.Income;
+import com.quebecfresh.androidapp.simplebudget.model.Utils;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 import com.quebecfresh.androidapp.simplebudget.persist.IncomePersist;
 
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -21,16 +25,35 @@ public class IncomeActivity extends ActionBarActivity {
     private IncomePersist incomePersist;
 
 
+    private Calendar selectedDate = Calendar.getInstance();
+    private Cycle selectedCycle = Cycle.Monthly;
+
+
+    private  void updateView(){
+        long begin = Utils.getBeginOfCycle(this.selectedCycle, this.selectedDate);
+        long end = Utils.getEndOfCycle(this.selectedCycle, this.selectedDate);
+        incomeList = incomePersist.readAll(begin, end);
+        IncomeListViewAdapter incomeListViewAdapter = new IncomeListViewAdapter(incomeList, this);
+        TextView header  = new TextView(this);
+        header.setText("Balance");
+        TextView footer  = new TextView(this);
+        footer.setText("1356.26");
+        listViewIncomes.addHeaderView(header);
+        listViewIncomes.addFooterView(footer);
+        listViewIncomes.setAdapter(incomeListViewAdapter);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_income);
 
+        this.selectedCycle = Cycle.valueOf(getIntent().getStringExtra(MainActivity.EXTRA_SELECTED_CYCLE));
+        this.selectedDate.setTimeInMillis(getIntent().getLongExtra(MainActivity.EXTRA_SELECTED_DATE, System.currentTimeMillis()));
+
         incomePersist = new IncomePersist(databaseHelper.getReadableDatabase());
-        incomeList = incomePersist.readAll();
         listViewIncomes = (ListView)findViewById(R.id.listViewIncome);
-        IncomeListViewAdapter incomeListViewAdapter = new IncomeListViewAdapter(incomeList, this);
-        listViewIncomes.setAdapter(incomeListViewAdapter);
+        this.updateView();
     }
 
 

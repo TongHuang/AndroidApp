@@ -17,7 +17,7 @@ public class ChooseDateDialogFragment extends DialogFragment {
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
-    public ChooseDateDialogFragment(Calendar calendar) {
+    public void  setCalendar(Calendar calendar) {
         this.calendar = calendar;
     }
 
@@ -35,7 +35,10 @@ public class ChooseDateDialogFragment extends DialogFragment {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        return new DatePickerDialog(getActivity(),this.dateSetListener, year,month,day);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),this.dateSetListener, year,month,day);
+
+        return datePickerDialog;
 
     }
 

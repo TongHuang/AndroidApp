@@ -7,50 +7,91 @@ import java.util.Calendar;
  */
 public  final  class Utils {
 
-    public static long getStartOfDay(Calendar calendar){
+
+    public static long getBeginOfCycle(Cycle cycle, Calendar calendar){
+        long begin = 0;
+        long originalTime = calendar.getTimeInMillis();
+        switch (cycle) {
+            case Weekly:
+                begin = Utils.getBeginOfWeek(calendar);
+                break;
+            case Monthly:
+                begin = Utils.getBeginOfMonth(calendar);
+                break;
+            case Yearly:
+                begin = Utils.getBeginOfYear(calendar);
+                break;
+        }
+        calendar.setTimeInMillis(originalTime); //Restore time
+        return  begin;
+    }
+
+    public static long getEndOfCycle(Cycle cycle, Calendar calendar){
+        long end = 0;
+        long originalTime = calendar.getTimeInMillis();
+        switch (cycle) {
+            case Weekly:
+                end = Utils.getEndOfWeek(calendar);
+                break;
+            case Monthly:
+                end = Utils.getEndOfMonth(calendar);
+                break;
+            case Yearly:
+                end = Utils.getEndOfYear(calendar);
+                break;
+        }
+        calendar.setTimeInMillis(originalTime); //Restore time
+        return  end;
+    }
+
+    private static long getBeginOfDay(Calendar calendar){
+        long originalTime = calendar.getTimeInMillis(); //Save time  for restoring
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         long start =  calendar.getTimeInMillis();
+        calendar.setTimeInMillis(originalTime); //Restore time
         return  start;
     }
 
-    public static  long getEndOfDay(Calendar calendar){
+    private static  long getEndOfDay(Calendar calendar){
+        long originalTime = calendar.getTimeInMillis(); //Save time  for restoring
         calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 59);
         calendar.set(Calendar.MILLISECOND, 999);
         long end = calendar.getTimeInMillis();
+        calendar.setTimeInMillis(originalTime); //Restore time
         return  end;
     }
 
-    public static long getStartOfWeek(Calendar calendar){
+    private static long getBeginOfWeek(Calendar calendar){
         calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMinimum(Calendar.DAY_OF_WEEK));
-        return  getStartOfDay(calendar);
+        return  getBeginOfDay(calendar);
     }
 
-    public static long getEndOfWeek(Calendar calendar){
+    private static long getEndOfWeek(Calendar calendar){
         calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMaximum(Calendar.DAY_OF_WEEK));
         return getEndOfDay(calendar);
     }
 
-    public static long getStartOfMonth(Calendar calendar){
+    private static long getBeginOfMonth(Calendar calendar){
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
-        return getStartOfDay(calendar);
+        return getBeginOfDay(calendar);
     }
 
-    public static long getEndOfMonth(Calendar calendar){
+    private static long getEndOfMonth(Calendar calendar){
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         return  getEndOfDay(calendar);
     }
 
-    public static long getStartOfYear(Calendar calendar){
+    private static long getBeginOfYear(Calendar calendar){
         calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMinimum(Calendar.DAY_OF_YEAR));
-        return getStartOfDay(calendar);
+        return getBeginOfDay(calendar);
     }
 
-    public static long getEndOfYear(Calendar calendar){
+    private static long getEndOfYear(Calendar calendar){
         calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
         return getEndOfDay(calendar);
     }
