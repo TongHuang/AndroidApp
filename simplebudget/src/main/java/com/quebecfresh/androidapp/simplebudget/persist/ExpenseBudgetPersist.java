@@ -9,6 +9,7 @@ import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,6 +146,19 @@ public class ExpenseBudgetPersist {
         return budgetList;
     }
 
+    public BigDecimal readTotalUnusedBalance(){
+        String sql = "select sum(" + _UNUSED_BALANCE + ") as total from " + _TABLE;
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        BigDecimal total;
+        String totalStr = cursor.getString(cursor.getColumnIndexOrThrow("total"));
+        if(totalStr != null){
+            total =  new BigDecimal(totalStr);
+        }else {
+            total = new BigDecimal("0");
+        }
+        return total.setScale(2, RoundingMode.HALF_UP);
+    }
 
 
     public ExpenseBudget update(ExpenseBudget expenseBudget){

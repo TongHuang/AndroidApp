@@ -115,6 +115,9 @@
     <string name="expense_budget">Expense Budget</string>
     <string name="over_view">Overview</string>
     <string name="title_activity_balance">Balance</string>
+    <string name="total">Total</string>
+    <string name="title_activity_account">Accounts</string>
+    <string name="title_activity_expense_budget">ExpenseBudget</string>
 
 
 </resources>

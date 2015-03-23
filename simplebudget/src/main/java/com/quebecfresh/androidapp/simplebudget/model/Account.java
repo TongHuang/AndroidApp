@@ -63,22 +63,22 @@ public class Account extends BaseData {
 
 
 
-//    public static  String CREATE="CREATE TABLE " + Contract._TABLENAME + " ( " + Contract._ID + TYPE_ID
+//    public static  String CREATE="CREATE TABLE " + Contract._TABLE + " ( " + Contract._ID + TYPE_ID
 //            + COMMA + Contract._NAME + TYPE_TEXT + COMMA + Contract._NUMBER + TYPE_TEXT
 //            + COMMA + Contract._UNUSED_BALANCE + TYPE_TEXT + COMMA + Contract._NOTE + TYPE_TEXT + " ) ";
-//    public static final String DROP="DROP TABLE IF EXISTS " + Contract._TABLENAME;
+//    public static final String DROP="DROP TABLE IF EXISTS " + Contract._TABLE;
 
     public static  abstract class Contract implements BaseColumns {
-        public static final String _TABLENAME ="accounts";
+        public static final String _TABLE ="accounts";
         public static final String _NAME="name";
         public static final String _NUMBER = "number";
         public static final String _BALANCE="balance";
         public static final String _NOTE="note";
 
-        public static  String CREATE="CREATE TABLE " + _TABLENAME + " ( " + _ID + TYPE_ID
+        public static  String CREATE="CREATE TABLE " + _TABLE + " ( " + _ID + TYPE_ID
                 + COMMA + _NAME + TYPE_TEXT + COMMA + _NUMBER + TYPE_TEXT
                 + COMMA + _BALANCE + TYPE_TEXT + COMMA + _NOTE + TYPE_TEXT + " ) ";
-        public static final String DROP="DROP TABLE IF EXISTS " + _TABLENAME;
+        public static final String DROP="DROP TABLE IF EXISTS " + _TABLE;
 
     }
 }

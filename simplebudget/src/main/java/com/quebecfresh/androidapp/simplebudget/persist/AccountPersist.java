@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.quebecfresh.androidapp.simplebudget.model.Account;
 import static com.quebecfresh.androidapp.simplebudget.model.Account.Contract.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,13 +29,13 @@ public class AccountPersist {
         contentValues.put(_BALANCE, account.getBalance().toString());
         contentValues.put(_NOTE, account.getNote());
         long newRowId;
-        newRowId = db.insert(_TABLENAME, null, contentValues);
+        newRowId = db.insert(_TABLE, null, contentValues);
         account.setId(newRowId);
         return account;
     }
 
     public Account read(Long rowId) {
-        String sql = "Select * from " + _TABLENAME + " where "
+        String sql = "Select * from " + _TABLE + " where "
                 + _ID + " = " + rowId;
 
         Cursor cursor = db.rawQuery(sql, null);
@@ -49,7 +50,7 @@ public class AccountPersist {
     }
 
     public List<Account> readAll() {
-        String sql = "Select * from " + _TABLENAME;
+        String sql = "Select * from " + _TABLE;
 
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
@@ -69,7 +70,7 @@ public class AccountPersist {
 
 
     public List<Account> readAllBalanceNotZero(){
-        String sql = "Select * from " + _TABLENAME + " where " + _BALANCE + " != 0";
+        String sql = "Select * from " + _TABLE + " where " + _BALANCE + " != 0";
 
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
@@ -87,18 +88,33 @@ public class AccountPersist {
         return accounts;
     }
 
+
+    public BigDecimal readTotalBalance(){
+        String sql = "select sum(" + _BALANCE + ") as total from " + _TABLE;
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        BigDecimal total;
+        String totalStr = cursor.getString(cursor.getColumnIndexOrThrow("total"));
+        if(totalStr != null){
+            total =  new BigDecimal(totalStr);
+        }else {
+            total = new BigDecimal("0");
+        }
+        return total.setScale(2, RoundingMode.HALF_UP);
+    }
+
     public Account update(Account account) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, account.getName());
         contentValues.put(_NUMBER, account.getAccountNumber());
         contentValues.put(_BALANCE, account.getBalance().toString());
         contentValues.put(_NOTE, account.getNote());
-        db.update(_TABLENAME, contentValues, _ID + " = " + account.getId(), null);
+        db.update(_TABLE, contentValues, _ID + " = " + account.getId(), null);
         return account;
     }
 
     public Boolean delete(Long rowID) {
-        this.db.delete(_TABLENAME, _ID + " = " + rowID, null);
+        this.db.delete(_TABLE, _ID + " = " + rowID, null);
         return true;
     }
 

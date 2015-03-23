@@ -81,12 +81,8 @@ public class MainActivity extends ActionBarActivity {
                 break;
         }
 
-        AccountPersist accountPersist = new AccountPersist(readableDB);
-        List<Account> accounts = accountPersist.readAll();
-        balanceTotal = new BigDecimal("0");
-        for (int i = 0; i < accounts.size(); i++) {
-            balanceTotal = balanceTotal.add(accounts.get(i).getBalance());
-        }
+
+
 
         this.calcTotalIncomesAndExpenses();
 
@@ -103,6 +99,11 @@ public class MainActivity extends ActionBarActivity {
         for (ExpenseBudget expenseBudget : expenseBudgetList) {
             expenseBudgetTotal = expenseBudgetTotal.add(expenseBudget.convertBudgetAmountTo(selectedCycle));
         }
+
+
+        AccountPersist accountPersist = new AccountPersist(readableDB);
+
+        balanceTotal = accountPersist.readTotalBalance().add(expenseBudgetPersist.readTotalUnusedBalance());
 
         BigDecimal max = balanceTotal.max(expenseBudgetTotal).max(incomeBudgetTotal).max(incomeTotal).max(expenseTotal);
 
@@ -160,6 +161,16 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this, IncomeActivity.class);
         intent.putExtra(EXTRA_SELECTED_CYCLE, this.selectedCycle.toString());
         intent.putExtra(EXTRA_SELECTED_DATE, this.selectedDate.getTimeInMillis());
+        startActivity(intent);
+    }
+
+    public void showAccount(View view){
+        Intent intent = new Intent(this, AccountActivity.class);
+        startActivity(intent);
+    }
+
+    public void showExpenseBudget(View view){
+        Intent intent = new Intent(this, ExpenseBudgetActivity.class);
         startActivity(intent);
     }
 

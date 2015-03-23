@@ -8,6 +8,7 @@ import com.quebecfresh.androidapp.simplebudget.model.Expense;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,11 +103,14 @@ public class ExpensePersist {
         List<Expense> expenseList = new ArrayList<Expense>();
         Cursor cursor = this.db.rawQuery(sql, null);
         cursor.moveToFirst();
+        BigDecimal total;
         String totalStr = cursor.getString(cursor.getColumnIndexOrThrow("total"));
         if(totalStr != null){
-            return new BigDecimal(totalStr);
+            total =  new BigDecimal(totalStr);
+        }else {
+            total = new BigDecimal("0");
         }
-        return new BigDecimal("0");
+        return total.setScale(2, RoundingMode.HALF_UP);
     }
 
     public Expense update(Expense expense) {

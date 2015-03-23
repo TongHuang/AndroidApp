@@ -9,10 +9,11 @@ import com.quebecfresh.androidapp.simplebudget.model.Income;
 import com.quebecfresh.androidapp.simplebudget.model.IncomeBudget;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import  static com.quebecfresh.androidapp.simplebudget.model.Income.Contract.*;
+import static com.quebecfresh.androidapp.simplebudget.model.Income.Contract.*;
 
 /**
  * Created by Tong Huang on 2015-03-15, 11:22 PM.
@@ -22,13 +23,13 @@ public class IncomePersist {
     private AccountPersist accountPersist;
     private IncomeBudgetPersist incomeBudgetPersist;
 
-    public IncomePersist(SQLiteDatabase db){
+    public IncomePersist(SQLiteDatabase db) {
         this.db = db;
         this.accountPersist = new AccountPersist(db);
         this.incomeBudgetPersist = new IncomeBudgetPersist(db);
     }
 
-    public Income insert(Income income){
+    public Income insert(Income income) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, income.getName());
         contentValues.put(_NOTE, income.getNote());
@@ -36,16 +37,16 @@ public class IncomePersist {
         contentValues.put(_AMOUNT, income.getAmount().toString());
         contentValues.put(_RECEIVED_DATE, income.getReceivedDate());
         contentValues.put(_ACCOUNT_ID, income.getAccount().getId());
-        contentValues.put(_CONFIRMED, income.getConfirmed() == Boolean.TRUE ? 1:0);
+        contentValues.put(_CONFIRMED, income.getConfirmed() == Boolean.TRUE ? 1 : 0);
         Long rowID = this.db.insert(_TABLE, null, contentValues);
         income.setId(rowID);
         return income;
     }
 
-    public Income read(Long rowID){
+    public Income read(Long rowID) {
         String sql = "select * from " + _TABLE + " where " + _ID + " = " + rowID;
         Cursor cursor = db.rawQuery(sql, null);
-       
+
         cursor.moveToFirst();
 
         Long incomeBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
@@ -60,16 +61,16 @@ public class IncomePersist {
         income.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
         income.setAccount(account);
         income.setReceivedDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
-        income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true:false);
+        income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true : false);
         return income;
     }
 
-    public List<Income> readAll(){
+    public List<Income> readAll() {
         String sql = "select * from " + _TABLE + " order by " + _RECEIVED_DATE + " desc";
         List<Income> incomeList = new ArrayList<Income>();
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
+        while (!cursor.isAfterLast()) {
             Long incomeBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
             IncomeBudget incomeBudget = incomeBudgetPersist.read(incomeBudgetID);
             Long accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
@@ -82,20 +83,20 @@ public class IncomePersist {
             income.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
             income.setAccount(account);
             income.setReceivedDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
-            income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true:false);
+            income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true : false);
             incomeList.add(income);
             cursor.moveToNext();
         }
         return incomeList;
     }
 
-    public List<Income> readAll(long startDate, long endDate){
+    public List<Income> readAll(long startDate, long endDate) {
         String sql = "select * from " + _TABLE + " where " + _RECEIVED_DATE + " >= " + startDate
-                + " and "+ _RECEIVED_DATE + " <= " + endDate + " order by " + _RECEIVED_DATE + " desc";
+                + " and " + _RECEIVED_DATE + " <= " + endDate + " order by " + _RECEIVED_DATE + " desc";
         List<Income> incomeList = new ArrayList<Income>();
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
+        while (!cursor.isAfterLast()) {
             Long incomeBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
             IncomeBudget incomeBudget = incomeBudgetPersist.read(incomeBudgetID);
             Long accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
@@ -108,34 +109,37 @@ public class IncomePersist {
             income.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
             income.setAccount(account);
             income.setReceivedDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
-            income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true:false);
+            income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true : false);
             incomeList.add(income);
             cursor.moveToNext();
         }
         return incomeList;
     }
 
-    public BigDecimal readTotal(long begin, long end){
+    public BigDecimal readTotal(long begin, long end) {
         String sql = "select sum(" + _AMOUNT + ") as total from " + _TABLE + " where " + _RECEIVED_DATE + " >= " + begin
-                + " and "+ _RECEIVED_DATE + " <= " + end ;
+                + " and " + _RECEIVED_DATE + " <= " + end;
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
+        BigDecimal total;
         String totalStr = cursor.getString(cursor.getColumnIndexOrThrow("total"));
 
-        if(totalStr != null){
-            return new BigDecimal(totalStr);
+        if (totalStr != null) {
+            total = new BigDecimal(totalStr);
+        } else {
+            total = new BigDecimal("0");
         }
-        return new BigDecimal("0");
+        return total.setScale(2, RoundingMode.HALF_UP);
     }
 
 
-    public List<Income> readAllUnconfirmedConfirmed(){
+    public List<Income> readAllUnconfirmedConfirmed() {
         String sql = "select * from " + _TABLE + " where " + _CONFIRMED + " = 0"
                 + " order by " + _RECEIVED_DATE + " desc";
         List<Income> incomeList = new ArrayList<Income>();
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
+        while (!cursor.isAfterLast()) {
             Long incomeBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
             IncomeBudget incomeBudget = incomeBudgetPersist.read(incomeBudgetID);
             Long accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
@@ -148,14 +152,14 @@ public class IncomePersist {
             income.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
             income.setAccount(account);
             income.setReceivedDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
-            income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true:false);
+            income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true : false);
             incomeList.add(income);
             cursor.moveToNext();
         }
         return incomeList;
     }
 
-    public Income update(Income income){
+    public Income update(Income income) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, income.getName());
         contentValues.put(_NOTE, income.getNote());
@@ -168,17 +172,17 @@ public class IncomePersist {
         return income;
     }
 
-    public Boolean delete(Long  rowID){
-        db.delete(_TABLE, _ID + " = "  + rowID, null);
+    public Boolean delete(Long rowID) {
+        db.delete(_TABLE, _ID + " = " + rowID, null);
         return true;
     }
 
-    public Boolean create(){
+    public Boolean create() {
         db.execSQL(CREATE);
         return true;
     }
 
-    public Boolean drop(){
+    public Boolean drop() {
         db.execSQL(DROP);
         return true;
     }

@@ -1,9 +1,12 @@
 package com.quebecfresh.androidapp.simplebudget;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,6 +23,7 @@ import java.util.List;
 public class IncomeActivity extends ActionBarActivity {
 
     private ListView listViewIncomes;
+    private View mFooterView;
     private List<Income> incomeList;
     private DatabaseHelper databaseHelper = new DatabaseHelper(this);
     private IncomePersist incomePersist;
@@ -34,12 +38,10 @@ public class IncomeActivity extends ActionBarActivity {
         long end = Utils.getEndOfCycle(this.selectedCycle, this.selectedDate);
         incomeList = incomePersist.readAll(begin, end);
         IncomeListViewAdapter incomeListViewAdapter = new IncomeListViewAdapter(incomeList, this);
-        TextView header  = new TextView(this);
-        header.setText("Balance");
-        TextView footer  = new TextView(this);
-        footer.setText("1356.26");
-        listViewIncomes.addHeaderView(header);
-        listViewIncomes.addFooterView(footer);
+
+        TextView textViewTotalIncomeAmount  = (TextView)mFooterView.findViewById(R.id.textViewTotal);
+        textViewTotalIncomeAmount.setText(incomePersist.readTotal(begin, end).toString());
+        listViewIncomes.addFooterView(mFooterView);
         listViewIncomes.setAdapter(incomeListViewAdapter);
     }
 
@@ -50,6 +52,10 @@ public class IncomeActivity extends ActionBarActivity {
 
         this.selectedCycle = Cycle.valueOf(getIntent().getStringExtra(MainActivity.EXTRA_SELECTED_CYCLE));
         this.selectedDate.setTimeInMillis(getIntent().getLongExtra(MainActivity.EXTRA_SELECTED_DATE, System.currentTimeMillis()));
+
+
+        LayoutInflater layoutInflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mFooterView = (View)layoutInflater.inflate(R.layout.list_footer_total, null);
 
         incomePersist = new IncomePersist(databaseHelper.getReadableDatabase());
         listViewIncomes = (ListView)findViewById(R.id.listViewIncome);

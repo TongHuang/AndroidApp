@@ -117,7 +117,7 @@ public class WelcomeActivity extends ActionBarActivity {
             if (yearlySurplus.compareTo(new BigDecimal("0")) >= 0) {
                 textViewWelcome.setTextColor(getResources().getColor(R.color.light_blue));
             } else {
-                textViewWelcome.setTextColor(getResources().getColor(R.color.light_red));
+                textViewWelcome.setTextColor(getResources().getColor(R.color.orange_red));
             }
         }
 

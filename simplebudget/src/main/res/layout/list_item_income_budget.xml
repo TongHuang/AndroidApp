@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:weightSum="10"
     android:minHeight="50dp"
+    android:paddingBottom="2dp"
     android:id="@+id/linearLayoutListItemBudget"
     android:background="@color/light_blue">
     <TextView
