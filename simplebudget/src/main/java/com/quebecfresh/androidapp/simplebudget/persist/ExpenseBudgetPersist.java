@@ -35,7 +35,7 @@ public class ExpenseBudgetPersist {
         contentValues.put(_NOTE, expenseBudget.getNote());
         contentValues.put(_CATEGORY_GROUP, expenseBudget.getExpenseBudgetCategory().name());
         contentValues.put(_UNUSED_BALANCE, expenseBudget.getUnusedBalance().toString());
-        contentValues.put(_ROLL_OVER, expenseBudget.getRollOver()==Boolean.TRUE?1:0);
+        contentValues.put(_ROLL_OVER, expenseBudget.getRollOver() == Boolean.TRUE ? 1 : 0);
         contentValues.put(_ACCOUNT_ID, expenseBudget.getAccount().getId());
         contentValues.put(_LAST_FILL_DATE, expenseBudget.getLastPutDate());
         Long rowID = this.db.insert(_TABLE, null, contentValues);
@@ -64,13 +64,13 @@ public class ExpenseBudgetPersist {
         return expenseBudget;
     }
 
-    public List<ExpenseBudget> readAll(){
-        String sql = "select * from " + _TABLE  + " order by " + _UNUSED_BALANCE + " desc";
+    public List<ExpenseBudget> readAll() {
+        String sql = "select * from " + _TABLE + " order by " + _UNUSED_BALANCE + " desc";
         Cursor cursor = this.db.rawQuery(sql, null);
         cursor.moveToFirst();
         List<ExpenseBudget> expenseBudgetList = new ArrayList<ExpenseBudget>();
         long accountID;
-        while(!cursor.isAfterLast()){
+        while (!cursor.isAfterLast()) {
             ExpenseBudget expenseBudget = new ExpenseBudget();
             expenseBudget.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
             expenseBudget.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
@@ -93,14 +93,14 @@ public class ExpenseBudgetPersist {
     /*
 
      */
-    public List<ExpenseBudget> readAllBudgetAmountNotZero(){
-        String sql = "select * from " + _TABLE + " where " + _BUDGET_AMOUNT  + " != 0 order by "
+    public List<ExpenseBudget> readAllBudgetAmountNotZero() {
+        String sql = "select * from " + _TABLE + " where " + _BUDGET_AMOUNT + " != 0 order by "
                 + _BUDGET_AMOUNT + " desc";
         Cursor cursor = this.db.rawQuery(sql, null);
         cursor.moveToFirst();
         List<ExpenseBudget> budgetList = new ArrayList<ExpenseBudget>();
         long accountID;
-        while(!cursor.isAfterLast()){
+        while (!cursor.isAfterLast()) {
             ExpenseBudget expenseBudget = new ExpenseBudget();
             expenseBudget.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
             expenseBudget.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
@@ -120,14 +120,14 @@ public class ExpenseBudgetPersist {
         return budgetList;
     }
 
-    public List<ExpenseBudget> readAllUnusedBalanceNotZero(){
+    public List<ExpenseBudget> readAllUnusedBalanceNotZero() {
         String sql = "select * from " + _TABLE + " where " + _UNUSED_BALANCE + " != 0 " +
                 " order by " + _UNUSED_BALANCE + " asc";
         Cursor cursor = this.db.rawQuery(sql, null);
         cursor.moveToFirst();
         List<ExpenseBudget> budgetList = new ArrayList<ExpenseBudget>();
         long accountID;
-        while(!cursor.isAfterLast()){
+        while (!cursor.isAfterLast()) {
             ExpenseBudget expenseBudget = new ExpenseBudget();
             expenseBudget.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
             expenseBudget.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
@@ -146,22 +146,18 @@ public class ExpenseBudgetPersist {
         return budgetList;
     }
 
-    public BigDecimal readTotalUnusedBalance(){
+    public BigDecimal readTotalUnusedBalance() {
         String sql = "select sum(" + _UNUSED_BALANCE + ") as total from " + _TABLE;
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
         BigDecimal total;
-        String totalStr = cursor.getString(cursor.getColumnIndexOrThrow("total"));
-        if(totalStr != null){
-            total =  new BigDecimal(totalStr);
-        }else {
-            total = new BigDecimal("0");
-        }
+        Double totalDouble = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
+        total = new BigDecimal(totalDouble);
         return total.setScale(2, RoundingMode.HALF_UP);
     }
 
 
-    public ExpenseBudget update(ExpenseBudget expenseBudget){
+    public ExpenseBudget update(ExpenseBudget expenseBudget) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, expenseBudget.getName());
         contentValues.put(_CYCLE, expenseBudget.getCycle().name());
@@ -169,19 +165,19 @@ public class ExpenseBudgetPersist {
         contentValues.put(_NOTE, expenseBudget.getNote());
         contentValues.put(_CATEGORY_GROUP, expenseBudget.getExpenseBudgetCategory().name());
         contentValues.put(_UNUSED_BALANCE, expenseBudget.getUnusedBalance().toString());
-        contentValues.put(_ROLL_OVER, expenseBudget.getRollOver() == true?1:0);
+        contentValues.put(_ROLL_OVER, expenseBudget.getRollOver() == true ? 1 : 0);
         contentValues.put(_ACCOUNT_ID, expenseBudget.getAccount().getId());
         contentValues.put(_LAST_FILL_DATE, expenseBudget.getLastPutDate());
         this.db.update(_TABLE, contentValues, _ID + " = " + expenseBudget.getId(), null);
         return expenseBudget;
     }
 
-    public Boolean delete(Long rowID){
+    public Boolean delete(Long rowID) {
         this.db.delete(_TABLE, _ID + " = " + rowID, null);
         return true;
     }
 
-    public void initialize(){
+    public void initialize() {
 
         //Read the first account as the default account
         Account account = this.accountPersist.read(1L);
@@ -199,8 +195,6 @@ public class ExpenseBudgetPersist {
         expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.FOODS);
         expenseBudget.setAccount(account);
         this.insert(expenseBudget);
-
-
 
 
         expenseBudget = new ExpenseBudget("Mortgage", Cycle.Every_2_Weeks);
@@ -285,33 +279,33 @@ public class ExpenseBudgetPersist {
 
     }
 
-    public void fillEnvelope(ExpenseBudget expenseBudget){
+    public void fillEnvelope(ExpenseBudget expenseBudget) {
         expenseBudget.setUnusedBalance(expenseBudget.getUnusedBalance().add(expenseBudget.getBudgetAmount()));
         this.update(expenseBudget);
     }
 
-    public void fillAllEnvelopes(){
+    public void fillAllEnvelopes() {
         List<ExpenseBudget> expenseBudgetList = this.readAllBudgetAmountNotZero();
-        for(ExpenseBudget expenseBudget : expenseBudgetList){
+        for (ExpenseBudget expenseBudget : expenseBudgetList) {
             this.fillEnvelope(expenseBudget);
         }
     }
 
-    public Boolean save(ExpenseBudget expenseBudget){
-        if(expenseBudget.getId() > 0){
+    public Boolean save(ExpenseBudget expenseBudget) {
+        if (expenseBudget.getId() > 0) {
             this.update(expenseBudget);
-        }else{
+        } else {
             this.insert(expenseBudget);
         }
         return true;
     }
 
-    public Boolean create(){
-         this.db.execSQL(CREATE);
+    public Boolean create() {
+        this.db.execSQL(CREATE);
         return true;
     }
 
-    public Boolean drop(){
+    public Boolean drop() {
         this.db.execSQL(DROP);
         return true;
     }

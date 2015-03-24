@@ -17,13 +17,14 @@ import java.math.BigDecimal;
 
 public class EditAccountActivity extends ActionBarActivity {
 
-    private Long accountID;
-    private EditText editTextName;
-    private EditText editTextNumber;
-    private EditText editTextBalance;
-    private EditText editTextNote;
-    private AccountPersist accountPersist;
-    private Account account;
+    private Long mAccountID;
+    private EditText mEditTextName;
+    private EditText mEditTextNumber;
+    private EditText mEditTextBalance;
+    private EditText mEditTextNote;
+    private Account mAccount;
+    private  DatabaseHelper mDBHelper;
+    private AccountPersist mAccountPersist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,26 +32,23 @@ public class EditAccountActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account);
         Intent intent = getIntent();
-        accountID = intent.getLongExtra(InitializeAccountActivity.EXTRA_ACCOUNT_ID, 0);
+        mAccountID = intent.getLongExtra(InitializeAccountActivity.EXTRA_ACCOUNT_ID, 0);
 
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        accountPersist = new AccountPersist(db);
-        if (accountID > 0) {
-            account = accountPersist.read(accountID);
+        mDBHelper = new DatabaseHelper(this);
+        mAccountPersist = new AccountPersist(mDBHelper.getWritableDatabase());
+        if (mAccountID > 0) {
+            mAccount = mAccountPersist.read(mAccountID);
+            mEditTextName = (EditText) this.findViewById(R.id.editTextName);
+            mEditTextName.setText(mAccount.getName());
+            mEditTextNumber = (EditText) this.findViewById(R.id.editTextNumber);
+            mEditTextNumber.setText(mAccount.getAccountNumber());
+            mEditTextBalance = (EditText) this.findViewById(R.id.editTextBalance);
+            mEditTextBalance.setText(mAccount.getBalance().toString());
+            mEditTextNote = (EditText) this.findViewById(R.id.editTextNote);
+            mEditTextNote.setText(mAccount.getNote());
         } else {
-            account = new Account();
+            mAccount = new Account();
         }
-
-
-        editTextName = (EditText) this.findViewById(R.id.editTextName);
-        editTextName.setText(account.getName());
-        editTextNumber = (EditText) this.findViewById(R.id.editTextNumber);
-        editTextNumber.setText(account.getAccountNumber());
-        editTextBalance = (EditText) this.findViewById(R.id.editTextBalance);
-        editTextBalance.setText(account.getBalance().toString());
-        editTextNote = (EditText) this.findViewById(R.id.editTextNote);
-        editTextNote.setText(account.getNote());
 
     }
 
@@ -71,19 +69,35 @@ public class EditAccountActivity extends ActionBarActivity {
 
         switch (id) {
             case R.id.action_save:
-                EditText editTextName = (EditText) this.findViewById(R.id.editTextName);
-                account.setName(editTextName.getText().toString());
-                EditText editTextNumber = (EditText) this.findViewById(R.id.editTextNumber);
-                account.setAccountNumber(editTextNumber.getText().toString());
-                EditText editTextBalance = (EditText) this.findViewById(R.id.editTextBalance);
-                account.setBalance(new BigDecimal(editTextBalance.getText().toString()));
-                EditText editTextNote = (EditText) this.findViewById(R.id.editTextNote);
-                account.setNote(editTextNote.getText().toString());
-                accountPersist.save(account);
+                if(this.validateInput()) {
+                    mAccount.setName(mEditTextName.getText().toString());
+                    mAccount.setAccountNumber(mEditTextNumber.getText().toString());
+                    mAccount.setBalance(new BigDecimal(mEditTextBalance.getText().toString()));
+                    mAccount.setNote(mEditTextNote.getText().toString());
+                    mAccountPersist.save(mAccount);
+                }else{
+                    return false;
+                }
                 break;
         }
 
         this.finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    private Boolean validateInput(){
+        if(mEditTextName.getText().length() <= 0){
+            mEditTextName.requestFocus();
+            return false;
+        }
+        if(mEditTextNumber.getText().length() <= 0){
+            mEditTextNumber.requestFocus();
+            return false;
+        }
+        if(mEditTextBalance.getText().length() <= 0){
+            mEditTextBalance.requestFocus();
+            return false;
+        }
+        return true;
     }
 }

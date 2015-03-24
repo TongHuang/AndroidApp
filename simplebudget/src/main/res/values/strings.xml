@@ -119,5 +119,12 @@
     <string name="title_activity_account">Accounts</string>
     <string name="title_activity_expense_budget">ExpenseBudget</string>
 
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name_of_account">Name  of account</string>
+    <string name="number_of_account">Number of account</string>
+    <string name="balance_of_account">Balance of account</string>
+    <string name="note_of_account">Note of account</string>
+
 
 </resources>

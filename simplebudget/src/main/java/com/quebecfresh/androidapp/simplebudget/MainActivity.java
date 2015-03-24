@@ -164,15 +164,7 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void showAccount(View view){
-        Intent intent = new Intent(this, AccountActivity.class);
-        startActivity(intent);
-    }
 
-    public void showExpenseBudget(View view){
-        Intent intent = new Intent(this, ExpenseBudgetActivity.class);
-        startActivity(intent);
-    }
 
     public void showExpenseList(View view) {
         Intent intent = new Intent(this, ExpenseActivity.class);
@@ -275,7 +267,7 @@ public class MainActivity extends ActionBarActivity {
         Intent intent;
         switch (id) {
             case R.id.action_reInitialize:
-                SharedPreferences preferences = this.getSharedPreferences(getString(R.string.initialize_done), Context.MODE_PRIVATE);
+                SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean(getString(R.string.initialize_done), false);
                 editor.putLong(getString(R.string.initialize_date), 0);

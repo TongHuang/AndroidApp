@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
 import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
@@ -24,6 +26,7 @@ import java.util.List;
 public class InitializeAccountActivity extends ActionBarActivity {
     public static final String EXTRA_ACCOUNT_ID = "com.quebecfresh.androidapp.simplebudget.account";
 
+    private  AccountFragment mAccountFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,31 +48,37 @@ public class InitializeAccountActivity extends ActionBarActivity {
             this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
 
-        DatabaseHelper dHelper = new DatabaseHelper(this);
-        SQLiteDatabase db = dHelper.getWritableDatabase();
 
-        AccountPersist accountPersist = new AccountPersist(db);
+        mAccountFragment = new AccountFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainerAccountList, mAccountFragment);
+        fragmentTransaction.commit();
 
-        List<Account> accounts = accountPersist.readAll();
-
-        BigDecimal total = new BigDecimal("0");
-        for (int i = 0; i < accounts.size(); i++) {
-            total = total.add(accounts.get(i).getBalance());
-        }
-
-        TextView textViewTotal = (TextView) this.findViewById(R.id.textViewTotal);
-        textViewTotal.setText("Total:" + total.toString());
-        AccountListViewAdapter adapter = new AccountListViewAdapter(accounts, this);
-        ListView listView = (ListView) this.findViewById(R.id.listViewAccount);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(InitializeAccountActivity.this, EditAccountActivity.class);
-                intent.putExtra(EXTRA_ACCOUNT_ID, id);
-                startActivity(intent);
-            }
-        });
+//        DatabaseHelper dHelper = new DatabaseHelper(this);
+//        SQLiteDatabase db = dHelper.getWritableDatabase();
+//
+//        AccountPersist accountPersist = new AccountPersist(db);
+//
+//        List<Account> accounts = accountPersist.readAll();
+//
+//        BigDecimal total = new BigDecimal("0");
+//        for (int i = 0; i < accounts.size(); i++) {
+//            total = total.add(accounts.get(i).getBalance());
+//        }
+//
+//        TextView textViewTotal = (TextView) this.findViewById(R.id.textViewTotal);
+//        textViewTotal.setText("Total:" + total.toString());
+//        AccountListViewAdapter adapter = new AccountListViewAdapter(accounts, this);
+//        ListView listView = (ListView) this.findViewById(R.id.listViewAccount);
+//        listView.setAdapter(adapter);
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(InitializeAccountActivity.this, EditAccountActivity.class);
+//                intent.putExtra(EXTRA_ACCOUNT_ID, id);
+//                startActivity(intent);
+//            }
+//        });
 
         super.onResume();
     }

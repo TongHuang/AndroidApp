@@ -122,13 +122,8 @@ public class IncomePersist {
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
         BigDecimal total;
-        String totalStr = cursor.getString(cursor.getColumnIndexOrThrow("total"));
-
-        if (totalStr != null) {
-            total = new BigDecimal(totalStr);
-        } else {
-            total = new BigDecimal("0");
-        }
+        Double totalDouble = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
+        total = new BigDecimal(totalDouble);
         return total.setScale(2, RoundingMode.HALF_UP);
     }
 

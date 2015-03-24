@@ -5,7 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
+
 import static com.quebecfresh.androidapp.simplebudget.model.Account.Contract.*;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -69,7 +71,7 @@ public class AccountPersist {
     }
 
 
-    public List<Account> readAllBalanceNotZero(){
+    public List<Account> readAllBalanceNotZero() {
         String sql = "Select * from " + _TABLE + " where " + _BALANCE + " != 0";
 
         Cursor cursor = db.rawQuery(sql, null);
@@ -89,17 +91,13 @@ public class AccountPersist {
     }
 
 
-    public BigDecimal readTotalBalance(){
+    public BigDecimal readTotalBalance() {
         String sql = "select sum(" + _BALANCE + ") as total from " + _TABLE;
         Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
         BigDecimal total;
-        String totalStr = cursor.getString(cursor.getColumnIndexOrThrow("total"));
-        if(totalStr != null){
-            total =  new BigDecimal(totalStr);
-        }else {
-            total = new BigDecimal("0");
-        }
+        Double totalDouble = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
+        total = new BigDecimal(totalDouble);
         return total.setScale(2, RoundingMode.HALF_UP);
     }
 
@@ -126,13 +124,12 @@ public class AccountPersist {
 
         this.insert(account);
 
-         account = new Account();
+        account = new Account();
         account.setName("Cash on Hand");
         account.setAccountNumber("000001");
         account.setNote("Cash cash cash !!!!.");
 
         this.insert(account);
-
 
 
         account = new Account();
@@ -142,10 +139,10 @@ public class AccountPersist {
         return true;
     }
 
-    public boolean save(Account account){
-        if(account.getId() > 0){
+    public boolean save(Account account) {
+        if (account.getId() > 0) {
             this.update(account);
-        }else{
+        } else {
             this.insert(account);
         }
 

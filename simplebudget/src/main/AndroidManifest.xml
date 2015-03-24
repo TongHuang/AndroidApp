@@ -19,6 +19,37 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <activity
+            android:name=".WelcomeActivity"
+            android:label="@string/title_activity_initialize" >
+        </activity>
+
+        <activity
+            android:name=".InitializeAccountActivity"
+            android:label="@string/accounts"
+            android:parentActivityName=".WelcomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WelcomeActivity" />
+        </activity>
+        <activity
+            android:name=".InitializeIncomeBudgetActivity"
+            android:label="@string/incomes"
+            android:parentActivityName=".WelcomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WelcomeActivity" />
+        </activity>
+        <activity
+            android:name=".InitializeExpenseBudgetActivity"
+            android:label="@string/expenses"
+            android:parentActivityName=".WelcomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WelcomeActivity" />
+        </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -29,30 +60,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".InitializeAccountActivity"
-            android:label="@string/accounts"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity
-            android:name=".InitializeIncomeBudgetActivity"
-            android:label="@string/incomes"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity
-            android:name=".InitializeExpenseBudgetActivity"
-            android:label="@string/expenses"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+
+
+
         <activity
             android:name=".NewExpenseActivity"
             android:label="@string/expenses"
@@ -69,10 +79,7 @@
             android:name=".EditExpenseBudgetActivity"
             android:label="@string/edit_expense" >
         </activity>
-        <activity
-            android:name=".WelcomeActivity"
-            android:label="@string/title_activity_initialize" >
-        </activity>
+
         <activity
             android:name=".EditAccountActivity"
             android:label="@string/edit_account"

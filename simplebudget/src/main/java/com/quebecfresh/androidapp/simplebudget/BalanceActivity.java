@@ -3,6 +3,7 @@ package com.quebecfresh.androidapp.simplebudget;
 import android.app.TabActivity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
@@ -22,7 +24,7 @@ import com.quebecfresh.androidapp.simplebudget.persist.ExpenseBudgetPersist;
 import java.util.List;
 
 
-public class BalanceActivity extends TabActivity {
+public class BalanceActivity extends ActionBarActivity {
 
     private DatabaseHelper databaseHelper = new DatabaseHelper(this);
     private SQLiteDatabase db;
@@ -32,13 +34,26 @@ public class BalanceActivity extends TabActivity {
     private ListView listViewBudget;
     private View mListViewFooterBudget;
 
+    private  AccountFragment mAccountFragment;
+    private ExpenseBudgetFragment mExpenseBudgetFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance);
-
-
+//
+//        if(findViewById(R.id.fragment_container) != null){
+//            // However, if we're being restored from a previous state,
+//            // then we don't need to do anything and should return or else
+//            // we could end up with overlapping fragments.
+//
+//            if(savedInstanceState != null){
+//                return;
+//            }
+//
+//            AccountFragment accountFragment = new AccountFragment();
+//            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, accountFragment).commit();
+//        }
 
 //        db = databaseHelper.getReadableDatabase();
 //
@@ -65,6 +80,35 @@ public class BalanceActivity extends TabActivity {
 //        listViewBudget = (ListView)findViewById(R.id.listViewBudget);
 //        listViewBudget.addFooterView(mListViewFooterBudget);
 //        listViewBudget.setAdapter(expenseBudgetListViewAdapter);
+    }
+
+    public void showAccount(View view){
+        if(mAccountFragment == null) {
+           mAccountFragment = new AccountFragment();
+        }
+        Boolean on = ((ToggleButton)view).isChecked();
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if(on) {
+            fragmentTransaction.add(R.id.fragmentContainerAccount, mAccountFragment);
+        }else {
+            fragmentTransaction.remove(mAccountFragment);
+        }
+        fragmentTransaction.commit();
+    }
+
+    public void showExpenseBudget(View view){
+        if(mExpenseBudgetFragment == null){
+            mExpenseBudgetFragment  = new ExpenseBudgetFragment();
+        }
+        Boolean on = ((ToggleButton)view).isChecked();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if(on) {
+            fragmentTransaction.add(R.id.fragmentContainerExpenseBudget, mExpenseBudgetFragment);
+        }else{
+            fragmentTransaction.remove(mExpenseBudgetFragment);
+        }
+        fragmentTransaction.commit();
     }
 
 

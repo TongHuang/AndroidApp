@@ -78,7 +78,7 @@ public class ExpensePersist {
 
     public List<Expense> readAll(long begin, long end) {
         String sql = " select * from " + _TABLE + " where " + _SPENT_DATE + " >= " + begin
-        + " and " + _SPENT_DATE + " <= " + end + " order by " + _SPENT_DATE + " desc";
+                + " and " + _SPENT_DATE + " <= " + end + " order by " + _SPENT_DATE + " desc";
         List<Expense> expenseList = new ArrayList<Expense>();
         Cursor cursor = this.db.rawQuery(sql, null);
         cursor.moveToFirst();
@@ -97,19 +97,15 @@ public class ExpensePersist {
         return expenseList;
     }
 
-    public BigDecimal readTotalAmount(long begin, long end){
+    public BigDecimal readTotalAmount(long begin, long end) {
         String sql = " select sum(" + _AMOUNT + ") as total from " + _TABLE + " where " + _SPENT_DATE + " >= " + begin
-                + " and " + _SPENT_DATE + " <= " + end ;
+                + " and " + _SPENT_DATE + " <= " + end;
         List<Expense> expenseList = new ArrayList<Expense>();
         Cursor cursor = this.db.rawQuery(sql, null);
         cursor.moveToFirst();
         BigDecimal total;
-        String totalStr = cursor.getString(cursor.getColumnIndexOrThrow("total"));
-        if(totalStr != null){
-            total =  new BigDecimal(totalStr);
-        }else {
-            total = new BigDecimal("0");
-        }
+        Double totalDouble = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
+        total = new BigDecimal(totalDouble);
         return total.setScale(2, RoundingMode.HALF_UP);
     }
 
