@@ -2,35 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minHeight="50dp">
+    android:measureWithLargestChild="false"
+    style="@style/listItemRowStyle"
+    android:baselineAligned="false">
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
         android:text="ReceivedDate"
         android:id="@+id/textViewIncomeReceivedDate"
         android:layout_weight="4"
-        android:gravity="left|center_vertical"
-        android:background="@color/light_blue"
-        android:layout_marginBottom="2dp" />
+        style="@style/listItemColumnStyle"/>
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
         android:text="Budget Name"
         android:id="@+id/textViewIncomeBudgetName"
         android:layout_weight="4"
-        android:background="@color/orange_red"
-        android:gravity="left|center_vertical"
-        android:layout_marginBottom="2dp" />
+        style="@style/listItemColumnStyle" />
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
         android:text="5.60"
         android:id="@+id/textViewIncomeAmount"
-        android:layout_marginBottom="2dp"
-        android:background="@color/green_yellow"
-        android:gravity="center_vertical|right"
-        android:layout_weight="2" />
+        android:layout_weight="2"
+        style="@style/listItemLastColumnStyle"/>
 </LinearLayout>

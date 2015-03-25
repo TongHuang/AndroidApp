@@ -154,6 +154,31 @@ public class IncomePersist {
         return incomeList;
     }
 
+    public List<Income> readAllByAccount(Long accountID){
+        Account account = accountPersist.read(accountID);
+        String sql = "select * from " + _TABLE + " where " + _ACCOUNT_ID + " = " + accountID + "  order by "
+                + _RECEIVED_DATE + " desc";
+        List<Income> incomeList = new ArrayList<Income>();
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Long incomeBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
+            IncomeBudget incomeBudget = incomeBudgetPersist.read(incomeBudgetID);
+            Income income = new Income();
+            income.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
+            income.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
+            income.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
+            income.setIncomeBudget(incomeBudget);
+            income.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
+            income.setAccount(account);
+            income.setReceivedDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
+            income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true : false);
+            incomeList.add(income);
+            cursor.moveToNext();
+        }
+        return incomeList;
+    }
+
     public Income update(Income income) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, income.getName());

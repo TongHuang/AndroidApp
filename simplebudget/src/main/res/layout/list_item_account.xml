@@ -3,25 +3,18 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:measureWithLargestChild="false"
-    android:minHeight="50dp"
     style="@style/listItemRowStyle"
     android:baselineAligned="false">
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
         android:text="Account Name"
         android:id="@+id/textViewName"
         android:layout_weight="8"
-        android:gravity="left|center_vertical"
         style="@style/listItemColumnStyle" />
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
         android:text="Balance"
         android:id="@+id/textViewBalance"
         android:layout_weight="2"
-        android:gravity="center_vertical|right"
         style="@style/listItemLastColumnStyle" />
 </LinearLayout>

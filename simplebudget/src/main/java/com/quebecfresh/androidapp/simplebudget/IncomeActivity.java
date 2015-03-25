@@ -1,6 +1,7 @@
 package com.quebecfresh.androidapp.simplebudget;
 
 import android.content.Context;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,28 +23,14 @@ import java.util.List;
 
 public class IncomeActivity extends ActionBarActivity {
 
-    private ListView listViewIncomes;
-    private View mFooterView;
-    private List<Income> incomeList;
+
     private DatabaseHelper databaseHelper = new DatabaseHelper(this);
     private IncomePersist incomePersist;
 
-
+    private IncomeFragment incomeFragment;
     private Calendar selectedDate = Calendar.getInstance();
     private Cycle selectedCycle = Cycle.Monthly;
 
-
-    private  void updateView(){
-        long begin = Utils.getBeginOfCycle(this.selectedCycle, this.selectedDate);
-        long end = Utils.getEndOfCycle(this.selectedCycle, this.selectedDate);
-        incomeList = incomePersist.readAll(begin, end);
-        IncomeListViewAdapter incomeListViewAdapter = new IncomeListViewAdapter(incomeList, this);
-
-        TextView textViewTotalIncomeAmount  = (TextView)mFooterView.findViewById(R.id.textViewTotal);
-        textViewTotalIncomeAmount.setText(incomePersist.readTotal(begin, end).toString());
-        listViewIncomes.addFooterView(mFooterView);
-        listViewIncomes.setAdapter(incomeListViewAdapter);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +39,13 @@ public class IncomeActivity extends ActionBarActivity {
 
         this.selectedCycle = Cycle.valueOf(getIntent().getStringExtra(MainActivity.EXTRA_SELECTED_CYCLE));
         this.selectedDate.setTimeInMillis(getIntent().getLongExtra(MainActivity.EXTRA_SELECTED_DATE, System.currentTimeMillis()));
-
-
-        LayoutInflater layoutInflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mFooterView = (View)layoutInflater.inflate(R.layout.list_footer_total, null);
-
         incomePersist = new IncomePersist(databaseHelper.getReadableDatabase());
-        listViewIncomes = (ListView)findViewById(R.id.listViewIncome);
-        this.updateView();
+        long begin = Utils.getBeginOfCycle(this.selectedCycle, this.selectedDate);
+        long end = Utils.getEndOfCycle(this.selectedCycle, this.selectedDate);
+        incomeFragment = new IncomeFragment();
+        incomeFragment.setIncomeList(incomePersist.readAll(begin, end));
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragmentContainIncomeList, incomeFragment).commit();
     }
 
 

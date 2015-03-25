@@ -1,18 +1,20 @@
 package com.quebecfresh.androidapp.simplebudget;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.res.Resources;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
 import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 
 import java.math.BigDecimal;
+import static com.quebecfresh.androidapp.simplebudget.model.Utils.*;
 
 
 public class EditAccountActivity extends ActionBarActivity {
@@ -36,15 +38,15 @@ public class EditAccountActivity extends ActionBarActivity {
 
         mDBHelper = new DatabaseHelper(this);
         mAccountPersist = new AccountPersist(mDBHelper.getWritableDatabase());
+        mEditTextName = (EditText) this.findViewById(R.id.editTextName);
+        mEditTextNumber = (EditText) this.findViewById(R.id.editTextNumber);
+        mEditTextBalance = (EditText) this.findViewById(R.id.editTextBalance);
+        mEditTextNote = (EditText) this.findViewById(R.id.editTextNote);
         if (mAccountID > 0) {
             mAccount = mAccountPersist.read(mAccountID);
-            mEditTextName = (EditText) this.findViewById(R.id.editTextName);
             mEditTextName.setText(mAccount.getName());
-            mEditTextNumber = (EditText) this.findViewById(R.id.editTextNumber);
             mEditTextNumber.setText(mAccount.getAccountNumber());
-            mEditTextBalance = (EditText) this.findViewById(R.id.editTextBalance);
             mEditTextBalance.setText(mAccount.getBalance().toString());
-            mEditTextNote = (EditText) this.findViewById(R.id.editTextNote);
             mEditTextNote.setText(mAccount.getNote());
         } else {
             mAccount = new Account();
@@ -75,27 +77,49 @@ public class EditAccountActivity extends ActionBarActivity {
                     mAccount.setBalance(new BigDecimal(mEditTextBalance.getText().toString()));
                     mAccount.setNote(mEditTextNote.getText().toString());
                     mAccountPersist.save(mAccount);
+                    this.finish();
                 }else{
                     return false;
                 }
                 break;
-        }
+            case R.id.action_delete:
+                ConfirmDeletionDialogFragment confirmDeletionDialogFragment = new ConfirmDeletionDialogFragment();
+                confirmDeletionDialogFragment.setConfirmDeletionDialogListener(new ConfirmDeletionDialogFragment.ConfirmDeletionDialogListener() {
+                    @Override
+                    public void onYesClick() {
+                        if(mAccountID > 0) {
+                            mAccountPersist.delete(mAccountID);
+                        }
+                        finish();
+                    }
 
-        this.finish();
+                    @Override
+                    public void onNoClick() {
+
+                    }
+                });
+                confirmDeletionDialogFragment.show(getSupportFragmentManager(), "Confirm delete account");
+                break;
+            case R.id.action_view_transaction:
+
+        }
         return super.onOptionsItemSelected(item);
     }
 
     private Boolean validateInput(){
-        if(mEditTextName.getText().length() <= 0){
+        if(isEditTextEmpty(mEditTextName)){
             mEditTextName.requestFocus();
+            Toast.makeText(this, getResources().getString(R.string.toast_name_is_required), Toast.LENGTH_LONG).show();
             return false;
         }
-        if(mEditTextNumber.getText().length() <= 0){
+        if(isEditTextEmpty(mEditTextNumber)){
             mEditTextNumber.requestFocus();
+            Toast.makeText(this, getResources().getString(R.string.toast_number_is_required), Toast.LENGTH_LONG).show();
             return false;
         }
-        if(mEditTextBalance.getText().length() <= 0){
+        if(!isEditTextNumeric(mEditTextBalance)){
             mEditTextBalance.requestFocus();
+            Toast.makeText(this, getResources().getString(R.string.toast_balance_have_to_be_numeric), Toast.LENGTH_LONG).show();
             return false;
         }
         return true;

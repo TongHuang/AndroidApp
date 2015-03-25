@@ -1,12 +1,39 @@
 package com.quebecfresh.androidapp.simplebudget.model;
 
+import android.widget.EditText;
+
+import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Tong Huang on 2015-03-21, 5:41 PM.
  */
 public  final  class Utils {
 
+
+    public static BigDecimal calTotalIncome(List<Income> incomeList){
+        BigDecimal total = new BigDecimal("0");
+        for(Income income : incomeList){
+            total = total.add(income.getAmount());
+        }
+        return  total;
+    }
+
+    public static Boolean isEditTextNumeric(EditText editText){
+        if(isEditTextEmpty(editText)){
+            return false;
+        }
+        return editText.getText().toString().matches("[-+]?\\d+(\\.\\d+)?");
+    }
+
+    public static Boolean isEditTextEmpty(EditText editText){
+        if(editText == null || editText.getText() == null || editText.getText().length() <= 0
+                || editText.getText().toString().trim().length() <= 0){
+            return true;
+        }
+        return false;
+    }
 
     public static long getBeginOfCycle(Cycle cycle, Calendar calendar){
         long begin = 0;
