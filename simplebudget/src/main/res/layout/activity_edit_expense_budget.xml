@@ -1,110 +1,62 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/detailStyle"
     tools:context="com.quebecfresh.androidapp.simplebudget.EditExpenseBudgetActivity">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:text="@string/name"
             android:id="@+id/textViewName"
-            android:layout_weight="10"
-            android:gravity="left|center_vertical" />
+            style="@style/detailFirstColumnStyle"/>
 
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/editTextName"
-            android:layout_weight="20" />
+            style="@style/detailSecondColumnEditTextStyle"/>
 
     </LinearLayout>
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:text="@string/accounts"
             android:id="@+id/textView2"
-            android:layout_weight="10"
-            android:gravity="left|center_vertical" />
+            style="@style/detailFirstColumnStyle"/>
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:text="Account"
             android:id="@+id/buttonAccount"
-            android:layout_weight="20"
-            android:onClick="clickOverviewToggleButton" />
+            android:onClick="chooseAccount"
+            style="@style/detailSecondColumnButtonStyle"/>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:text="@string/category"
             android:id="@+id/textView10"
-            android:layout_weight="10"
-            android:gravity="left|center_vertical" />
+            style="@style/detailFirstColumnStyle"/>
 
         <Spinner
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:id="@+id/spinnerExpenseBudgetCategory"
-            android:layout_gravity="center_vertical|right"
-            android:layout_weight="20"
-            android:gravity="center_vertical|center_horizontal" />
+            style="@style/detailSecondColumnSpinnerStyle"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
             android:text="@string/cycle"
             android:id="@+id/textViewCycle"
-            android:layout_weight="10"
-            android:gravity="left|center_vertical" />
+            style="@style/detailFirstColumnStyle"/>
 
         <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/spinnerCycle"
-            android:layout_weight="20"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical|center_horizontal" />
+            style="@style/detailSecondColumnSpinnerStyle"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
             android:layout_width="match_parent"
@@ -115,41 +67,24 @@
             android:onClick="calFillAmount" />
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:text="@string/budget_amount"
             android:id="@+id/textViewBudgetAmount"
-            android:layout_weight="10"
-            android:gravity="left|center_vertical" />
+            style="@style/detailFirstColumnStyle"/>
 
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/editTextBudgetAmount"
-            android:layout_weight="20"
-            android:gravity="right" />
+            style="@style/detailSecondColumnEditTextStyle"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
             android:text="@string/roll_over"
             android:id="@+id/textView"
-            android:layout_weight="10"
-            android:gravity="left|center_vertical" />
+            style="@style/detailFirstColumnStyle"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -177,25 +112,16 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:text="@string/note"
             android:id="@+id/textViewNote"
-            android:layout_weight="10"
-            android:gravity="left|center_vertical" />
+            style="@style/detailFirstColumnStyle"/>
 
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/editTextNote"
-            android:layout_weight="20" />
+            style="@style/detailSecondColumnEditTextStyle"/>
     </LinearLayout>
 
 

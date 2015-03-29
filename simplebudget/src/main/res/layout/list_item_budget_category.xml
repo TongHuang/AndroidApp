@@ -4,12 +4,7 @@
     android:layout_height="match_parent">
 //Use in ExpenseBudgetExpandableListViewAdapter and IncomeBudgetExpandableListViewAdapter
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:text="New Text"
         android:id="@+id/textView_Group"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_vertical|center_horizontal"
-        android:background="@color/orange_red"
-        android:minHeight="50dp" />
+        style="@style/listItemGroupStyle"/>
 </LinearLayout>

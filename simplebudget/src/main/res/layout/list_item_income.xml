@@ -3,8 +3,8 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:measureWithLargestChild="false"
-    style="@style/listItemRowStyle"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    style="@style/listItemRowStyle">
 
     <TextView
         android:text="ReceivedDate"

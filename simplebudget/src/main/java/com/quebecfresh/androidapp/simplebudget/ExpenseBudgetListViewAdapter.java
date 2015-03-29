@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
 
-import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -52,12 +51,10 @@ public class ExpenseBudgetListViewAdapter extends BaseAdapter implements ListAda
 
         TextView textViewBudgetName = (TextView) view.findViewById(R.id.textViewBudgetName);
         textViewBudgetName.setText(budget.getName());
-
+        TextView textViewCycle = (TextView) view.findViewById(R.id.textViewCycle);
+        textViewCycle.setText(budget.getCycle().getLabel(context));
         TextView textViewBudgetAmount = (TextView) view.findViewById(R.id.textViewAmount);
-        textViewBudgetAmount.setText(budget.getBudgetAmount().setScale(0, RoundingMode.HALF_UP).toString()
-        + "/" + budget.getCycle().getLabel(context));
-        TextView textViewUnusedBalance = (TextView)view.findViewById(R.id.textViewUnusedBalance);
-        textViewUnusedBalance.setText(budget.getUnusedBalance().toString());
+        textViewBudgetAmount.setText(budget.getBudgetAmount().toString());
         return view;
     }
 }

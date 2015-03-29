@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,14 +29,13 @@ import java.util.List;
 public class InitializeExpenseBudgetActivity extends ActionBarActivity {
 
     public static final String EXTRA_EXPENSE_BUDGET_ID = "com.quebecfresh.androidapp.simplebudget.expense.budget.id";
-    private Integer expandedCategoryPosition = 0;
-    List<ExpenseBudget> expenseBudgetList;
+    private Integer mExpandedCategoryPosition = 0;
+    List<ExpenseBudget> mExpenseBudgetList;
     TextView textViewTotal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initialize_expense_budget);
-
 
     }
 
@@ -47,10 +47,11 @@ public class InitializeExpenseBudgetActivity extends ActionBarActivity {
         return true;
     }
 
+
     private  BigDecimal calcTotal(Cycle cycle){
         BigDecimal total = new BigDecimal("0");
-        for (int i = 0; i < expenseBudgetList.size(); i++) {
-            total = total.add(expenseBudgetList.get(i).convertBudgetAmountTo(cycle));
+        for (int i = 0; i < mExpenseBudgetList.size(); i++) {
+            total = total.add(mExpenseBudgetList.get(i).convertBudgetAmountTo(cycle));
         }
         return total.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
@@ -59,95 +60,104 @@ public class InitializeExpenseBudgetActivity extends ActionBarActivity {
     protected void onResume() {
 
         //When initialization is not done, disabled actionBar up button
-        SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
-        Boolean initializeDone = preferences.getBoolean(getString(R.string.initialize_done), false);
-        if(initializeDone){
-            this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }else{
-            this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
+//        SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
+//        Boolean initializeDone = preferences.getBoolean(getString(R.string.initialize_done), false);
+//        if(initializeDone){
+//            this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        }else{
+//            this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//        }
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         ExpenseBudgetPersist persist = new ExpenseBudgetPersist(db);
-        expenseBudgetList = persist.readAll();
+        mExpenseBudgetList = persist.readAll();
 
-        List<ExpenseBudget> foods = new ArrayList<ExpenseBudget>();
-        List<ExpenseBudget> shelters = new ArrayList<ExpenseBudget>();
-        List<ExpenseBudget> utilities = new ArrayList<ExpenseBudget>();
-        List<ExpenseBudget> transportation = new ArrayList<ExpenseBudget>();
-        List<ExpenseBudget> others = new ArrayList<ExpenseBudget>();
-        ExpenseBudget category;
-        for (int i = 0; i < expenseBudgetList.size(); i++) {
-            category = expenseBudgetList.get(i);
-            switch (category.getExpenseBudgetCategory()) {
-                case FOODS:
-                    foods.add(category);
-                    break;
-                case SHELTER:
-                    shelters.add(category);
-                    break;
-                case UTILITIES:
-                    utilities.add(category);
-                    break;
-                case TRANSPORTATION:
-                    transportation.add(category);
-                    break;
-                case OTHERS:
-                    others.add(category);
-                    break;
-            }
-        }
+        ExpandableExpenseBudgetFragment expandableExpenseBudgetFragment = new ExpandableExpenseBudgetFragment();
+        expandableExpenseBudgetFragment.setExpenseBudgetList(mExpenseBudgetList);
 
-        List<String> group = new ArrayList<String>();
-        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.FOODS.getLabel(this));
-        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER.getLabel(this));
-        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES.getLabel(this));
-        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION.getLabel(this));
-        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.OTHERS.getLabel(this));
+        FragmentTransaction fragmentTransaction =  getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragmentContainerExpenseBudget, expandableExpenseBudgetFragment);
+        fragmentTransaction.commit();
 
-        HashMap<String, List<ExpenseBudget>> categoryMap = new HashMap<String, List<ExpenseBudget>>();
-        categoryMap.put(group.get(0), foods);
-        categoryMap.put(group.get(1), shelters);
-        categoryMap.put(group.get(2), utilities);
-        categoryMap.put(group.get(3), transportation);
-        categoryMap.put(group.get(4), others);
 
-        final Spinner spinnerCycle = (Spinner)this.findViewById(R.id.spinnerCycle);
-        CycleSpinnerAdapter spinnerAdapter = new CycleSpinnerAdapter(this, Cycle.values());
-        spinnerCycle.setAdapter(spinnerAdapter);
-        spinnerCycle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                textViewTotal.setText(calcTotal((Cycle)spinnerCycle.getItemAtPosition(position)).toString());
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+//        List<ExpenseBudget> foods = new ArrayList<ExpenseBudget>();
+//        List<ExpenseBudget> shelters = new ArrayList<ExpenseBudget>();
+//        List<ExpenseBudget> utilities = new ArrayList<ExpenseBudget>();
+//        List<ExpenseBudget> transportation = new ArrayList<ExpenseBudget>();
+//        List<ExpenseBudget> others = new ArrayList<ExpenseBudget>();
+//        ExpenseBudget category;
+//        for (int i = 0; i < mExpenseBudgetList.size(); i++) {
+//            category = mExpenseBudgetList.get(i);
+//            switch (category.getExpenseBudgetCategory()) {
+//                case FOODS:
+//                    foods.add(category);
+//                    break;
+//                case SHELTER:
+//                    shelters.add(category);
+//                    break;
+//                case UTILITIES:
+//                    utilities.add(category);
+//                    break;
+//                case TRANSPORTATION:
+//                    transportation.add(category);
+//                    break;
+//                case OTHERS:
+//                    others.add(category);
+//                    break;
+//            }
+//        }
+//
+//        List<String> group = new ArrayList<String>();
+//        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.FOODS.getLabel(this));
+//        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER.getLabel(this));
+//        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES.getLabel(this));
+//        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION.getLabel(this));
+//        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.OTHERS.getLabel(this));
+//
+//        HashMap<String, List<ExpenseBudget>> categoryMap = new HashMap<String, List<ExpenseBudget>>();
+//        categoryMap.put(group.get(0), foods);
+//        categoryMap.put(group.get(1), shelters);
+//        categoryMap.put(group.get(2), utilities);
+//        categoryMap.put(group.get(3), transportation);
+//        categoryMap.put(group.get(4), others);
 
-            }
-        });
-        spinnerCycle.setSelection(3);
-        textViewTotal = (TextView) this.findViewById(R.id.textViewTotal);
-        textViewTotal.setText(this.calcTotal(Cycle.Monthly).toString());
+//        final Spinner spinnerCycle = (Spinner)this.findViewById(R.id.spinnerCycle);
+//        CycleSpinnerAdapter spinnerAdapter = new CycleSpinnerAdapter(this, Cycle.values());
+//        spinnerCycle.setAdapter(spinnerAdapter);
+//        spinnerCycle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                textViewTotal.setText(calcTotal((Cycle) spinnerCycle.getItemAtPosition(position)).toString());
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//        spinnerCycle.setSelection(3);
+//        textViewTotal = (TextView) this.findViewById(R.id.textViewTotal);
+//        textViewTotal.setText(this.calcTotal(Cycle.Monthly).toString());
 
-        ExpenseBudgetExpandableListViewAdapter adapter = new ExpenseBudgetExpandableListViewAdapter(group, categoryMap, this);
-        ExpandableListView listView = (ExpandableListView) findViewById(R.id.expandableListViewExpenseCategory);
-        listView.setAdapter(adapter);
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Intent intent = new Intent(InitializeExpenseBudgetActivity.this, EditExpenseBudgetActivity.class);
-                intent.putExtra(EXTRA_EXPENSE_BUDGET_ID, id);
-                startActivity(intent);
-                expandedCategoryPosition = groupPosition;
-                return true;
-            }
-        });
-        if (this.expandedCategoryPosition >= 0) {
-            listView.expandGroup(this.expandedCategoryPosition);
-        }
+//        ExpenseBudgetExpandableListViewAdapter adapter = new ExpenseBudgetExpandableListViewAdapter(group, categoryMap, this);
+//        ExpandableListView listView = (ExpandableListView) findViewById(R.id.expandableListViewExpenseCategory);
+//        listView.setAdapter(adapter);
+//        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+//            @Override
+//            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+//                Intent intent = new Intent(InitializeExpenseBudgetActivity.this, EditExpenseBudgetActivity.class);
+//                intent.putExtra(EXTRA_EXPENSE_BUDGET_ID, id);
+//                startActivity(intent);
+//                mExpandedCategoryPosition = groupPosition;
+//                return true;
+//            }
+//        });
+//        if (this.mExpandedCategoryPosition >= 0) {
+//            listView.expandGroup(this.mExpandedCategoryPosition);
+//        }
 
 
         super.onResume();

@@ -20,6 +20,14 @@ public  final  class Utils {
         return  total;
     }
 
+    public static BigDecimal calTotalExpenseBudgetAmount(List<ExpenseBudget> expenseBudgetList){
+        BigDecimal total = new BigDecimal("0");
+        for(Budget budget : expenseBudgetList){
+            total = total.add(budget.getBudgetAmount());
+        }
+        return total;
+    }
+
     public static Boolean isEditTextNumeric(EditText editText){
         if(isEditTextEmpty(editText)){
             return false;

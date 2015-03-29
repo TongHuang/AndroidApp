@@ -60,7 +60,7 @@ public class BalanceActivity extends ActionBarActivity {
 //        AccountPersist accountPersist = new AccountPersist(db);
 //        List<Account> accountList = accountPersist.readAll();
 //        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(db);
-//        List<ExpenseBudget> expenseBudgetList = expenseBudgetPersist.readAllBudgetAmountNotZero();
+//        List<ExpenseBudget> mExpenseBudgetList = expenseBudgetPersist.readAllBudgetAmountNotZero();
 //
 //        LayoutInflater layoutInflater  = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        mListViewFooterAccount = layoutInflater.inflate(R.layout.list_footer_total,null);
@@ -76,7 +76,7 @@ public class BalanceActivity extends ActionBarActivity {
 //        listViewAccount = (ListView)findViewById(R.id.listViewAccount);
 //        listViewAccount.addFooterView(mListViewFooterAccount);
 //        listViewAccount.setAdapter(accountListViewAdapter);
-//        ExpenseBudgetListViewAdapter expenseBudgetListViewAdapter = new ExpenseBudgetListViewAdapter(expenseBudgetList, this);
+//        ExpenseBudgetListViewAdapter expenseBudgetListViewAdapter = new ExpenseBudgetListViewAdapter(mExpenseBudgetList, this);
 //        listViewBudget = (ListView)findViewById(R.id.listViewBudget);
 //        listViewBudget.addFooterView(mListViewFooterBudget);
 //        listViewBudget.setAdapter(expenseBudgetListViewAdapter);

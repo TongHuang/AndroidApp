@@ -84,20 +84,16 @@ public class ExpenseBudgetExpandableListViewAdapter extends BaseExpandableListAd
         String category = this.categoryList.get(groupPosition);
         ExpenseBudget budget = this.budgetHashMap.get(category).get(childPosition);
         View view = convertView;
-
         if (view == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.list_item_expense_budget, null);
         }
-
         TextView textViewCategory = (TextView) view.findViewById(R.id.textViewBudgetName);
         textViewCategory.setText(budget.getName());
         TextView textViewCycle = (TextView) view.findViewById(R.id.textViewCycle);
         textViewCycle.setText(budget.getCycle().getLabel(context));
         TextView textViewAmount = (TextView) view.findViewById(R.id.textViewAmount);
         textViewAmount.setText(budget.getBudgetAmount().toString());
-        TextView textViewUnusedBalance = (TextView) view.findViewById(R.id.textViewUnusedBalance);
-        textViewUnusedBalance.setText(budget.getUnusedBalance().toString());
         return view;
     }
 
