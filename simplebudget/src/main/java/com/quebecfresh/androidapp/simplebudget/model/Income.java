@@ -79,7 +79,7 @@ public class Income extends BaseData {
 
         public static final String CREATE = "create table " + _TABLE + " (" + _ID + TYPE_ID
                 + COMMA + _NAME + TYPE_TEXT + COMMA + _NOTE + TYPE_TEXT + COMMA + _BUDGET_ID
-                + TYPE_INTEGER + COMMA + _AMOUNT + TYPE_TEXT + COMMA + _RECEIVED_DATE
+                + TYPE_INTEGER + COMMA + _AMOUNT + TYPE_TEXT + DEFAULT_ZERO + COMMA + _RECEIVED_DATE
                 + TYPE_INTEGER + COMMA + _ACCOUNT_ID + TYPE_INTEGER + COMMA + _CONFIRMED
                 + TYPE_INTEGER + ")";
         public static final String DROP = "Drop table if exists " + _TABLE;

@@ -1,6 +1,7 @@
 package com.quebecfresh.androidapp.simplebudget.persist;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -18,15 +19,14 @@ import static com.quebecfresh.androidapp.simplebudget.model.Income.Contract.*;
 /**
  * Created by Tong Huang on 2015-03-15, 11:22 PM.
  */
-public class IncomePersist {
-    private SQLiteDatabase db;
+public class IncomePersist extends Persist {
     private AccountPersist accountPersist;
     private IncomeBudgetPersist incomeBudgetPersist;
 
-    public IncomePersist(SQLiteDatabase db) {
-        this.db = db;
-        this.accountPersist = new AccountPersist(db);
-        this.incomeBudgetPersist = new IncomeBudgetPersist(db);
+    public IncomePersist(Context context) {
+        super(context);
+        this.accountPersist = new AccountPersist(context);
+        this.incomeBudgetPersist = new IncomeBudgetPersist(context);
     }
 
     public Income insert(Income income) {
@@ -38,14 +38,14 @@ public class IncomePersist {
         contentValues.put(_RECEIVED_DATE, income.getReceivedDate());
         contentValues.put(_ACCOUNT_ID, income.getAccount().getId());
         contentValues.put(_CONFIRMED, income.getConfirmed() == Boolean.TRUE ? 1 : 0);
-        Long rowID = this.db.insert(_TABLE, null, contentValues);
+        Long rowID = this.mDBH.getWritableDatabase().insert(_TABLE, null, contentValues);
         income.setId(rowID);
         return income;
     }
 
     public Income read(Long rowID) {
         String sql = "select * from " + _TABLE + " where " + _ID + " = " + rowID;
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
 
         cursor.moveToFirst();
 
@@ -68,7 +68,7 @@ public class IncomePersist {
     public List<Income> readAll() {
         String sql = "select * from " + _TABLE + " order by " + _RECEIVED_DATE + " desc";
         List<Income> incomeList = new ArrayList<Income>();
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Long incomeBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
@@ -94,7 +94,7 @@ public class IncomePersist {
         String sql = "select * from " + _TABLE + " where " + _RECEIVED_DATE + " >= " + startDate
                 + " and " + _RECEIVED_DATE + " <= " + endDate + " order by " + _RECEIVED_DATE + " desc";
         List<Income> incomeList = new ArrayList<Income>();
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Long incomeBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
@@ -119,7 +119,7 @@ public class IncomePersist {
     public BigDecimal readTotal(long begin, long end) {
         String sql = "select sum(" + _AMOUNT + ") as total from " + _TABLE + " where " + _RECEIVED_DATE + " >= " + begin
                 + " and " + _RECEIVED_DATE + " <= " + end;
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
         cursor.moveToFirst();
         BigDecimal total;
         Double totalDouble = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
@@ -132,7 +132,7 @@ public class IncomePersist {
         String sql = "select * from " + _TABLE + " where " + _CONFIRMED + " = 0"
                 + " order by " + _RECEIVED_DATE + " desc";
         List<Income> incomeList = new ArrayList<Income>();
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Long incomeBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
@@ -159,7 +159,7 @@ public class IncomePersist {
         String sql = "select * from " + _TABLE + " where " + _ACCOUNT_ID + " = " + accountID + "  order by "
                 + _RECEIVED_DATE + " desc";
         List<Income> incomeList = new ArrayList<Income>();
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Long incomeBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
@@ -188,21 +188,31 @@ public class IncomePersist {
         contentValues.put(_ACCOUNT_ID, income.getAccount().getId());
         contentValues.put(_RECEIVED_DATE, income.getReceivedDate());
         contentValues.put(_CONFIRMED, income.getConfirmed() == true ? 1 : 0);
-        db.update(_TABLE, contentValues, _ID + " = " + income.getId(), null);
+        mDBH.getWritableDatabase().update(_TABLE, contentValues, _ID + " = " + income.getId(), null);
         return income;
     }
 
     public Boolean delete(Long rowID) {
-        db.delete(_TABLE, _ID + " = " + rowID, null);
+        mDBH.getWritableDatabase().delete(_TABLE, _ID + " = " + rowID, null);
         return true;
     }
 
-    public Boolean create() {
+    /**
+     * This static method is only used by DatabaseHelper to create database;
+     * @param db
+     * @return
+     */
+    public static Boolean create(SQLiteDatabase db) {
         db.execSQL(CREATE);
         return true;
     }
 
-    public Boolean drop() {
+    /**
+     * This static method is only used by DatabaseHelper to drop table when Upgrade database;
+     * @param db
+     * @return
+     */
+    public static Boolean drop(SQLiteDatabase db) {
         db.execSQL(DROP);
         return true;
     }

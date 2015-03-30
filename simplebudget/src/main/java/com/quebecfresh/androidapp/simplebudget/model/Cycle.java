@@ -20,6 +20,7 @@ public enum Cycle {
     Every_6_Months,
     Yearly;
 
+
     private  static Cycle[] shortValues = {Cycle.Weekly,Cycle.Monthly, Cycle.Yearly};
 
     public static Cycle[] valuesShort(){
@@ -102,7 +103,6 @@ public enum Cycle {
     }
 
     public String getLabel(Context context) {
-        String label = "";
         switch (this) {
             case Daily:
                 return context.getString(R.string.Cycle_Daily);
@@ -121,8 +121,9 @@ public enum Cycle {
             default:
                 return context.getString(R.string.Cycle_Yearly);
         }
-
     }
+
+
 
 
 

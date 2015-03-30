@@ -62,7 +62,7 @@ public class InitializeIncomeBudgetActivity extends ActionBarActivity {
         }
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        IncomeBudgetPersist incomeCategoryPersist = new IncomeBudgetPersist(databaseHelper.getReadableDatabase());
+        IncomeBudgetPersist incomeCategoryPersist = new IncomeBudgetPersist(this);
 
         incomeCategories = incomeCategoryPersist.readAll();
 

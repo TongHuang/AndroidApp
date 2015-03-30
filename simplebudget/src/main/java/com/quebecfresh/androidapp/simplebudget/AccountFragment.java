@@ -47,7 +47,7 @@ public class AccountFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_account, container, false);
         mDBHelper = new DatabaseHelper(inflater.getContext());
-        mAccountPersist = new AccountPersist(mDBHelper.getReadableDatabase());
+        mAccountPersist = new AccountPersist(inflater.getContext());
         mAccountList = mAccountPersist.readAll();
         mListViewAccounts = (ListView)view.findViewById(R.id.listViewAccounts);
         AccountListViewAdapter accountListViewAdapter = new AccountListViewAdapter(mAccountList,inflater.getContext());

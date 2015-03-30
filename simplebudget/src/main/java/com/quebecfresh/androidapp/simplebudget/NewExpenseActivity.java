@@ -96,8 +96,8 @@ public class NewExpenseActivity extends ActionBarActivity {
         setContentView(R.layout.activity_new_expense);
 
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        expensePersist = new ExpensePersist(db);
-        expenseBudgetPersist = new ExpenseBudgetPersist(db);
+        expensePersist = new ExpensePersist(this);
+        expenseBudgetPersist = new ExpenseBudgetPersist(this);
         expenseBudgetList = expenseBudgetPersist.readAllUnusedBalanceNotZero();
 
         this.expense = new Expense();

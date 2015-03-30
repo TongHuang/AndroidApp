@@ -37,7 +37,7 @@ public class EditAccountActivity extends ActionBarActivity {
         mAccountID = intent.getLongExtra(InitializeAccountActivity.EXTRA_ACCOUNT_ID, 0);
 
         mDBHelper = new DatabaseHelper(this);
-        mAccountPersist = new AccountPersist(mDBHelper.getWritableDatabase());
+        mAccountPersist = new AccountPersist(this);
         mEditTextName = (EditText) this.findViewById(R.id.editTextName);
         mEditTextNumber = (EditText) this.findViewById(R.id.editTextNumber);
         mEditTextBalance = (EditText) this.findViewById(R.id.editTextBalance);

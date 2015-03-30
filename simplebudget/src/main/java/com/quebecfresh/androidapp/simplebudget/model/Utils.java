@@ -43,6 +43,13 @@ public  final  class Utils {
         return false;
     }
 
+    /**
+     *
+     * @param cycle specify a cycle eg. Weekly, Yearly.
+     * @param calendar specify a date.
+     * @return the begin date of cycle.
+     */
+
     public static long getBeginOfCycle(Cycle cycle, Calendar calendar){
         long begin = 0;
         long originalTime = calendar.getTimeInMillis();
@@ -61,6 +68,12 @@ public  final  class Utils {
         return  begin;
     }
 
+    /**
+     *
+     * @param cycle specify a cycle eg. Weekly, Yearly.
+     * @param calendar specify a date.
+     * @return the end date of cycle
+     */
     public static long getEndOfCycle(Cycle cycle, Calendar calendar){
         long end = 0;
         long originalTime = calendar.getTimeInMillis();
@@ -79,6 +92,11 @@ public  final  class Utils {
         return  end;
     }
 
+    /**
+     *
+     * @param calendar specify a date.
+     * @return the instant that that day begin
+     */
     private static long getBeginOfDay(Calendar calendar){
         long originalTime = calendar.getTimeInMillis(); //Save time  for restoring
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -90,6 +108,11 @@ public  final  class Utils {
         return  start;
     }
 
+    /**
+     *
+     * @param calendar specify a date.
+     * @return the instant that that day end
+     */
     private static  long getEndOfDay(Calendar calendar){
         long originalTime = calendar.getTimeInMillis(); //Save time  for restoring
         calendar.set(Calendar.HOUR_OF_DAY, 23);
@@ -129,5 +152,16 @@ public  final  class Utils {
     private static long getEndOfYear(Calendar calendar){
         calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
         return getEndOfDay(calendar);
+    }
+
+    private int calcDaysBetween2Dates(Calendar begin, Calendar end) {
+        int days = 0;
+        while (end.get(Calendar.YEAR) > begin.get(Calendar.YEAR) ||
+                (end.get(Calendar.YEAR) == begin.get(Calendar.YEAR) &&
+                        end.get(Calendar.DAY_OF_YEAR) > begin.get(Calendar.WEEK_OF_YEAR))) {
+            begin.add(Calendar.DAY_OF_YEAR, 1);
+            days++;
+        }
+        return days;
     }
 }

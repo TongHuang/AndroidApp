@@ -36,7 +36,7 @@ public class ExpenseBudgetActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense_budget);
 
-        mExpenseBudgetPersist = new ExpenseBudgetPersist(mDBHelper.getReadableDatabase());
+        mExpenseBudgetPersist = new ExpenseBudgetPersist(this);
         mExpenseBudgetList = mExpenseBudgetPersist.readAllBudgetAmountNotZero();
         mListViewExpenseBudgets = (ListView)findViewById(R.id.listViewExpenseBudgets);
         ExpenseBudgetListViewAdapter expenseBudgetListViewAdapter = new ExpenseBudgetListViewAdapter(mExpenseBudgetList, this);

@@ -49,7 +49,7 @@ public class WelcomeActivity extends ActionBarActivity {
         editor.putLong(getString(R.string.initialize_date), System.currentTimeMillis());
         editor.commit();
         DatabaseHelper dbHelper = new DatabaseHelper(this);
-        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(dbHelper.getWritableDatabase());
+        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(this);
         expenseBudgetPersist.fillAllEnvelopes();
         this.finish();
         Intent intent = new Intent(this, MainActivity.class);
@@ -80,7 +80,7 @@ public class WelcomeActivity extends ActionBarActivity {
         DatabaseHelper dbHelper = new DatabaseHelper(this);
 
         if (initializeAccountDone) {
-            AccountPersist accountPersist = new AccountPersist(dbHelper.getReadableDatabase());
+            AccountPersist accountPersist = new AccountPersist(this);
             List<Account> accountList = accountPersist.readAll();
 
             for (int i = 0; i < accountList.size(); i++) {
@@ -90,7 +90,7 @@ public class WelcomeActivity extends ActionBarActivity {
 
 
         if (initializeIncomeBudgetDone) {
-            IncomeBudgetPersist incomeCategoryPersist = new IncomeBudgetPersist(dbHelper.getReadableDatabase());
+            IncomeBudgetPersist incomeCategoryPersist = new IncomeBudgetPersist(this);
             List<IncomeBudget> incomeCategoryList = incomeCategoryPersist.readAll();
 
             for (int i = 0; i < incomeCategoryList.size(); i++) {
@@ -100,7 +100,7 @@ public class WelcomeActivity extends ActionBarActivity {
 
         Button buttonInitializeExpense = (Button) this.findViewById(R.id.buttonInitializeExpense);
         if (initializeExpenseBudgetDone) {
-            ExpenseBudgetPersist expenseCategoryPersist = new ExpenseBudgetPersist(dbHelper.getReadableDatabase());
+            ExpenseBudgetPersist expenseCategoryPersist = new ExpenseBudgetPersist(this);
             List<ExpenseBudget> expenseCategoryList = expenseCategoryPersist.readAll();
 
             for (int i = 0; i < expenseCategoryList.size(); i++) {

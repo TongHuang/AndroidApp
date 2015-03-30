@@ -23,7 +23,7 @@ public class ExpenseActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense);
 
-        expensePersist = new ExpensePersist(databaseHelper.getReadableDatabase());
+        expensePersist = new ExpensePersist(this);
         List<Expense> expenseList = expensePersist.readAll();
 
         ExpenseListViewAdapter expenseListViewAdapter = new ExpenseListViewAdapter(expenseList, this);

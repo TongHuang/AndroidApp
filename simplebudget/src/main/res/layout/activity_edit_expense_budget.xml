@@ -59,13 +59,19 @@
     <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Budget Date"
-            android:id="@+id/textViewBudgetDate"
-            android:gravity="center_vertical|center_horizontal"
-            android:onClick="calFillAmount" />
+
+            style="@style/detailFirstColumnStyle"
+            android:text="@string/start_date"
+            android:id="@+id/textView12" />
+
+        <Button
+            style="@style/detailSecondColumnButtonStyle"
+            android:text="Cycle Start date"
+            android:id="@+id/buttonChooseCycleStartDate"
+            android:onClick="chooseCycleStartDate" />
+
     </LinearLayout>
+
 
     <LinearLayout style="@style/detailRowStyle">
 
@@ -123,6 +129,7 @@
             android:id="@+id/editTextNote"
             style="@style/detailSecondColumnEditTextStyle"/>
     </LinearLayout>
+
 
 
 </LinearLayout>

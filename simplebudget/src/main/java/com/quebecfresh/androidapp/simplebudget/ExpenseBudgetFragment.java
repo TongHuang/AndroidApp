@@ -43,7 +43,7 @@ public class ExpenseBudgetFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_expense_budget, container, false);
 
         mDBHelper = new DatabaseHelper(inflater.getContext());
-        mExpenseBudgetPersist = new ExpenseBudgetPersist(mDBHelper.getReadableDatabase());
+        mExpenseBudgetPersist = new ExpenseBudgetPersist(inflater.getContext());
         mExpenseBudgetList = mExpenseBudgetPersist.readAllBudgetAmountNotZero();
         mListViewExpenseBudgets = (ListView)view.findViewById(R.id.listViewExpenseBudgets);
         ExpenseBudgetListViewAdapter expenseBudgetListViewAdapter = new ExpenseBudgetListViewAdapter(mExpenseBudgetList, inflater.getContext());

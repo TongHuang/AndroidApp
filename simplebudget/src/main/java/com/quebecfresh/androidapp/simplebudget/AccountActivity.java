@@ -34,7 +34,7 @@ public class AccountActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        mAccountPersist = new AccountPersist(mDBHelper.getReadableDatabase());
+        mAccountPersist = new AccountPersist(this);
         mAccountList = mAccountPersist.readAll();
         mListViewAccounts = (ListView)findViewById(R.id.listViewAccounts);
         AccountListViewAdapter accountListViewAdapter = new AccountListViewAdapter(mAccountList,this);

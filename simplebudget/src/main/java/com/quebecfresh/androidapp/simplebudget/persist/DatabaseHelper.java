@@ -12,43 +12,36 @@ import com.quebecfresh.androidapp.simplebudget.model.Expense;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 11;
     public static final String DATABASE_NAME = "simplebudget";
+
+    private  Context mContext;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.mContext = context;
     }
 
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        AccountPersist accountPersist = new AccountPersist(db);
-        accountPersist.create();
-        accountPersist.initialize();
-        IncomeBudgetPersist incomeCategoryPersist = new IncomeBudgetPersist(db);
-        incomeCategoryPersist.create();
-        incomeCategoryPersist.initialize();
-        ExpenseBudgetPersist expenseCategoryPersist = new ExpenseBudgetPersist(db);
-        expenseCategoryPersist.create();
-        expenseCategoryPersist.initialize();
-        IncomePersist incomePersist = new IncomePersist(db);
-        incomePersist.create();
-        ExpensePersist expensePersist = new ExpensePersist(db);
-        expensePersist.create();
+        AccountPersist.create(db);
+        AccountPersist.initialize(db);
+        IncomeBudgetPersist.create(db);
+        IncomeBudgetPersist.initialize(db);
+        ExpenseBudgetPersist.create(db);
+        ExpenseBudgetPersist.initialize(db);
+        IncomePersist.create(db);
+        ExpensePersist.create(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        AccountPersist accountPersist = new AccountPersist(db);
-        accountPersist.drop();
-        IncomeBudgetPersist incomeCategoryPersist = new IncomeBudgetPersist(db);
-        incomeCategoryPersist.drop();
-        ExpenseBudgetPersist expenseCategoryPersist = new ExpenseBudgetPersist(db);
-        expenseCategoryPersist.drop();
-        IncomePersist incomePersist = new IncomePersist(db);
-        incomePersist.drop();
-        ExpensePersist expensePersist = new ExpensePersist(db);
-        expensePersist.drop();
+        AccountPersist.drop(db);
+        IncomeBudgetPersist.drop(db);
+        ExpenseBudgetPersist.drop(db);
+        IncomePersist.drop(db);
+        ExpensePersist.drop(db);
         onCreate(db);
     }
 }

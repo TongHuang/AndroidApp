@@ -6,9 +6,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Unused Balance"
+        android:text="Budget Category"
         android:id="@+id/textViewExpenseCategoryGroup"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_vertical|center_horizontal"
-        android:background="@color/accent_material_dark" />
+        android:gravity="center_vertical|center_horizontal" />
 </LinearLayout>

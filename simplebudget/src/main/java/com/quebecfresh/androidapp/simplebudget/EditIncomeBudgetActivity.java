@@ -58,9 +58,9 @@ public class EditIncomeBudgetActivity extends ActionBarActivity {
         Intent intent = getIntent();
         rowID = intent.getLongExtra(InitializeIncomeBudgetActivity.EXTRA_INCOME_CATEGORY_ID, 0);
         DatabaseHelper dbHelper = new DatabaseHelper(this);
-        accountPersist = new AccountPersist(dbHelper.getWritableDatabase());
+        accountPersist = new AccountPersist(this);
         accountList = accountPersist.readAll();
-        incomeBudgetPersist = new IncomeBudgetPersist(dbHelper.getWritableDatabase());
+        incomeBudgetPersist = new IncomeBudgetPersist(this);
         if(rowID > 0) {
             incomeBudget = incomeBudgetPersist.read(rowID);
         }else{

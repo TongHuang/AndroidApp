@@ -94,9 +94,9 @@ public class NewIncomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_new_income);
 
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        incomePersist = new IncomePersist(db);
-        accountPersist = new AccountPersist(db);
-        incomeBudgetPersist = new IncomeBudgetPersist(db);
+        incomePersist = new IncomePersist(this);
+        accountPersist = new AccountPersist(this);
+        incomeBudgetPersist = new IncomeBudgetPersist(this);
         List<Income> incomeUnconfirmedList = incomePersist.readAllUnconfirmedConfirmed();
         accountList = accountPersist.readAllBalanceNotZero();
         incomeBudgetList = incomeBudgetPersist.readAllBudgetAmountNotZero();

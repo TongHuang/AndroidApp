@@ -12,6 +12,8 @@ import java.math.BigDecimal;
  */
 public class IncomeBudget extends Budget {
 
+    private BigDecimal mUnrealizedBalance;
+
     public enum INCOME_BUDGET_CATEGORY {
         EMPLOYMENT, GOVERNMENT_BENEFIT, INVESTMENT, OTHERS;
 
@@ -57,6 +59,14 @@ public class IncomeBudget extends Budget {
         this.incomeBudgetCategory = incomeBudgetCategory;
     }
 
+    public BigDecimal getUnrealizedBalance() {
+        return mUnrealizedBalance;
+    }
+
+    public void setUnrealizedBalance(BigDecimal unrealizedBalance) {
+        this.mUnrealizedBalance = unrealizedBalance;
+    }
+
     public static abstract class Contract implements BaseColumns {
         public static final String _TABLE = "income_budget";
         public static final String _NAME = "name";
@@ -64,12 +74,16 @@ public class IncomeBudget extends Budget {
         public static final String _CYCLE = "cycle";
         public static final String _BUDGET_AMOUNT = "budget_amount";
         public static final String _BUDGET_CATEGORY = "budget_category";
+        public static final String _UNREALIZED_BALANCE = "_unrealized_balance";
+        public static final String _ROLL_OVER = "roll_over";
         public static final String _ACCOUNT_ID = "account_id";
 
         public static final String CREATE = "Create table " + _TABLE + " (" + _ID + TYPE_ID
                 + COMMA + _NAME + TYPE_TEXT + COMMA + _NOTE + TYPE_TEXT + COMMA + _CYCLE
-                + TYPE_TEXT + COMMA + _BUDGET_AMOUNT + TYPE_TEXT + COMMA + _BUDGET_CATEGORY
-                + TYPE_TEXT + COMMA + _ACCOUNT_ID + TYPE_INTEGER +  ")";
+                + TYPE_TEXT + COMMA + _BUDGET_AMOUNT + TYPE_TEXT + DEFAULT_ZERO +  COMMA
+                + _BUDGET_CATEGORY  + TYPE_TEXT + COMMA + _UNREALIZED_BALANCE + TYPE_TEXT
+                + DEFAULT_ZERO + COMMA + _ROLL_OVER + TYPE_INTEGER + DEFAULT_ONE
+                + COMMA +  _ACCOUNT_ID + TYPE_INTEGER +  ")";
         public static final String DROP = "Drop table if exists " + _TABLE;
 
     }

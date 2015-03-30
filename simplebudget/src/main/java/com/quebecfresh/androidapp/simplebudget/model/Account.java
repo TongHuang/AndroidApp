@@ -69,6 +69,9 @@ public class Account extends BaseData {
 //    public static final String DROP="DROP TABLE IF EXISTS " + Contract._TABLE;
 
     public static  abstract class Contract implements BaseColumns {
+
+
+
         public static final String _TABLE ="accounts";
         public static final String _NAME="name";
         public static final String _NUMBER = "number";
@@ -77,8 +80,13 @@ public class Account extends BaseData {
 
         public static  String CREATE="CREATE TABLE " + _TABLE + " ( " + _ID + TYPE_ID
                 + COMMA + _NAME + TYPE_TEXT + COMMA + _NUMBER + TYPE_TEXT
-                + COMMA + _BALANCE + TYPE_TEXT + COMMA + _NOTE + TYPE_TEXT + " ) ";
+                + COMMA + _BALANCE + TYPE_TEXT + DEFAULT_ZERO + COMMA + _NOTE + TYPE_TEXT + " ) ";
         public static final String DROP="DROP TABLE IF EXISTS " + _TABLE;
+
+
+        public static String INSERT_1 = "insert into " + _TABLE + " (" + _NAME + "," + _NUMBER
+                + ") values (?, ?)";
+
 
     }
 }

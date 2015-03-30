@@ -1,6 +1,7 @@
 package com.quebecfresh.androidapp.simplebudget.persist;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -16,12 +17,11 @@ import java.util.List;
 /**
  * Created by Tong Huang on 2015-02-21, 9:00 PM.
  */
-public class AccountPersist {
+public class AccountPersist  extends  Persist{
 
-    private SQLiteDatabase db;
 
-    public AccountPersist(SQLiteDatabase db) {
-        this.db = db;
+    public AccountPersist(Context context) {
+        super(context);
     }
 
     public Account insert(Account account) {
@@ -31,7 +31,7 @@ public class AccountPersist {
         contentValues.put(_BALANCE, account.getBalance().toString());
         contentValues.put(_NOTE, account.getNote());
         long newRowId;
-        newRowId = db.insert(_TABLE, null, contentValues);
+        newRowId = mDBH.getWritableDatabase().insert(_TABLE, null, contentValues);
         account.setId(newRowId);
         return account;
     }
@@ -40,7 +40,7 @@ public class AccountPersist {
         String sql = "Select * from " + _TABLE + " where "
                 + _ID + " = " + rowId;
 
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
         cursor.moveToFirst();
         Account account = new Account();
         account.setId(rowId);
@@ -54,7 +54,7 @@ public class AccountPersist {
     public List<Account> readAll() {
         String sql = "Select * from " + _TABLE;
 
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
         cursor.moveToFirst();
         List<Account> accounts = new ArrayList<Account>();
         while (!cursor.isAfterLast()) {
@@ -74,7 +74,7 @@ public class AccountPersist {
     public List<Account> readAllBalanceNotZero() {
         String sql = "Select * from " + _TABLE + " where " + _BALANCE + " != 0";
 
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
         cursor.moveToFirst();
         List<Account> accounts = new ArrayList<Account>();
         while (!cursor.isAfterLast()) {
@@ -93,7 +93,7 @@ public class AccountPersist {
 
     public BigDecimal readTotalBalance() {
         String sql = "select sum(" + _BALANCE + ") as total from " + _TABLE;
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
         cursor.moveToFirst();
         BigDecimal total;
         Double totalDouble = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
@@ -107,39 +107,18 @@ public class AccountPersist {
         contentValues.put(_NUMBER, account.getAccountNumber());
         contentValues.put(_BALANCE, account.getBalance().toString());
         contentValues.put(_NOTE, account.getNote());
-        db.update(_TABLE, contentValues, _ID + " = " + account.getId(), null);
+        mDBH.getWritableDatabase().update(_TABLE, contentValues, _ID + " = " + account.getId(), null);
         return account;
     }
 
     public Boolean delete(Long rowID) {
-        this.db.delete(_TABLE, _ID + " = " + rowID, null);
+        this.mDBH.getWritableDatabase().delete(_TABLE, _ID + " = " + rowID, null);
         return true;
     }
 
 
 
-    public Boolean initialize() {
 
-        Account account = new Account();
-        account.setName("Bank account");
-        account.setAccountNumber("000002");
-
-        this.insert(account);
-
-        account = new Account();
-        account.setName("Cash on Hand");
-        account.setAccountNumber("000001");
-        account.setNote("Cash cash cash !!!!.");
-
-        this.insert(account);
-
-
-        account = new Account();
-        account.setName("Credit card");
-        account.setAccountNumber("000003");
-        this.insert(account);
-        return true;
-    }
 
     public boolean save(Account account) {
         if (account.getId() > 0) {
@@ -151,13 +130,62 @@ public class AccountPersist {
         return true;
     }
 
-    public Boolean create() {
-        this.db.execSQL(CREATE);
+    /**
+     * This static method is only used by DatabaseHelper to create database;
+     * @param db
+     * @return
+     */
+    public static Boolean create(SQLiteDatabase db) {
+        db.execSQL(CREATE);
         return true;
     }
 
-    public Boolean drop() {
-        this.db.execSQL(DROP);
+    /**
+     * This static method is only used by DatabaseHelper to drop table when Upgrade database;
+     * @param db
+     * @return
+     */
+
+    public static Boolean drop(SQLiteDatabase db) {
+        db.execSQL(DROP);
+        return true;
+    }
+
+    /**
+     Insert initial account data into database;
+     This static method is only used by DatabaseHelper;
+     * @param db
+     * @return
+     */
+    public static Boolean initialize(SQLiteDatabase db) {
+
+        String[][] accounts = {{"Cash on hand", "00001"},{"Bank account","00002"},{"Credit card", "00003"}};
+
+        ContentValues contentValues = new ContentValues();
+        for( int i = 0 ; i < accounts.length; i++){
+            contentValues.put(_NAME, accounts[i][0]);
+            contentValues.put(_NUMBER, accounts[i][1]);
+            db.insert(_TABLE, null, contentValues);
+            contentValues.clear();
+        }
+
+//        Account account = new Account();
+//        account.setName("Bank account");
+//        account.setAccountNumber("000002");
+//        this.insert(account);
+//
+//        account = new Account();
+//        account.setName("Cash on Hand");
+//        account.setAccountNumber("000001");
+//        account.setNote("Cash cash cash !!!!.");
+//
+//        this.insert(account);
+//
+//
+//        account = new Account();
+//        account.setName("Credit card");
+//        account.setAccountNumber("000003");
+//        this.insert(account);
         return true;
     }
 

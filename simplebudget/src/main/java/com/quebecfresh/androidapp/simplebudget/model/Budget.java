@@ -11,17 +11,13 @@ import java.util.GregorianCalendar;
  * Created by Tong Huang on 2015-02-19, 10:02 AM.
  */
 public class Budget extends BaseData {
+
     private Cycle cycle = Cycle.Monthly;
     private BigDecimal budgetAmount = new BigDecimal("0");
     private Account account;
-    private int cycleStartDate = 1; //The budget amount will be fill to balance on that day;
-    //eg: cycle is weekly, possible value is 1,2,3,4,5,6,7. eg: cycle is monthly, possible value
-    //is 1-the first day of that month, 5-5th of that month, 10-10th of the month, 15-15th of that month
-    //20-20th of that month,25-25th of that month, 31-the last day of that month.
-    //eg: cycle is yearly, possible value is 1- 1st January, 2-31st January, 3-1st July,
-    // 4-31st July, 5-1st December, 6-31st December
+    private Long cycleStartDate = Calendar.getInstance().getTimeInMillis();
     private Long lastPutDate = 0L;
-
+    private Boolean rollOver = Boolean.TRUE;
 
 
     public Budget() {
@@ -42,6 +38,28 @@ public class Budget extends BaseData {
         this.setCycle(cycle);
         this.setBudgetAmount(budgetAmount);
     }
+
+    public String getCycleStartDateLabel(){
+        return this.formatDate(this.cycleStartDate);
+    }
+
+    public Long getCycleStartDate() {
+        return cycleStartDate;
+    }
+
+    public void setCycleStartDate(Long cycleStartDate) {
+        this.cycleStartDate = cycleStartDate;
+    }
+
+    public Boolean getRollOver() {
+        return rollOver;
+    }
+
+    public void setRollOver(Boolean rollOver) {
+        this.rollOver = rollOver;
+    }
+
+
 
 
     private int calcDaysBetween2Dates(Calendar begin, Calendar end) {
@@ -215,14 +233,5 @@ public class Budget extends BaseData {
         convertedAmount = convertedAmount.setScale(2, RoundingMode.HALF_UP);
         return convertedAmount;
     }
-
-    public int getCycleStartDate() {
-        return cycleStartDate;
-    }
-
-    public void setCycleStartDate(int cycleStartDate) {
-        this.cycleStartDate = cycleStartDate;
-    }
-
 
 }

@@ -11,9 +11,8 @@ import java.math.BigDecimal;
 public class ExpenseBudget extends Budget {
 
 
-    private Boolean rollOver = Boolean.TRUE;
-    private BigDecimal unusedBalance = new BigDecimal("0");
 
+    private BigDecimal unusedBalance = new BigDecimal("0");
 
     public enum EXPENSE_BUDGET_CATEGORY {
         FOODS, SHELTER, UTILITIES, TRANSPORTATION, OTHERS;
@@ -63,13 +62,7 @@ public class ExpenseBudget extends Budget {
         this.expenseBudgetCategory = expenseBudgetCategory;
     }
 
-    public Boolean getRollOver() {
-        return rollOver;
-    }
 
-    public void setRollOver(Boolean rollOver) {
-        this.rollOver = rollOver;
-    }
 
     public BigDecimal getUnusedBalance() {
         return unusedBalance;
@@ -79,24 +72,28 @@ public class ExpenseBudget extends Budget {
         this.unusedBalance = unusedBalance;
     }
 
+
+
     public static final class Contract implements BaseColumns {
         public static final String _TABLE = "expense_budget";
         public static final String _NAME = "name";
         public static final String _CYCLE = "cycle";
         public static final String _BUDGET_AMOUNT = "budget_amount";
         public static final String _NOTE = "note";
-        public static final String _CATEGORY_GROUP = "category_group";
+        public static final String _BUDGET_CATEGORY = "budget_category";
         public static final String _UNUSED_BALANCE = "_unused_balance";
         public static final String _ROLL_OVER = "roll_over";
         public static final String _ACCOUNT_ID = "_account_id";
         public static final String _LAST_FILL_DATE = "_last_fill_date";
+        public static final String _CYCLE_START_DATE = "_cycle_start_date";
 
         public static final String CREATE = "create table " + _TABLE + "(" + _ID
                 + TYPE_ID + COMMA + _NAME + TYPE_TEXT + COMMA + _CYCLE + TYPE_TEXT + COMMA
-                + _BUDGET_AMOUNT + TYPE_TEXT + COMMA + _NOTE + TYPE_TEXT + COMMA
-                + _CATEGORY_GROUP + TYPE_TEXT + COMMA + _UNUSED_BALANCE + TYPE_TEXT
-                + COMMA + _ROLL_OVER + TYPE_INTEGER + COMMA + _ACCOUNT_ID + TYPE_INTEGER
-                + COMMA + _LAST_FILL_DATE + TYPE_INTEGER + ")";
+                + _BUDGET_AMOUNT + TYPE_TEXT + DEFAULT_ZERO + COMMA + _NOTE + TYPE_TEXT + COMMA
+                + _BUDGET_CATEGORY + TYPE_TEXT + COMMA + _UNUSED_BALANCE + TYPE_TEXT + DEFAULT_ZERO
+                + COMMA + _ROLL_OVER + TYPE_INTEGER + DEFAULT_ONE + COMMA + _ACCOUNT_ID + TYPE_INTEGER
+                + COMMA + _LAST_FILL_DATE + TYPE_INTEGER +  COMMA + _CYCLE_START_DATE
+                + TYPE_INTEGER + ")";
         public static final String DROP = "drop table if exists " + _TABLE;
 
     }

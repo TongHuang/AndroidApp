@@ -56,10 +56,10 @@ public class MainActivity extends ActionBarActivity {
     private void calcTotalIncomesAndExpenses() {
         long begin = Utils.getBeginOfCycle(this.selectedCycle, this.selectedDate);
         long end = Utils.getEndOfCycle(this.selectedCycle, this.selectedDate);
-        IncomePersist incomePersist = new IncomePersist(this.readableDB);
+        IncomePersist incomePersist = new IncomePersist(this);
         incomeTotal =incomePersist.readTotal(begin, end);
 
-        ExpensePersist expensePersist = new ExpensePersist(this.readableDB);
+        ExpensePersist expensePersist = new ExpensePersist(this);
         expenseTotal = expensePersist.readTotalAmount(begin, end);
 
     }
@@ -86,14 +86,14 @@ public class MainActivity extends ActionBarActivity {
 
         this.calcTotalIncomesAndExpenses();
 
-        IncomeBudgetPersist incomeBudgetPersist = new IncomeBudgetPersist(readableDB);
+        IncomeBudgetPersist incomeBudgetPersist = new IncomeBudgetPersist(this);
         List<IncomeBudget> incomeBudgetList = incomeBudgetPersist.readAll();
         incomeBudgetTotal = new BigDecimal("0");
         for (IncomeBudget incomeBudget : incomeBudgetList) {
             incomeBudgetTotal = incomeBudgetTotal.add(incomeBudget.convertBudgetAmountTo(selectedCycle));
         }
 
-        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(readableDB);
+        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(this);
         List<ExpenseBudget> expenseBudgetList = expenseBudgetPersist.readAll();
         expenseBudgetTotal = new BigDecimal("0");
         for (ExpenseBudget expenseBudget : expenseBudgetList) {
@@ -101,7 +101,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
-        AccountPersist accountPersist = new AccountPersist(readableDB);
+        AccountPersist accountPersist = new AccountPersist(this);
 
         balanceTotal = accountPersist.readTotalBalance().add(expenseBudgetPersist.readTotalUnusedBalance());
 

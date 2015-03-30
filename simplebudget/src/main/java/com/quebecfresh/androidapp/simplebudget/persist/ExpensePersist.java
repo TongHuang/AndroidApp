@@ -1,11 +1,11 @@
 package com.quebecfresh.androidapp.simplebudget.persist;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.quebecfresh.androidapp.simplebudget.model.Expense;
-import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -17,15 +17,12 @@ import static com.quebecfresh.androidapp.simplebudget.model.Expense.Contract.*;
 /**
  * Created by Tong Huang on 2015-03-16, 7:01 AM.
  */
-public class ExpensePersist {
-    private SQLiteDatabase db;
-    private AccountPersist accountPersist;
+public class ExpensePersist extends  Persist{
     private ExpenseBudgetPersist expenseBudgetPersist;
 
-    public ExpensePersist(SQLiteDatabase db) {
-        this.db = db;
-        this.accountPersist = new AccountPersist(db);
-        this.expenseBudgetPersist = new ExpenseBudgetPersist(db);
+    public ExpensePersist(Context context) {
+        super(context);
+        this.expenseBudgetPersist = new ExpenseBudgetPersist(context);
     }
 
     public Expense insert(Expense expense) {
@@ -36,14 +33,14 @@ public class ExpensePersist {
         contentValues.put(_AMOUNT, expense.getAmount().toString());
         contentValues.put(_SPENT_DATE, expense.getSpentDate());
 
-        Long rowID = this.db.insert(_TABLE, null, contentValues);
+        Long rowID = this.mDBH.getWritableDatabase().insert(_TABLE, null, contentValues);
         expense.setId(rowID);
         return expense;
     }
 
     public Expense read(Long rowID) {
         String sql = "select * from " + _TABLE + " where " + _ID + " = " + rowID;
-        Cursor cursor = this.db.rawQuery(sql, null);
+        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
         cursor.moveToFirst();
         Long expenseBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
         Expense expense = new Expense();
@@ -59,7 +56,7 @@ public class ExpensePersist {
     public List<Expense> readAll() {
         String sql = " select * from " + _TABLE + " order by " + _SPENT_DATE + " desc";
         List<Expense> expenseList = new ArrayList<Expense>();
-        Cursor cursor = this.db.rawQuery(sql, null);
+        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Long expenseBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
@@ -80,7 +77,7 @@ public class ExpensePersist {
         String sql = " select * from " + _TABLE + " where " + _SPENT_DATE + " >= " + begin
                 + " and " + _SPENT_DATE + " <= " + end + " order by " + _SPENT_DATE + " desc";
         List<Expense> expenseList = new ArrayList<Expense>();
-        Cursor cursor = this.db.rawQuery(sql, null);
+        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Long expenseBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
@@ -101,7 +98,7 @@ public class ExpensePersist {
         String sql = " select sum(" + _AMOUNT + ") as total from " + _TABLE + " where " + _SPENT_DATE + " >= " + begin
                 + " and " + _SPENT_DATE + " <= " + end;
         List<Expense> expenseList = new ArrayList<Expense>();
-        Cursor cursor = this.db.rawQuery(sql, null);
+        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
         cursor.moveToFirst();
         BigDecimal total;
         Double totalDouble = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
@@ -116,22 +113,31 @@ public class ExpensePersist {
         contentValues.put(_BUDGET_ID, expense.getExpenseBudget().getId());
         contentValues.put(_AMOUNT, expense.getAmount().toString());
         contentValues.put(_SPENT_DATE, expense.getSpentDate());
-        this.db.update(_TABLE, contentValues, _ID + " = " + expense.getId(), null);
+        this.mDBH.getWritableDatabase().update(_TABLE, contentValues, _ID + " = " + expense.getId(), null);
         return expense;
     }
 
     public Boolean delete(Long rowID) {
-        this.db.delete(_TABLE, _ID + " = " + rowID, null);
+        this.mDBH.getWritableDatabase().delete(_TABLE, _ID + " = " + rowID, null);
         return true;
     }
 
-    public Boolean create() {
-        this.db.execSQL(CREATE);
+    /**
+     * This static method is only used by DatabaseHelper to create database;
+     * @param db
+     * @return
+     */
+    public  static Boolean create(SQLiteDatabase db) {
+        db.execSQL(CREATE);
         return true;
     }
-
-    public Boolean drop() {
-        this.db.execSQL(DROP);
+    /**
+     * This static method is only used by DatabaseHelper to drop table when Upgrade database;
+     * @param db
+     * @return
+     */
+    public static Boolean drop(SQLiteDatabase db) {
+        db.execSQL(DROP);
         return Boolean.TRUE;
     }
 

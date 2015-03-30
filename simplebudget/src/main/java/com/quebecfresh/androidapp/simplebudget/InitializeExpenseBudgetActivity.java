@@ -71,7 +71,7 @@ public class InitializeExpenseBudgetActivity extends ActionBarActivity {
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        ExpenseBudgetPersist persist = new ExpenseBudgetPersist(db);
+        ExpenseBudgetPersist persist = new ExpenseBudgetPersist(this);
         mExpenseBudgetList = persist.readAll();
 
         ExpandableExpenseBudgetFragment expandableExpenseBudgetFragment = new ExpandableExpenseBudgetFragment();
