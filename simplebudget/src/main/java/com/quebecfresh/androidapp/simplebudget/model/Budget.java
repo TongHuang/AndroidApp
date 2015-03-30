@@ -16,7 +16,7 @@ public class Budget extends BaseData {
     private BigDecimal budgetAmount = new BigDecimal("0");
     private Account account;
     private Long cycleStartDate = Calendar.getInstance().getTimeInMillis();
-    private Long lastPutDate = 0L;
+    private Long lastFillDate = 0L;
     private Boolean rollOver = Boolean.TRUE;
 
 
@@ -128,18 +128,18 @@ public class Budget extends BaseData {
     /*
     public void putMoneyIntoPocket(boolean rollOver) {
         Calendar now = Calendar.getInstance();
-        Calendar lastPutDate = Calendar.getInstance();
-        lastPutDate.setTime(new Date(this.lastPutDate));
+        Calendar lastFillDate = Calendar.getInstance();
+        lastFillDate.setTime(new Date(this.lastFillDate));
         Integer cycleNumber = 0;
         BigDecimal amountPutting = new BigDecimal("0");
-        //If now and lastPutDate is the same day, do nothing.
-        if (calcDaysBetween2Dates(lastPutDate, now) == 0) {
+        //If now and lastFillDate is the same day, do nothing.
+        if (calcDaysBetween2Dates(lastFillDate, now) == 0) {
             return;
         }
         switch (this.cycle) {
             case Daily:
                 if (rollOver) {
-                    cycleNumber = this.calcDaysBetween2Dates(lastPutDate, now);
+                    cycleNumber = this.calcDaysBetween2Dates(lastFillDate, now);
                     amountPutting = this.budgetAmount.multiply(new BigDecimal(cycleNumber.toString()));
                     this.balance = this.balance.add(amountPutting);
                 }else{
@@ -149,7 +149,7 @@ public class Budget extends BaseData {
                 this.account.setBalance(this.account.getBalance().subtract(amountPutting));
             case Weekly:
                 if(rollOver){
-                    cycleNumber = this.calcWeeksBetween2Dates(lastPutDate, now, cycleStartDate);
+                    cycleNumber = this.calcWeeksBetween2Dates(lastFillDate, now, cycleStartDate);
                     amountPutting = this.budgetAmount.multiply(new BigDecimal(cycleNumber.toString()));
                     this.balance = this.balance.add(amountPutting);
                 }else{
@@ -157,7 +157,7 @@ public class Budget extends BaseData {
                 }
                 this.account.setBalance(this.account.getBalance().subtract(amountPutting));
             case Every_2_Weeks:
-                if (now.get(Calendar.DAY_OF_WEEK) == this.cycleStartDate && (lastPutDate.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) {
+                if (now.get(Calendar.DAY_OF_WEEK) == this.cycleStartDate && (lastFillDate.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)) {
                 return true;
             }
             return false;
@@ -190,17 +190,17 @@ public class Budget extends BaseData {
     }
 
     public String getLastFillDateLabel() {
-        Date date = new Date(this.lastPutDate);
+        Date date = new Date(this.lastFillDate);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return sdf.format(date);
     }
 
-    public Long getLastPutDate() {
-        return lastPutDate;
+    public Long getLastFillDate() {
+        return lastFillDate;
     }
 
-    public void setLastPutDate(Long lastPutDate) {
-        this.lastPutDate = lastPutDate;
+    public void setLastFillDate(Long lastFillDate) {
+        this.lastFillDate = lastFillDate;
     }
 
     public Cycle getCycle() {

@@ -36,7 +36,7 @@ public class ExpenseBudgetPersist extends Persist {
         contentValues.put(_UNUSED_BALANCE, expenseBudget.getUnusedBalance().toString());
         contentValues.put(_ROLL_OVER, expenseBudget.getRollOver() == Boolean.TRUE ? 1 : 0);
         contentValues.put(_ACCOUNT_ID, expenseBudget.getAccount().getId());
-        contentValues.put(_LAST_FILL_DATE, expenseBudget.getLastPutDate());
+        contentValues.put(_LAST_FILL_DATE, expenseBudget.getLastFillDate());
         contentValues.put(_CYCLE_START_DATE, expenseBudget.getCycleStartDate());
         Long rowID = mDBH.getWritableDatabase().insert(_TABLE, null, contentValues);
         expenseBudget.setId(rowID);
@@ -56,7 +56,7 @@ public class ExpenseBudgetPersist extends Persist {
         expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_CATEGORY))));
         expenseBudget.setUnusedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNUSED_BALANCE))));
         expenseBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true : false);
-        expenseBudget.setLastPutDate(cursor.getLong(cursor.getColumnIndexOrThrow(_LAST_FILL_DATE)));
+        expenseBudget.setLastFillDate(cursor.getLong(cursor.getColumnIndexOrThrow(_LAST_FILL_DATE)));
         expenseBudget.setCycleStartDate(cursor.getLong(cursor.getColumnIndexOrThrow(_CYCLE_START_DATE)));
         long accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
         expenseBudget.setAccount(accountPersist.read(accountID));
@@ -80,7 +80,7 @@ public class ExpenseBudgetPersist extends Persist {
             expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_CATEGORY))));
             expenseBudget.setUnusedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNUSED_BALANCE))));
             expenseBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true : false);
-            expenseBudget.setLastPutDate(cursor.getLong(cursor.getColumnIndexOrThrow(_LAST_FILL_DATE)));
+            expenseBudget.setLastFillDate(cursor.getLong(cursor.getColumnIndexOrThrow(_LAST_FILL_DATE)));
             expenseBudget.setCycleStartDate(cursor.getLong(cursor.getColumnIndexOrThrow(_CYCLE_START_DATE)));
             accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
             expenseBudget.setAccount(accountPersist.read(accountID));
@@ -110,7 +110,7 @@ public class ExpenseBudgetPersist extends Persist {
             expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_CATEGORY))));
             expenseBudget.setUnusedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNUSED_BALANCE))));
             expenseBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true : false);
-            expenseBudget.setLastPutDate(cursor.getLong(cursor.getColumnIndexOrThrow(_LAST_FILL_DATE)));
+            expenseBudget.setLastFillDate(cursor.getLong(cursor.getColumnIndexOrThrow(_LAST_FILL_DATE)));
             expenseBudget.setCycleStartDate(cursor.getLong(cursor.getColumnIndexOrThrow(_CYCLE_START_DATE)));
             accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
             expenseBudget.setAccount(accountPersist.read(accountID));
@@ -137,7 +137,7 @@ public class ExpenseBudgetPersist extends Persist {
             expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_CATEGORY))));
             expenseBudget.setUnusedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNUSED_BALANCE))));
             expenseBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true : false);
-            expenseBudget.setLastPutDate(cursor.getLong(cursor.getColumnIndexOrThrow(_LAST_FILL_DATE)));
+            expenseBudget.setLastFillDate(cursor.getLong(cursor.getColumnIndexOrThrow(_LAST_FILL_DATE)));
             expenseBudget.setCycleStartDate(cursor.getLong(cursor.getColumnIndexOrThrow(_CYCLE_START_DATE)));
             accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
             expenseBudget.setAccount(accountPersist.read(accountID));
@@ -168,7 +168,7 @@ public class ExpenseBudgetPersist extends Persist {
         contentValues.put(_UNUSED_BALANCE, expenseBudget.getUnusedBalance().toString());
         contentValues.put(_ROLL_OVER, expenseBudget.getRollOver() == true ? 1 : 0);
         contentValues.put(_ACCOUNT_ID, expenseBudget.getAccount().getId());
-        contentValues.put(_LAST_FILL_DATE, expenseBudget.getLastPutDate());
+        contentValues.put(_LAST_FILL_DATE, expenseBudget.getLastFillDate());
         contentValues.put(_CYCLE_START_DATE, expenseBudget.getCycleStartDate());
         this.mDBH.getWritableDatabase().update(_TABLE, contentValues, _ID + " = " + expenseBudget.getId(), null);
         return expenseBudget;

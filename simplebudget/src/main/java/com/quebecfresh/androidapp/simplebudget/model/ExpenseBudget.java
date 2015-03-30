@@ -92,8 +92,8 @@ public class ExpenseBudget extends Budget {
                 + _BUDGET_AMOUNT + TYPE_TEXT + DEFAULT_ZERO + COMMA + _NOTE + TYPE_TEXT + COMMA
                 + _BUDGET_CATEGORY + TYPE_TEXT + COMMA + _UNUSED_BALANCE + TYPE_TEXT + DEFAULT_ZERO
                 + COMMA + _ROLL_OVER + TYPE_INTEGER + DEFAULT_ONE + COMMA + _ACCOUNT_ID + TYPE_INTEGER
-                + COMMA + _LAST_FILL_DATE + TYPE_INTEGER +  COMMA + _CYCLE_START_DATE
-                + TYPE_INTEGER + ")";
+                + COMMA + _LAST_FILL_DATE + TYPE_INTEGER + DEFAULT_ZERO +  COMMA + _CYCLE_START_DATE
+                + TYPE_INTEGER + DEFAULT_ZERO + ")";
         public static final String DROP = "drop table if exists " + _TABLE;
 
     }
