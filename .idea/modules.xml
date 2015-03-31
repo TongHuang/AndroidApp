@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidApp.iml" filepath="$PROJECT_DIR$/AndroidApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/arithmeticforkid/arithmeticforkid.iml" filepath="$PROJECT_DIR$/arithmeticforkid/arithmeticforkid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/calculator/calculator.iml" filepath="$PROJECT_DIR$/calculator/calculator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simplebudget/simplebudget.iml" filepath="$PROJECT_DIR$/simplebudget/simplebudget.iml" />
+    </modules>
+  </component>
+</project>
+
