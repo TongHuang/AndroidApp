@@ -253,7 +253,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:text="Expense"
-                        android:id="@+id/buttonExpense"
+                        android:id="@+id/buttonExpenseBudget"
                         android:layout_gravity="left|center_vertical"
                         android:layout_weight="10"
                         android:onClick="showExpenseList" />

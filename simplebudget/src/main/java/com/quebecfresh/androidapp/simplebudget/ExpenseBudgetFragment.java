@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 import com.quebecfresh.androidapp.simplebudget.persist.ExpenseBudgetPersist;
@@ -50,7 +52,10 @@ public class ExpenseBudgetFragment extends Fragment {
         mListViewExpenseBudgets.setAdapter(expenseBudgetListViewAdapter);
 
         BigDecimal total = mExpenseBudgetPersist.readTotalUnusedBalance();
-        mListViewFooterExpenseBudgets  = inflater.inflate(R.layout.list_footer_total, null);
+        mListViewFooterExpenseBudgets  = inflater.inflate(R.layout.list_footer_total_with_cycle, null);
+        Spinner spinnerCycle = (Spinner)mListViewFooterExpenseBudgets.findViewById(R.id.spinnerCycle);
+        CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(inflater.getContext(), Cycle.values());
+        spinnerCycle.setAdapter(cycleSpinnerAdapter);
         TextView textViewTotal =(TextView)mListViewFooterExpenseBudgets.findViewById(R.id.textViewTotal);
         textViewTotal.setText(total.toString());
         mListViewExpenseBudgets.addFooterView(mListViewFooterExpenseBudgets);

@@ -7,11 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Budget;
+import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
 import com.quebecfresh.androidapp.simplebudget.model.Utils;
 
@@ -29,7 +32,7 @@ public class ExpandableExpenseBudgetFragment extends Fragment {
     private ExpandableListView mExpandableListViewExpenseBudget;
     private List<ExpenseBudget> mExpenseBudgetList;
     private View mListViewFooter;
-
+    private TextView mTextViewTotal;
 
 
     public ExpandableExpenseBudgetFragment() {
@@ -93,6 +96,26 @@ public class ExpandableExpenseBudgetFragment extends Fragment {
         expenseBudgetMap.put(group.get(3), transportation);
         expenseBudgetMap.put(group.get(4), others);
 
+
+        //Spinner have to initialize before mTextViewTotal, because mTextViewTotal invoke getSelectedItem
+        Spinner spinnerCycle = (Spinner)view.findViewById(R.id.spinnerCycle);
+        CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(inflater.getContext(), Cycle.values());
+        spinnerCycle.setAdapter(cycleSpinnerAdapter);
+        spinnerCycle.setSelection(3);
+        spinnerCycle.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mTextViewTotal.setText(Utils.calTotalExpenseBudgetAmount(mExpenseBudgetList, (Cycle)parent.getSelectedItem()).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mTextViewTotal =  (TextView)view.findViewById(R.id.textViewTotal);
+        mTextViewTotal.setText(Utils.calTotalExpenseBudgetAmount(mExpenseBudgetList, (Cycle)spinnerCycle.getSelectedItem()).toString());
+
         ExpenseBudgetExpandableListViewAdapter adapter = new ExpenseBudgetExpandableListViewAdapter(group, expenseBudgetMap, inflater.getContext());
         mExpandableListViewExpenseBudget = (ExpandableListView) view.findViewById(R.id.expandableListViewExpenseBudget);
         mExpandableListViewExpenseBudget.setAdapter(adapter);
@@ -109,10 +132,7 @@ public class ExpandableExpenseBudgetFragment extends Fragment {
         if (this.mExpandedCategoryPosition >= 0) {
             mExpandableListViewExpenseBudget.expandGroup(this.mExpandedCategoryPosition);
         }
-        View expandableListViewFooter = inflater.inflate(R.layout.list_footer_total, null);
-        TextView textViewTotal =  (TextView)expandableListViewFooter.findViewById(R.id.textViewTotal);
-        textViewTotal.setText(Utils.calTotalExpenseBudgetAmount(mExpenseBudgetList).toString());
-        mExpandableListViewExpenseBudget.addFooterView(expandableListViewFooter);
+
        return view;
     }
 

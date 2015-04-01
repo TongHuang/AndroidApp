@@ -56,22 +56,6 @@
             style="@style/detailSecondColumnSpinnerStyle"/>
     </LinearLayout>
 
-    <LinearLayout style="@style/detailRowStyle">
-
-        <TextView
-
-            style="@style/detailFirstColumnStyle"
-            android:text="@string/start_date"
-            android:id="@+id/textView12" />
-
-        <Button
-            style="@style/detailSecondColumnButtonStyle"
-            android:text="Cycle Start date"
-            android:id="@+id/buttonChooseCycleStartDate"
-            android:onClick="chooseCycleStartDate" />
-
-    </LinearLayout>
-
 
     <LinearLayout style="@style/detailRowStyle">
 
@@ -83,39 +67,6 @@
         <EditText
             android:id="@+id/editTextBudgetAmount"
             style="@style/detailSecondColumnEditTextStyle"/>
-    </LinearLayout>
-
-    <LinearLayout style="@style/detailRowStyle">
-
-        <TextView
-            android:text="@string/roll_over"
-            android:id="@+id/textView"
-            style="@style/detailFirstColumnStyle"/>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="20">
-
-            <CheckBox
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/roll_over"
-                android:id="@+id/checkBoxRollover"
-                android:layout_gravity="left|center_vertical"
-                android:layout_weight="10" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="\?"
-                android:id="@+id/buttonWhatisthis"
-                android:layout_gravity="center_vertical|right"
-                android:onClick="showWhatIsRollover"
-                android:layout_weight="10" />
-
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout style="@style/detailRowStyle">

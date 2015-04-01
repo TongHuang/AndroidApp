@@ -74,7 +74,7 @@ public class IncomeBudget extends Budget {
         public static final String _CYCLE = "cycle";
         public static final String _BUDGET_AMOUNT = "budget_amount";
         public static final String _BUDGET_CATEGORY = "budget_category";
-        public static final String _UNREALIZED_BALANCE = "_unrealized_balance";
+        public static final String _UNREALIZED_BALANCE = "unrealized_balance";
         public static final String _ROLL_OVER = "roll_over";
         public static final String _ACCOUNT_ID = "account_id";
 

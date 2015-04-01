@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.quebecfresh.androidapp.simplebudget.model.Expense;
+import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudgetHistory;
 
 
 /**
@@ -12,7 +13,7 @@ import com.quebecfresh.androidapp.simplebudget.model.Expense;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 11;
+    public static final int DATABASE_VERSION = 12;
     public static final String DATABASE_NAME = "simplebudget";
 
     private  Context mContext;
@@ -33,6 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ExpenseBudgetPersist.initialize(db);
         IncomePersist.create(db);
         ExpensePersist.create(db);
+        ExpenseBudgetHistoryPersist.create(db);
     }
 
     @Override
@@ -42,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ExpenseBudgetPersist.drop(db);
         IncomePersist.drop(db);
         ExpensePersist.drop(db);
+        ExpenseBudgetHistoryPersist.drop(db);
         onCreate(db);
     }
 }

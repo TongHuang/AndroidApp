@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 
 
-public class EditExpenseBudgetActivity extends ActionBarActivity implements ChooseAccountDialogFragment.AccountChooseListener {
+public class EditExpenseBudgetActivity extends ActionBarActivity {
 
     private EditText mEditTextName;
     private Button mButtonAccount;
@@ -40,18 +40,19 @@ public class EditExpenseBudgetActivity extends ActionBarActivity implements Choo
     private ExpenseBudgetPersist mExpenseBudgetPersist;
     private Long mRowID;
 
-    @Override
-    public void choose(Account account) {
-        this.mExpenseBudget.setAccount(account);
-        this.mButtonAccount.setText(account.getName());
-    }
 
     public void chooseAccount(View view) {
         ChooseAccountDialogFragment chooseAccountDialogFragment = new ChooseAccountDialogFragment();
         AccountPersist accountPersist = new AccountPersist(this);
         chooseAccountDialogFragment.setAccountList(accountPersist.readAll());
         chooseAccountDialogFragment.show(this.getSupportFragmentManager(), "Choose account");
-        chooseAccountDialogFragment.setAccountChooseListener(this);
+        chooseAccountDialogFragment.setAccountChooseListener(new ChooseAccountDialogFragment.AccountChooseListener() {
+            @Override
+            public void choose(Account account) {
+                mExpenseBudget.setAccount(account);
+                mButtonAccount.setText(account.getName());
+            }
+        });
     }
 
 
@@ -78,7 +79,7 @@ public class EditExpenseBudgetActivity extends ActionBarActivity implements Choo
         setContentView(R.layout.activity_edit_expense_budget);
 
         Intent intent = getIntent();
-        mRowID = intent.getLongExtra(InitializeExpenseBudgetActivity.EXTRA_EXPENSE_BUDGET_ID, 0);
+        mRowID = intent.getLongExtra(ExpandableExpenseBudgetFragment.EXTRA_EXPENSE_BUDGET_ID, -1);
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -94,7 +95,7 @@ public class EditExpenseBudgetActivity extends ActionBarActivity implements Choo
         mEditTextName.setText(mExpenseBudget.getName());
         mButtonAccount = (Button) findViewById(R.id.buttonAccount);
         if (mExpenseBudget.getAccount() != null) {
-            mButtonAccount.setText(mExpenseBudget.getAccount().getName() + " : " + mExpenseBudget.getAccount().getBalance().toString());
+            mButtonAccount.setText(mExpenseBudget.getAccount().getName());
         }
         mSpinnerExpenseBudgetCategory = (Spinner) this.findViewById(R.id.spinnerExpenseBudgetCategory);
         ExpenseCategoryGroupSpinnerAdapter expenseCategoryGroupSpinnerAdapter = new ExpenseCategoryGroupSpinnerAdapter(this, ExpenseBudget.EXPENSE_BUDGET_CATEGORY.values());
@@ -102,53 +103,11 @@ public class EditExpenseBudgetActivity extends ActionBarActivity implements Choo
         mSpinnerExpenseBudgetCategory.setSelection(mExpenseBudget.getExpenseBudgetCategory().ordinal());
         mSpinnerCycle = (Spinner) findViewById(R.id.spinnerCycle);
         CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(this, Cycle.values());
-        mSpinnerCycle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                TextView textViewBudgetDate = (TextView) findViewById(R.id.textViewBudgetDate);
-//
-//                switch ((Cycle) parent.getSelectedItem()) {
-//                    case Daily:
-//                        textViewBudgetDate.setText("Every day");
-//                        break;
-//                    case Weekly:
-//                        textViewBudgetDate.setText("Every Sunday");
-//                        break;
-//                    case Every_2_Weeks:
-//                        textViewBudgetDate.setText("Every 2 Sunday");
-//                        break;
-//                    case Monthly:
-//                        textViewBudgetDate.setText("First day of every month");
-//                        break;
-//                    case Every_2_Months:
-//                        textViewBudgetDate.setText("First day of every 2 months");
-//                        break;
-//                    case Every_3_Months:
-//                        textViewBudgetDate.setText("First day of every 3 months");
-//                        break;
-//                    case Every_6_Months:
-//                        textViewBudgetDate.setText("First day of every 6 months");
-//                        break;
-//                    case Yearly:
-//                        textViewBudgetDate.setText("First day of year");
-//                        break;
-//
-//                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         mSpinnerCycle.setAdapter(cycleSpinnerAdapter);
         mSpinnerCycle.setSelection(mExpenseBudget.getCycle().ordinal());
-        mButtonChooseCycleStartDate = (Button)findViewById(R.id.buttonChooseCycleStartDate);
         mEditTextBudgetAmount = (EditText) findViewById(R.id.editTextBudgetAmount);
         mEditTextBudgetAmount.setText(mExpenseBudget.getBudgetAmount().toString());
-        mCheckBoxRollover = (CheckBox) findViewById(R.id.checkBoxRollover);
-        mCheckBoxRollover.setChecked(mExpenseBudget.getRollOver());
         mEditTextNote = (EditText) findViewById(R.id.editTextNote);
         mEditTextNote.setText(mExpenseBudget.getNote());
     }
@@ -175,7 +134,6 @@ public class EditExpenseBudgetActivity extends ActionBarActivity implements Choo
                 mExpenseBudget.setExpenseBudgetCategory((ExpenseBudget.EXPENSE_BUDGET_CATEGORY) mSpinnerExpenseBudgetCategory.getSelectedItem());
                 mExpenseBudget.setCycle(Cycle.valueOf(mSpinnerCycle.getSelectedItem().toString()));
                 mExpenseBudget.setBudgetAmount(new BigDecimal(mEditTextBudgetAmount.getText().toString()));
-                mExpenseBudget.setRollOver(mCheckBoxRollover.isChecked());
                 mExpenseBudget.setNote(mEditTextNote.getText().toString());
                 this.mExpenseBudgetPersist.save(mExpenseBudget);
         }
@@ -186,10 +144,4 @@ public class EditExpenseBudgetActivity extends ActionBarActivity implements Choo
         return super.onOptionsItemSelected(item);
     }
 
-    public void showWhatIsRollover(View view) {
-        WhatIsThisDialogFragment dialogFragment = new WhatIsThisDialogFragment();
-        dialogFragment.setTitle(getString(R.string.what_is_roll_over_title));
-        dialogFragment.setMessage(getString(R.string.what_is_roll_over));
-        dialogFragment.show(getSupportFragmentManager(), "tag");
-    }
 }

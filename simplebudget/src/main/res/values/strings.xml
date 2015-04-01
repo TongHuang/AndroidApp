@@ -136,6 +136,11 @@
     <string name="balance_of_account">Balance of account</string>
     <string name="note_of_account">Note of account</string>
     <string name="start_date">Start Date</string>
+    <string name="title_activity_budget_review">Review your budget</string>
+    <string name="budget_cycle">Budget cycle</string>
+    <string name="your_income">Your income</string>
+    <string name="your_expense">Your expense</string>
+    <string name="your_surplus">Your suplus</string>
 
 
 </resources>

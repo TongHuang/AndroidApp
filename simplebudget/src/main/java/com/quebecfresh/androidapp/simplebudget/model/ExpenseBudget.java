@@ -84,8 +84,8 @@ public class ExpenseBudget extends Budget {
         public static final String _UNUSED_BALANCE = "_unused_balance";
         public static final String _ROLL_OVER = "roll_over";
         public static final String _ACCOUNT_ID = "_account_id";
-        public static final String _LAST_FILL_DATE = "_last_fill_date";
-        public static final String _CYCLE_START_DATE = "_cycle_start_date";
+        public static final String _LAST_FILL_DATE = "last_fill_date";
+        public static final String _CYCLE_START_DATE = "cycle_start_date";
 
         public static final String CREATE = "create table " + _TABLE + "(" + _ID
                 + TYPE_ID + COMMA + _NAME + TYPE_TEXT + COMMA + _CYCLE + TYPE_TEXT + COMMA

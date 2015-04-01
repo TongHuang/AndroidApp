@@ -21,7 +21,6 @@
     <TextView
         android:text="Amount"
         android:id="@+id/textViewAmount"
-        android:layout_weight="2"
         style="@style/listItemLastColumnStyle"/>
 
 </LinearLayout>

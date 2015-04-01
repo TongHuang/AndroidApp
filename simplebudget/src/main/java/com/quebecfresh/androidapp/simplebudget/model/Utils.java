@@ -3,6 +3,7 @@ package com.quebecfresh.androidapp.simplebudget.model;
 import android.widget.EditText;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.List;
 
@@ -20,13 +21,28 @@ public  final  class Utils {
         return  total;
     }
 
-    public static BigDecimal calTotalExpenseBudgetAmount(List<ExpenseBudget> expenseBudgetList){
+    public static BigDecimal calTotalExpenseBudgetAmount(List<ExpenseBudget> expenseBudgetList, Cycle cycle){
         BigDecimal total = new BigDecimal("0");
         for(Budget budget : expenseBudgetList){
-            total = total.add(budget.getBudgetAmount());
+            if(budget.getBudgetAmount().compareTo(new BigDecimal("0")) > 0) {
+                total = total.add(budget.getBudgetAmount().multiply(new BigDecimal(budget.getCycle().ratio(cycle))));
+            }
+
         }
-        return total;
+        return total.setScale(2, RoundingMode.HALF_UP);
     }
+
+    public static BigDecimal calTotalIncomeBudgetAmount(List<IncomeBudget> incomeBudgetList, Cycle cycle){
+        BigDecimal total = new BigDecimal("0");
+        for(Budget budget : incomeBudgetList){
+            if(budget.getBudgetAmount().compareTo(new BigDecimal("0")) > 0) {
+                total = total.add(budget.getBudgetAmount().multiply(new BigDecimal(budget.getCycle().ratio(cycle))));
+            }
+
+        }
+        return total.setScale(2, RoundingMode.HALF_UP);
+    }
+
 
     public static Boolean isEditTextNumeric(EditText editText){
         if(isEditTextEmpty(editText)){

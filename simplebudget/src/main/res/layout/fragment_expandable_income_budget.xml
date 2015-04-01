@@ -2,9 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.quebecfresh.androidapp.simplebudget.ExpandableExpenseBudgetFragment">
+    tools:context="com.quebecfresh.androidapp.simplebudget.ExpandableIncomeBudgetFragment">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <FrameLayout
         android:layout_gravity="top"
@@ -14,30 +13,30 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Subtract"
             android:layout_gravity="left"
             android:gravity="left"
-            android:id="@+id/textView23" />
+            android:text="@string/total_income"
+            android:id="@+id/textView12" />
 
         <Spinner
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
             android:id="@+id/spinnerCycle" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:gravity="right"
-            android:text="562.23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
             android:id="@+id/textViewTotal" />
     </FrameLayout>
 
     <ExpandableListView
+        android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:id="@+id/expandableListViewExpenseBudget" />
+        android:id="@+id/expandableListViewIncomeBudget" />
 </LinearLayout>

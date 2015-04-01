@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/listFooterRowStyle">
+
+
+    <Spinner
+        android:id="@+id/spinnerCycle"
+        android:layout_weight="4"
+        android:layout_gravity="center"
+        style="@style/listFooterColumnStyle"/>
+
+    <TextView
+        android:text="@string/total"
+        android:id="@+id/textViewTotalLabel"
+        android:layout_weight="4"
+        style="@style/listFooterColumnStyle" />
+
+
+    <TextView
+        android:text="560.25"
+        android:id="@+id/textViewTotal"
+        style="@style/listFooterLastColumnStyle"/>
+</LinearLayout>
