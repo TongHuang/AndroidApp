@@ -1,6 +1,8 @@
 package com.quebecfresh.androidapp.simplebudget;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -31,7 +33,25 @@ public class BudgetReviewActivity extends ActionBarActivity {
     private TextView mTextViewSurplus;
 
 
+    public void showIncomeBudget(View view){
+        ChooseIncomeBudgetDialogFragment chooseIncomeBudgetDialogFragment = new ChooseIncomeBudgetDialogFragment();
+        IncomeBudgetPersist incomeBudgetPersist = new IncomeBudgetPersist(this);
+        chooseIncomeBudgetDialogFragment.setIncomeBudgetList(incomeBudgetPersist.readAllBudgetAmountNotZero());
+        chooseIncomeBudgetDialogFragment.show(getSupportFragmentManager(), "Show incomeBudget");
+    }
+
+    public void showExpenseBudget(View view){
+        ChooseExpenseBudgetDialogFragment chooseExpenseBudgetDialogFragment = new ChooseExpenseBudgetDialogFragment();
+        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(this);
+        chooseExpenseBudgetDialogFragment.setExpenseBudgetList(expenseBudgetPersist.readAllBudgetAmountNotZero());
+        chooseExpenseBudgetDialogFragment.show(getSupportFragmentManager(), "Show expenseBudget");
+    }
+
     public void startUseBudget(View view) {
+        SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(getString(R.string.initialize_done), true);
+        editor.commit();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -40,6 +60,9 @@ public class BudgetReviewActivity extends ActionBarActivity {
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
     }
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

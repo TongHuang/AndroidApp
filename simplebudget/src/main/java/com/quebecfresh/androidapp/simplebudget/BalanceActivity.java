@@ -34,13 +34,19 @@ public class BalanceActivity extends ActionBarActivity {
     private ListView listViewBudget;
     private View mListViewFooterBudget;
 
-    private  AccountFragment mAccountFragment;
+    private AccountFragment mAccountFragment;
     private ExpenseBudgetFragment mExpenseBudgetFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance);
+
+
+        mAccountFragment = new AccountFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragmentContainerAccount, mAccountFragment);
+        fragmentTransaction.commit();
 //
 //        if(findViewById(R.id.fragment_container) != null){
 //            // However, if we're being restored from a previous state,
@@ -82,30 +88,30 @@ public class BalanceActivity extends ActionBarActivity {
 //        listViewBudget.setAdapter(expenseBudgetListViewAdapter);
     }
 
-    public void showAccount(View view){
-        if(mAccountFragment == null) {
-           mAccountFragment = new AccountFragment();
+    public void showAccount(View view) {
+        if (mAccountFragment == null) {
+            mAccountFragment = new AccountFragment();
         }
-        Boolean on = ((ToggleButton)view).isChecked();
+        Boolean on = ((ToggleButton) view).isChecked();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if(on) {
+        if (on) {
             fragmentTransaction.add(R.id.fragmentContainerAccount, mAccountFragment);
-        }else {
+        } else {
             fragmentTransaction.remove(mAccountFragment);
         }
         fragmentTransaction.commit();
     }
 
-    public void showExpenseBudget(View view){
-        if(mExpenseBudgetFragment == null){
-            mExpenseBudgetFragment  = new ExpenseBudgetFragment();
+    public void showExpenseBudget(View view) {
+        if (mExpenseBudgetFragment == null) {
+            mExpenseBudgetFragment = new ExpenseBudgetFragment();
         }
-        Boolean on = ((ToggleButton)view).isChecked();
+        Boolean on = ((ToggleButton) view).isChecked();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if(on) {
+        if (on) {
             fragmentTransaction.add(R.id.fragmentContainerExpenseBudget, mExpenseBudgetFragment);
-        }else{
+        } else {
             fragmentTransaction.remove(mExpenseBudgetFragment);
         }
         fragmentTransaction.commit();

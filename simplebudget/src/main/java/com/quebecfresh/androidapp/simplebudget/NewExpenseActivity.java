@@ -1,15 +1,12 @@
 package com.quebecfresh.androidapp.simplebudget;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -60,7 +57,7 @@ public class NewExpenseActivity extends ActionBarActivity {
 
     public void chooseExpenseBudget(View view) {
         ChooseExpenseBudgetDialogFragment chooseExpenseBudgetDialogFragment = new ChooseExpenseBudgetDialogFragment();
-        chooseExpenseBudgetDialogFragment.setBudgetList(this.expenseBudgetList);
+        chooseExpenseBudgetDialogFragment.setExpenseBudgetList(this.expenseBudgetList);
         chooseExpenseBudgetDialogFragment.setExpenseBudgetChooseListener(new ChooseExpenseBudgetDialogFragment.ExpenseBudgetChooseListener() {
             @Override
             public void Choose(ExpenseBudget expenseBudget) {

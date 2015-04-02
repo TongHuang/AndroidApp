@@ -37,8 +37,8 @@ public class IncomeActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_income);
 
-        this.selectedCycle = Cycle.valueOf(getIntent().getStringExtra(MainActivity.EXTRA_SELECTED_CYCLE));
-        this.selectedDate.setTimeInMillis(getIntent().getLongExtra(MainActivity.EXTRA_SELECTED_DATE, System.currentTimeMillis()));
+        this.selectedCycle = Cycle.valueOf(getIntent().getStringExtra(BudgetOverviewActivity.EXTRA_SELECTED_CYCLE));
+        this.selectedDate.setTimeInMillis(getIntent().getLongExtra(BudgetOverviewActivity.EXTRA_SELECTED_DATE, System.currentTimeMillis()));
         incomePersist = new IncomePersist(this);
         long begin = Utils.getBeginOfCycle(this.selectedCycle, this.selectedDate);
         long end = Utils.getEndOfCycle(this.selectedCycle, this.selectedDate);

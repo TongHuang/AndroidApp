@@ -52,10 +52,10 @@ public class ChooseIncomeBudgetDialogFragment extends android.support.v4.app.Dia
         listViewBudget.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position >= 0){
+                if(incomeBudgetChooseListener != null && position >= 0){
                     incomeBudgetChooseListener.choose(incomeBudgetList.get(position));
-                    ChooseIncomeBudgetDialogFragment.this.dismiss();
                 }
+                ChooseIncomeBudgetDialogFragment.this.dismiss();
             }
         });
 

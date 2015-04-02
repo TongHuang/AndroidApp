@@ -31,7 +31,8 @@
             android:text="25325.25"
             android:id="@+id/buttonIncomeBudget"
             style="@style/detailSecondColumnButtonStyle"
-            android:background="@color/light_blue" />
+            android:textColor="@color/dark_blue"
+            android:onClick="showIncomeBudget" />
     </LinearLayout>
 
     <LinearLayout style="@style/detailRowStyle">
@@ -53,7 +54,8 @@
         <Button style="@style/detailSecondColumnButtonStyle"
             android:text="35451.24"
             android:id="@+id/buttonExpenseBudget"
-            android:background="@color/light_pink" />
+            android:textColor="@color/deep_pink"
+            android:onClick="showExpenseBudget" />
     </LinearLayout>
 
     <LinearLayout style="@style/detailRowStyle">

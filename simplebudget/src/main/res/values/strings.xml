@@ -141,6 +141,9 @@
     <string name="your_income">Your income</string>
     <string name="your_expense">Your expense</string>
     <string name="your_surplus">Your suplus</string>
+    <string name="title_activity_budget_overview">Budget Overview</string>
+    <string name="budget_overview">Budget Overview</string>
+    <string name="most_recent_transactions">Most recent transactions</string>
 
 
 </resources>

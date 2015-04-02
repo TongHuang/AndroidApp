@@ -32,7 +32,6 @@
     <style name="detailFirstColumnStyle">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
-
         <item name="android:layout_weight">10</item>
         <item name="android:gravity">left|center_vertical</item>
     </style>

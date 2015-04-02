@@ -145,6 +145,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.quebecfresh.androidapp.simplebudget.WelcomeActivity" />
         </activity>
+        <activity
+            android:name=".BudgetOverviewActivity"
+            android:label="@string/title_activity_budget_overview"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

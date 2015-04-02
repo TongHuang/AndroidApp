@@ -22,20 +22,20 @@ import java.util.List;
  */
 public class ChooseExpenseBudgetDialogFragment extends DialogFragment {
 
-    private List<ExpenseBudget> budgetList = new ArrayList<ExpenseBudget>();
+    private List<ExpenseBudget> expenseBudgetList = new ArrayList<ExpenseBudget>();
     private ExpenseBudgetChooseListener expenseBudgetChooseListener;
 
     public interface ExpenseBudgetChooseListener {
         public void Choose(ExpenseBudget expenseBudget);
     }
 
-    public List<ExpenseBudget> getBudgetList() {
-        return budgetList;
+    public List<ExpenseBudget> getExpenseBudgetList() {
+        return expenseBudgetList;
     }
 
-    public void setBudgetList(List<ExpenseBudget> budgetList) {
-        this.budgetList.clear();
-        this.budgetList.addAll(budgetList);
+    public void setExpenseBudgetList(List<ExpenseBudget> expenseBudgetList) {
+        this.expenseBudgetList.clear();
+        this.expenseBudgetList.addAll(expenseBudgetList);
     }
 
     public ExpenseBudgetChooseListener getExpenseBudgetChooseListener() {
@@ -52,17 +52,17 @@ public class ChooseExpenseBudgetDialogFragment extends DialogFragment {
         ListView listViewBudget = (ListView) view.findViewById(R.id.listViewBudget);
 //        DatabaseHelper databaseHelper = new DatabaseHelper(this.getActivity());
 //        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(databaseHelper.getReadableDatabase());
-//        budgetList.clear();
-//        budgetList.addAll(expenseBudgetPersist.readAllUnusedBalanceNotZero());
-        ExpenseBudgetListViewAdapter adapter = new ExpenseBudgetListViewAdapter(budgetList, this.getActivity());
+//        expenseBudgetList.clear();
+//        expenseBudgetList.addAll(expenseBudgetPersist.readAllUnusedBalanceNotZero());
+        ExpenseBudgetListViewAdapter adapter = new ExpenseBudgetListViewAdapter(expenseBudgetList, this.getActivity());
         listViewBudget.setAdapter(adapter);
         listViewBudget.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position >= 0) {
-                    expenseBudgetChooseListener.Choose(budgetList.get(position));
-                    ChooseExpenseBudgetDialogFragment.this.dismiss();
+                if(expenseBudgetChooseListener != null && position >= 0 ) {
+                    expenseBudgetChooseListener.Choose(expenseBudgetList.get(position));
                 }
+                ChooseExpenseBudgetDialogFragment.this.dismiss();
             }
         });
 
