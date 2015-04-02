@@ -12,6 +12,14 @@ import java.util.List;
  */
 public  final  class Utils {
 
+    public static BigDecimal calTotalExpense(List<Expense> expenseList){
+        BigDecimal total = new BigDecimal("0");
+        for(Expense expense : expenseList){
+            total = total.add(expense.getAmount());
+        }
+        return total;
+    }
+
 
     public static BigDecimal calTotalIncome(List<Income> incomeList){
         BigDecimal total = new BigDecimal("0");

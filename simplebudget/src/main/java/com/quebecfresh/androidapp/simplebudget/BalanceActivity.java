@@ -47,75 +47,8 @@ public class BalanceActivity extends ActionBarActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragmentContainerAccount, mAccountFragment);
         fragmentTransaction.commit();
-//
-//        if(findViewById(R.id.fragment_container) != null){
-//            // However, if we're being restored from a previous state,
-//            // then we don't need to do anything and should return or else
-//            // we could end up with overlapping fragments.
-//
-//            if(savedInstanceState != null){
-//                return;
-//            }
-//
-//            AccountFragment accountFragment = new AccountFragment();
-//            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, accountFragment).commit();
-//        }
-
-//        db = databaseHelper.getReadableDatabase();
-//
-//        AccountPersist accountPersist = new AccountPersist(db);
-//        List<Account> accountList = accountPersist.readAll();
-//        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(db);
-//        List<ExpenseBudget> mExpenseBudgetList = expenseBudgetPersist.readAllBudgetAmountNotZero();
-//
-//        LayoutInflater layoutInflater  = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        mListViewFooterAccount = layoutInflater.inflate(R.layout.list_footer_total,null);
-//        mListViewFooterBudget = layoutInflater.inflate(R.layout.list_footer_total, null);
-//
-//        TextView textViewAccountTotal = (TextView) mListViewFooterAccount.findViewById(R.id.textViewTotal);
-//        textViewAccountTotal.setText(accountPersist.readTotalBalance().toString());
-//
-//        TextView textViewBudgetTotal = (TextView) mListViewFooterBudget.findViewById(R.id.textViewTotal);
-//        textViewBudgetTotal.setText(expenseBudgetPersist.readTotalUnusedBalance().toString());
-//
-//        AccountListViewAdapter accountListViewAdapter = new AccountListViewAdapter(accountList, this);
-//        listViewAccount = (ListView)findViewById(R.id.listViewAccount);
-//        listViewAccount.addFooterView(mListViewFooterAccount);
-//        listViewAccount.setAdapter(accountListViewAdapter);
-//        ExpenseBudgetListViewAdapter expenseBudgetListViewAdapter = new ExpenseBudgetListViewAdapter(mExpenseBudgetList, this);
-//        listViewBudget = (ListView)findViewById(R.id.listViewBudget);
-//        listViewBudget.addFooterView(mListViewFooterBudget);
-//        listViewBudget.setAdapter(expenseBudgetListViewAdapter);
     }
 
-    public void showAccount(View view) {
-        if (mAccountFragment == null) {
-            mAccountFragment = new AccountFragment();
-        }
-        Boolean on = ((ToggleButton) view).isChecked();
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if (on) {
-            fragmentTransaction.add(R.id.fragmentContainerAccount, mAccountFragment);
-        } else {
-            fragmentTransaction.remove(mAccountFragment);
-        }
-        fragmentTransaction.commit();
-    }
-
-    public void showExpenseBudget(View view) {
-        if (mExpenseBudgetFragment == null) {
-            mExpenseBudgetFragment = new ExpenseBudgetFragment();
-        }
-        Boolean on = ((ToggleButton) view).isChecked();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if (on) {
-            fragmentTransaction.add(R.id.fragmentContainerExpenseBudget, mExpenseBudgetFragment);
-        } else {
-            fragmentTransaction.remove(mExpenseBudgetFragment);
-        }
-        fragmentTransaction.commit();
-    }
 
 
     @Override

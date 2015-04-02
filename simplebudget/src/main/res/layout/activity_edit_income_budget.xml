@@ -33,7 +33,7 @@
             android:text="@string/accounts"
             android:id="@+id/buttonAccount"
             style="@style/detailSecondColumnButtonStyle"
-            android:onClick="showBudgetOverView" />
+            android:onClick="showIncomeBudget" />
     </LinearLayout>
 
     <LinearLayout style="@style/detailRowStyle">

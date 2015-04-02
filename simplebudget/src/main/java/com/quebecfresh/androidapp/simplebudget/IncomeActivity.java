@@ -24,7 +24,6 @@ import java.util.List;
 public class IncomeActivity extends ActionBarActivity {
 
 
-    private DatabaseHelper databaseHelper = new DatabaseHelper(this);
     private IncomePersist incomePersist;
 
     private IncomeFragment incomeFragment;

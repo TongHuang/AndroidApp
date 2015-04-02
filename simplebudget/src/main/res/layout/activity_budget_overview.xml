@@ -109,7 +109,7 @@
             android:text="@string/income_budget"
             android:id="@+id/buttonIncomeBudget"
            style="@style/detailFirstColumnStyle"
-            android:onClick="showBudgetOverView" />
+            android:onClick="showIncomeBudget" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -187,7 +187,7 @@
         <Button
             android:text="@string/expense_budget"
             android:id="@+id/buttonExpenseBudget"
-            android:onClick="editExpenseBudget"
+            android:onClick="showExpenseBudget"
             style="@style/detailFirstColumnStyle"/>
 
         <LinearLayout

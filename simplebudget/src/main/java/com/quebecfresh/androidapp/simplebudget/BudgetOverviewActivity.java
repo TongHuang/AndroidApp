@@ -189,6 +189,8 @@ public class BudgetOverviewActivity extends ActionBarActivity {
 
     public void showExpenseList(View view) {
         Intent intent = new Intent(this, ExpenseActivity.class);
+        intent.putExtra(EXTRA_SELECTED_CYCLE, this.selectedCycle.toString());
+        intent.putExtra(EXTRA_SELECTED_DATE, this.selectedDate.getTimeInMillis());
         startActivity(intent);
     }
 
@@ -197,13 +199,17 @@ public class BudgetOverviewActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void editIncomeBudget(View view) {
-        Intent intent = new Intent(this, InitializeIncomeBudgetActivity.class);
+    public void showIncomeBudget(View view) {
+        Intent intent = new Intent(this, IncomeBudgetActivity.class);
+        intent.putExtra(EXTRA_SELECTED_CYCLE, this.selectedCycle.toString());
+        intent.putExtra(EXTRA_SELECTED_DATE, this.selectedDate.getTimeInMillis());
         startActivity(intent);
     }
 
-    public void editExpenseBudget(View view) {
-        Intent intent = new Intent(this, InitializeExpenseBudgetActivity.class);
+    public void showExpenseBudget(View view) {
+        Intent intent = new Intent(this, ExpenseBudgetActivity.class);
+        intent.putExtra(EXTRA_SELECTED_CYCLE, this.selectedCycle.toString());
+        intent.putExtra(EXTRA_SELECTED_DATE, this.selectedDate.getTimeInMillis());
         startActivity(intent);
     }
 

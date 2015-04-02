@@ -7,26 +7,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
-import com.quebecfresh.androidapp.simplebudget.persist.ExpenseBudgetPersist;
+import com.quebecfresh.androidapp.simplebudget.persist.IncomeBudgetPersist;
 
 
-public class ExpenseBudgetActivity extends ActionBarActivity {
-
-    private Cycle mSelectedCycle = Cycle.Monthly;
+public class IncomeBudgetActivity extends ActionBarActivity {
+    private Cycle mSelectedCycle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_expense_budget);
+        setContentView(R.layout.activity_income_budget);
 
-        mSelectedCycle =Cycle.valueOf(getIntent().getStringExtra(BudgetOverviewActivity.EXTRA_SELECTED_CYCLE));
+        mSelectedCycle = Cycle.valueOf(getIntent().getStringExtra(BudgetOverviewActivity.EXTRA_SELECTED_CYCLE));
 
-        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(this);
-        ExpenseBudgetFragment expenseBudgetFragment = new ExpenseBudgetFragment();
-        expenseBudgetFragment.setExpenseBudgetList(expenseBudgetPersist.readAllBudgetAmountNotZero());
-        expenseBudgetFragment.setSelectedCycle(mSelectedCycle);
+        IncomeBudgetPersist incomeBudgetPersist = new IncomeBudgetPersist(this);
+        IncomeBudgetFragment incomeBudgetFragment = new IncomeBudgetFragment();
+        incomeBudgetFragment.setIncomeBudgetList(incomeBudgetPersist.readAllBudgetAmountNotZero());
+        incomeBudgetFragment.setSelectedCycle(mSelectedCycle);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragmentContainerExpenseBudgetList, expenseBudgetFragment);
+        fragmentTransaction.add(R.id.fragmentContainerIncomeBudgetList, incomeBudgetFragment);
         fragmentTransaction.commit();
     }
 
@@ -34,7 +33,7 @@ public class ExpenseBudgetActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_expense_budget, menu);
+        getMenuInflater().inflate(R.menu.menu_income_budget, menu);
         return true;
     }
 

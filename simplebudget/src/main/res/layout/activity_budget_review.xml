@@ -78,12 +78,12 @@
         android:textStyle="bold|italic" />
 
     <Button style="@style/detailRowStyle"
-        android:text="Yes, start follow this budget."
+        android:text="@string/yes_start_live_on_this_budget"
         android:id="@+id/buttonYes"
         android:onClick="startUseBudget" />
 
     <Button style="@style/detailRowStyle"
-        android:text="No, Fine tune my budget."
+        android:text="@string/no_continue_fine_tune_my_budget"
         android:id="@+id/buttonNo"
         android:onClick="fineTuneBudget" />
 

@@ -92,10 +92,10 @@
         <activity
             android:name=".ExpenseActivity"
             android:label="@string/title_activity_expense"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".BudgetOverviewActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
+                android:value="com.quebecfresh.androidapp.simplebudget.BudgetOverviewActivity" />
         </activity>
         <activity
             android:name=".NewIncomeActivity"
@@ -108,18 +108,18 @@
         <activity
             android:name=".IncomeActivity"
             android:label="@string/title_activity_income"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".BudgetOverviewActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
+                android:value="com.quebecfresh.androidapp.simplebudget.BudgetOverviewActivity" />
         </activity>
         <activity
             android:name=".BalanceActivity"
             android:label="@string/title_activity_balance"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".BudgetOverviewActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
+                android:value="com.quebecfresh.androidapp.simplebudget.BudgetOverviewActivity" />
         </activity>
         <activity
             android:name=".AccountActivity"
@@ -132,10 +132,10 @@
         <activity
             android:name=".ExpenseBudgetActivity"
             android:label="@string/title_activity_expense_budget"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".BudgetOverviewActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
+                android:value="com.quebecfresh.androidapp.simplebudget.BudgetOverviewActivity" />
         </activity>
         <activity
             android:name=".BudgetReviewActivity"
@@ -148,10 +148,19 @@
         <activity
             android:name=".BudgetOverviewActivity"
             android:label="@string/title_activity_budget_overview"
+            android:launchMode="singleTop"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.quebecfresh.androidapp.simplebudget.MainActivity" />
+        </activity>
+        <activity
+            android:name=".IncomeBudgetActivity"
+            android:label="@string/title_activity_income_budget"
+            android:parentActivityName=".BudgetOverviewActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.quebecfresh.androidapp.simplebudget.BudgetOverviewActivity" />
         </activity>
     </application>
 

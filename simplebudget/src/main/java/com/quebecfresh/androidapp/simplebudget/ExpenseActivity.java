@@ -1,34 +1,42 @@
 package com.quebecfresh.androidapp.simplebudget;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.Expense;
+import com.quebecfresh.androidapp.simplebudget.model.Utils;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 import com.quebecfresh.androidapp.simplebudget.persist.ExpensePersist;
 
+import java.util.Calendar;
 import java.util.List;
 
 
 public class ExpenseActivity extends ActionBarActivity {
 
-    private DatabaseHelper databaseHelper = new DatabaseHelper(this);
-    private ExpensePersist expensePersist;
+    private Cycle mSelectedCycle = Cycle.Monthly;
+    private Calendar mSelectedDate = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense);
 
-        expensePersist = new ExpensePersist(this);
-        List<Expense> expenseList = expensePersist.readAll();
-
-        ExpenseListViewAdapter expenseListViewAdapter = new ExpenseListViewAdapter(expenseList, this);
-        ListView listViewExpense = (ListView) this.findViewById(R.id.listViewExpense);
-        listViewExpense.setAdapter(expenseListViewAdapter);
+        this.mSelectedCycle = Cycle.valueOf(getIntent().getStringExtra(BudgetOverviewActivity.EXTRA_SELECTED_CYCLE));
+        this.mSelectedDate.setTimeInMillis(getIntent().getLongExtra(BudgetOverviewActivity.EXTRA_SELECTED_DATE, System.currentTimeMillis()));
+        long begin = Utils.getBeginOfCycle(mSelectedCycle, mSelectedDate);
+        long end = Utils.getEndOfCycle(mSelectedCycle, mSelectedDate);
+        ExpensePersist expensePersist = new ExpensePersist(this);
+        ExpenseFragment expenseFragment = new ExpenseFragment();
+        expenseFragment.setExpenseList(expensePersist.readAll(begin, end));
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragmentContainerExpenseList, expenseFragment);
+        fragmentTransaction.commit();
     }
 
 
