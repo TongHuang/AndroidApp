@@ -109,7 +109,7 @@
             android:text="@string/income_budget"
             android:id="@+id/buttonIncomeBudget"
            style="@style/detailFirstColumnStyle"
-            android:onClick="showBudgetOverView" />
+            android:onClick="showIncomeBudget" />
 
         <LinearLayout
             android:orientation="vertical"

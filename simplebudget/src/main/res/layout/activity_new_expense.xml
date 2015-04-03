@@ -13,7 +13,7 @@
     <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:text="@string/pocket"
+            android:text="@string/budget"
             android:id="@+id/textViewExpenseBudget"
             style="@style/detailFirstColumnStyle" />
 
@@ -70,8 +70,9 @@
 
         <Button
             android:text="@string/chooose_account"
-            android:id="@+id/buttonChooseAccount"
-            style="@style/detailSecondColumnButtonStyle" />
+            android:id="@+id/buttonChooseExpenseAccount"
+            style="@style/detailSecondColumnButtonStyle"
+            android:onClick="chooseExpenseAccount" />
     </LinearLayout>
 
     <LinearLayout style="@style/detailRowStyle">

@@ -98,7 +98,7 @@ public class NewIncomeActivity extends ActionBarActivity {
         accountPersist = new AccountPersist(this);
         incomeBudgetPersist = new IncomeBudgetPersist(this);
         List<Income> incomeUnconfirmedList = incomePersist.readAllUnconfirmedConfirmed();
-        accountList = accountPersist.readAllBalanceNotZero();
+        accountList = accountPersist.readAll();
         incomeBudgetList = incomeBudgetPersist.readAllBudgetAmountNotZero();
 
         income = new Income();

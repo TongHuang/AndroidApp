@@ -4,13 +4,27 @@ import android.widget.EditText;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Tong Huang on 2015-03-21, 5:41 PM.
  */
 public final class Utils {
+
+
+
+    public static String formatDate(long time){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy");
+        return  simpleDateFormat.format(new Date(time));
+    }
+
+    public static String formatDateAndTime(long time){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
+        return  simpleDateFormat.format(new Date(time));
+    }
 
     public static BigDecimal calTotalExpense(List<Expense> expenseList) {
         BigDecimal total = new BigDecimal("0");

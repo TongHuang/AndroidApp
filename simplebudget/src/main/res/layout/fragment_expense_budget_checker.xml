@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.quebecfresh.androidapp.simplebudget.ExpenseBudgetCheckerFragment">
+    tools:context="com.quebecfresh.androidapp.simplebudget.ExpenseBudgetCheckerFragment"
+    android:background="@color/green_yellow">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout style="@style/detailRowStyle">
@@ -10,38 +11,47 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="For the past week"
-            android:id="@+id/textView21"
-            android:gravity="center_vertical|center_horizontal" />
+            android:text="@string/since"
+            android:id="@+id/textViewStartDate"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="12dp" />
     </LinearLayout>
 
     <LinearLayout style="@style/detailRowStyle">
 
         <TextView style="@style/detailFirstColumnStyle"
             android:text="@string/budget_amount"
-            android:id="@+id/textViewBudgetAmount" />
+            android:id="@+id/textViewBudgetAmount"
+            android:textSize="12dp"
+            android:gravity="center_vertical|right" />
 
         <ProgressBar style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:id="@+id/progressBarBudgetAmount"
             android:max="100"
-            android:progress="50"
-            android:minHeight="40dp" />
+            android:progress="50" />
     </LinearLayout>
 
     <LinearLayout style="@style/detailRowStyle">
 
         <TextView style="@style/detailFirstColumnStyle"
             android:text="@string/used_amount"
-            android:id="@+id/textViewUsedAmount" />
-    </LinearLayout>
+            android:id="@+id/textViewUsedAmount"
+            android:textSize="12dp"
+            android:gravity="center_vertical|right" />
 
-    <LinearLayout style="@style/detailRowStyle">
-
-        <TextView style="@style/detailFirstColumnStyle"
-            android:text="@string/unused_balance"
-            android:id="@+id/textViewUnusedBalance" />
+        <ProgressBar
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:id="@+id/progressBarUsedAmount"
+            android:max="100"
+            android:progress="50"
+            android:progressTint="@color/crimson"
+            android:focusableInTouchMode="false" />
     </LinearLayout>
 
 </LinearLayout>

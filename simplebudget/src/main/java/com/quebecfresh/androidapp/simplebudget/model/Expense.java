@@ -11,9 +11,18 @@ import java.util.Date;
  */
 public class Expense extends BaseData {
 
+    private Account account;
     private ExpenseBudget expenseBudget;
     private BigDecimal amount;
     private Long spentDate;
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     public ExpenseBudget getExpenseBudget() {
         return expenseBudget;
