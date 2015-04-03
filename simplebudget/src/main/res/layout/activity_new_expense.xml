@@ -1,6 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -8,109 +10,83 @@
     tools:context="com.quebecfresh.androidapp.simplebudget.NewExpenseActivity">
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:text="@string/pocket"
             android:id="@+id/textViewExpenseBudget"
-            android:layout_weight="10"
-            android:layout_gravity="left|center_vertical"
-            android:gravity="left|center_vertical" />
+            style="@style/detailFirstColumnStyle" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:text="@string/choose_pocket"
             android:id="@+id/buttonChooseExpenseBudget"
-            android:layout_weight="30"
-            android:layout_gravity="left|center_vertical"
+            style="@style/detailSecondColumnButtonStyle"
             android:onClick="chooseExpenseBudget" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+        android:id="@+id/fragmentContainerExpenseBudgetChecker"
+        android:orientation="vertical"> </LinearLayout>
+
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:text="@string/amount"
             android:id="@+id/textViewExpenseAmount"
-            android:layout_weight="10"
-            android:layout_gravity="left|center_vertical"
-            android:gravity="left|center_vertical"
-            android:onClick="chooseAccount" />
+            style="@style/detailFirstColumnStyle" />
 
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/editTextExpenseAmount"
-            android:layout_weight="30"
-            android:layout_gravity="center_vertical" />
+            style="@style/detailSecondColumnEditTextStyle" />
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:text="@string/date"
             android:id="@+id/textViewExpenseDate"
-            android:layout_weight="10"
-            android:layout_gravity="left|center_vertical"
-            android:gravity="left|center_vertical" />
+            style="@style/detailFirstColumnStyle" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:text="@string/choose_date"
             android:id="@+id/buttonChooseDate"
-            android:layout_gravity="left|center_vertical"
-            android:layout_weight="30"
+            style="@style/detailSecondColumnButtonStyle"
             android:onClick="chooseDate" />
 
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="@string/note"
-            android:id="@+id/textViewExpenseNote"
-            android:layout_weight="10"
-            android:gravity="left|center_vertical" />
+            android:text="@string/accounts"
+            android:id="@+id/textView19"
+            style="@style/detailFirstColumnStyle" />
 
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextExpenseNote"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="30"
-            android:gravity="center_vertical" />
-
+        <Button
+            android:text="@string/chooose_account"
+            android:id="@+id/buttonChooseAccount"
+            style="@style/detailSecondColumnButtonStyle" />
     </LinearLayout>
 
+    <LinearLayout style="@style/detailRowStyle">
+
+        <TextView
+            android:text="@string/note"
+            android:id="@+id/textViewExpenseNote"
+            style="@style/detailFirstColumnStyle" />
+
+        <EditText
+            android:id="@+id/editTextExpenseNote"
+            android:layout_gravity="center_vertical"
+            style="@style/detailSecondColumnEditTextStyle" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

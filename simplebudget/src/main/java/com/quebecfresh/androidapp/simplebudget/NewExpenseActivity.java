@@ -1,7 +1,7 @@
 package com.quebecfresh.androidapp.simplebudget;
 
 import android.app.DatePickerDialog;
-import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import com.quebecfresh.androidapp.simplebudget.model.Expense;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
-import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
+import com.quebecfresh.androidapp.simplebudget.model.Utils;
 import com.quebecfresh.androidapp.simplebudget.persist.ExpenseBudgetPersist;
 import com.quebecfresh.androidapp.simplebudget.persist.ExpensePersist;
 
@@ -25,16 +25,15 @@ import java.util.List;
 
 public class NewExpenseActivity extends ActionBarActivity {
 
-
-    private DatabaseHelper databaseHelper = new DatabaseHelper(this);
-    private Expense expense = new Expense();
-    private ExpensePersist expensePersist;
-    private ExpenseBudgetPersist expenseBudgetPersist;
-    private List<ExpenseBudget> expenseBudgetList = new ArrayList<ExpenseBudget>();
-    private Button buttonDate;
-    private Button buttonChooseExpenseBudget;
-    private EditText editTextExpenseAmount;
-    private EditText editTextNote;
+    private Expense mExpense = new Expense();
+    private ExpensePersist mExpensePersist;
+    private ExpenseBudgetPersist mExpenseBudgetPersist;
+    private List<ExpenseBudget> mExpenseBudgetList = new ArrayList<ExpenseBudget>();
+    private Button mButtonDate;
+    private Button mButtonChooseExpenseBudget;
+    private EditText mEditTextExpenseAmount;
+    private Button mButtonChooseAccount;
+    private EditText mEditTextNote;
 
     public void chooseDate(View view) {
         ChooseDateDialogFragment datePickerFragment = new ChooseDateDialogFragment();
@@ -46,8 +45,8 @@ public class NewExpenseActivity extends ActionBarActivity {
                 c.set(Calendar.YEAR, year);
                 c.set(Calendar.MONTH, monthOfYear);
                 c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                expense.setSpentDate(c.getTimeInMillis());
-                buttonDate.setText(expense.getSpendDateLabel());
+                mExpense.setSpentDate(c.getTimeInMillis());
+                mButtonDate.setText(mExpense.getSpendDateLabel());
             }
         });
 
@@ -57,14 +56,29 @@ public class NewExpenseActivity extends ActionBarActivity {
 
     public void chooseExpenseBudget(View view) {
         ChooseExpenseBudgetDialogFragment chooseExpenseBudgetDialogFragment = new ChooseExpenseBudgetDialogFragment();
-        chooseExpenseBudgetDialogFragment.setExpenseBudgetList(this.expenseBudgetList);
+        chooseExpenseBudgetDialogFragment.setExpenseBudgetList(this.mExpenseBudgetList);
         chooseExpenseBudgetDialogFragment.setExpenseBudgetChooseListener(new ChooseExpenseBudgetDialogFragment.ExpenseBudgetChooseListener() {
             @Override
             public void Choose(ExpenseBudget expenseBudget) {
-                expense.setExpenseBudget(expenseBudget);
-                buttonChooseExpenseBudget.setText(expense.getExpenseBudget().getName());
-                editTextExpenseAmount.setText(null);
-                editTextExpenseAmount.setHint(getResources().getString(R.string.unused_balance) +   " " + expense.getExpenseBudget().getUnusedBalance().toString());
+                mExpense.setExpenseBudget(expenseBudget);
+                mButtonChooseExpenseBudget.setText(mExpense.getExpenseBudget().getName());
+                mEditTextExpenseAmount.setText(null);
+                mEditTextExpenseAmount.setHint(getResources().getString(R.string.unused_balance) + " " + mExpense.getExpenseBudget().getUnusedBalance().toString());
+                mButtonChooseAccount.setText(expenseBudget.getAccount().getName());
+                Calendar current = Calendar.getInstance();
+                long end = current.getTimeInMillis();
+                long begin = Utils.getBeginOfPastCycle(mExpense.getExpenseBudget().getCycle(),current);
+                List<Expense> expenseList =  mExpensePersist.readAll(begin, end);
+                BigDecimal budgetAmount = expenseBudget.getBudgetAmount();
+                BigDecimal usedAmount = Utils.calTotalExpense(expenseList);
+                BigDecimal unusedBalance = budgetAmount.subtract(usedAmount);
+                ExpenseBudgetCheckerFragment expenseBudgetCheckerFragment = new ExpenseBudgetCheckerFragment();
+                expenseBudgetCheckerFragment.setBudgetAmount(budgetAmount);
+                expenseBudgetCheckerFragment.setUsedAmount(usedAmount);
+                expenseBudgetCheckerFragment.setUnusedBalance(unusedBalance);
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentContainerExpenseBudgetChecker, expenseBudgetCheckerFragment);
+                fragmentTransaction.commit();
             }
         });
         chooseExpenseBudgetDialogFragment.show(getSupportFragmentManager(), "ChooseExpenseBudget");
@@ -72,43 +86,30 @@ public class NewExpenseActivity extends ActionBarActivity {
     }
 
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        switch (requestCode) {
-//            case CHOOSE_ACCOUNT_FOR_RESULT_CODE:
-//                Long accountID = data.getLongExtra(InitializeAccountActivity.EXTRA_ACCOUNT_ID, 1);
-//                AccountPersist accountPersist = new AccountPersist(databaseHelper.getReadableDatabase());
-//                account = accountPersist.read(accountID);
-//                Button buttonChooseAccount = (Button) findViewById(R.id.buttonChooseAccount);
-//                buttonChooseAccount.setText(account.getName());
-//                break;
-//            case CHOOSE_BUDGET_FOR_RESULT_CODE:
-//                break;
-//        }
-//    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_expense);
+        mExpensePersist = new ExpensePersist(this);
+        mExpenseBudgetPersist = new ExpenseBudgetPersist(this);
+        mExpenseBudgetList = mExpenseBudgetPersist.readAllUnusedBalanceNotZero();
 
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        expensePersist = new ExpensePersist(this);
-        expenseBudgetPersist = new ExpenseBudgetPersist(this);
-        expenseBudgetList = expenseBudgetPersist.readAllUnusedBalanceNotZero();
+        this.mExpense = new Expense();
+        this.mExpense.setExpenseBudget(mExpenseBudgetList.get(0));
+        this.mExpense.setSpentDate(System.currentTimeMillis());
 
-        this.expense = new Expense();
-        this.expense.setExpenseBudget(expenseBudgetList.get(0));
-        this.expense.setSpentDate(System.currentTimeMillis());
-
-        buttonDate = (Button) findViewById(R.id.buttonChooseDate);
-        buttonDate.setText(this.expense.getSpendDateLabel());
-        buttonChooseExpenseBudget = (Button) findViewById(R.id.buttonChooseExpenseBudget);
-        buttonChooseExpenseBudget.setText(expense.getExpenseBudget().getName());
-        editTextExpenseAmount = (EditText) findViewById(R.id.editTextExpenseAmount);
-        editTextExpenseAmount.setText(null);
-        editTextExpenseAmount.setHint(getResources().getString(R.string.unused_balance) + " " + expense.getExpenseBudget().getUnusedBalance().toString());
-        editTextNote = (EditText) findViewById(R.id.editTextExpenseNote);
+        mButtonDate = (Button) findViewById(R.id.buttonChooseDate);
+        mButtonDate.setText(this.mExpense.getSpendDateLabel());
+        mButtonChooseExpenseBudget = (Button) findViewById(R.id.buttonChooseExpenseBudget);
+        mButtonChooseExpenseBudget.setText(mExpense.getExpenseBudget().getName());
+        mEditTextExpenseAmount = (EditText) findViewById(R.id.editTextExpenseAmount);
+        mEditTextExpenseAmount.setText(null);
+        mEditTextExpenseAmount.setHint(getResources().getString(R.string.unused_balance) + " " + mExpense.getExpenseBudget().getUnusedBalance().toString());
+        mButtonChooseAccount = (Button)findViewById(R.id.buttonChooseAccount);
+        mEditTextNote = (EditText) findViewById(R.id.editTextExpenseNote);
     }
 
 
@@ -127,12 +128,12 @@ public class NewExpenseActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_save) {
-            expense.setAmount(new BigDecimal(editTextExpenseAmount.getText().toString()));
-            expense.setNote(editTextNote.getText().toString());
-            ExpenseBudget expenseBudget = expense.getExpenseBudget();
-            expenseBudget.setUnusedBalance(expenseBudget.getUnusedBalance().subtract(expense.getAmount()));
-            this.expenseBudgetPersist.update(expenseBudget);
-            this.expensePersist.insert(this.expense);
+            mExpense.setAmount(new BigDecimal(mEditTextExpenseAmount.getText().toString()));
+            mExpense.setNote(mEditTextNote.getText().toString());
+            ExpenseBudget expenseBudget = mExpense.getExpenseBudget();
+            expenseBudget.setUnusedBalance(expenseBudget.getUnusedBalance().subtract(mExpense.getAmount()));
+            this.mExpenseBudgetPersist.update(expenseBudget);
+            this.mExpensePersist.insert(this.mExpense);
         }
         this.finish();
         return super.onOptionsItemSelected(item);

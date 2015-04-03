@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.quebecfresh.androidapp.simplebudget.ExpenseBudgetCheckerFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout style="@style/detailRowStyle">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="For the past week"
+            android:id="@+id/textView21"
+            android:gravity="center_vertical|center_horizontal" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/detailRowStyle">
+
+        <TextView style="@style/detailFirstColumnStyle"
+            android:text="@string/budget_amount"
+            android:id="@+id/textViewBudgetAmount" />
+
+        <ProgressBar style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:max="100"
+            android:progress="50"
+            android:minHeight="40dp" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/detailRowStyle">
+
+        <TextView style="@style/detailFirstColumnStyle"
+            android:text="@string/used_amount"
+            android:id="@+id/textViewUsedAmount" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/detailRowStyle">
+
+        <TextView style="@style/detailFirstColumnStyle"
+            android:text="@string/unused_balance"
+            android:id="@+id/textViewUnusedBalance" />
+    </LinearLayout>
+
+</LinearLayout>

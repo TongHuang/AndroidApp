@@ -147,6 +147,7 @@
     <string name="title_activity_income_budget">Income Budget</string>
     <string name="yes_start_live_on_this_budget">Yes, start live on this budget</string>
     <string name="no_continue_fine_tune_my_budget">No, continue fine tune my budget</string>
+    <string name="used_amount">Used amount</string>
 
 
 </resources>
