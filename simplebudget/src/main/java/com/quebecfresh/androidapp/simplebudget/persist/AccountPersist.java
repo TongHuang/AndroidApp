@@ -20,27 +20,26 @@ import java.util.List;
 public class AccountPersist  extends  Persist{
 
 
-    public AccountPersist(Context context) {
-        super(context);
-    }
+//    public AccountPersist(Context context) {
+//        super(context);
+//    }
 
-    public Account insert(Account account) {
+    public Account insert(Account account, SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, account.getName());
         contentValues.put(_NUMBER, account.getAccountNumber());
         contentValues.put(_BALANCE, account.getBalance().toString());
         contentValues.put(_NOTE, account.getNote());
         long newRowId;
-        newRowId = mDBH.getWritableDatabase().insert(_TABLE, null, contentValues);
+        newRowId = database.insert(_TABLE, null, contentValues);
         account.setId(newRowId);
         return account;
     }
 
-    public Account read(Long rowId) {
+    public Account read(Long rowId, SQLiteDatabase database) {
         String sql = "Select * from " + _TABLE + " where "
                 + _ID + " = " + rowId;
-
-        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         Account account = new Account();
         account.setId(rowId);
@@ -48,13 +47,13 @@ public class AccountPersist  extends  Persist{
         account.setAccountNumber(cursor.getString(cursor.getColumnIndexOrThrow(_NUMBER)));
         account.setBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_BALANCE))));
         account.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
+        cursor.close();
         return account;
     }
 
-    public List<Account> readAll() {
+    public List<Account> readAll(SQLiteDatabase database) {
         String sql = "Select * from " + _TABLE;
-
-        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         List<Account> accounts = new ArrayList<Account>();
         while (!cursor.isAfterLast()) {
@@ -67,14 +66,14 @@ public class AccountPersist  extends  Persist{
             accounts.add(account);
             cursor.moveToNext();
         }
+        cursor.close();
         return accounts;
     }
 
 
-    public List<Account> readAllBalanceNotZero() {
+    public List<Account> readAllBalanceNotZero(SQLiteDatabase database) {
         String sql = "Select * from " + _TABLE + " where " + _BALANCE + " != 0";
-
-        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         List<Account> accounts = new ArrayList<Account>();
         while (!cursor.isAfterLast()) {
@@ -87,32 +86,34 @@ public class AccountPersist  extends  Persist{
             accounts.add(account);
             cursor.moveToNext();
         }
+        cursor.close();
         return accounts;
     }
 
 
-    public BigDecimal readTotalBalance() {
+    public BigDecimal readTotalBalance(SQLiteDatabase database) {
         String sql = "select sum(" + _BALANCE + ") as total from " + _TABLE;
-        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         BigDecimal total;
         Double totalDouble = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
         total = new BigDecimal(totalDouble);
+        cursor.close();
         return total.setScale(2, RoundingMode.HALF_UP);
     }
 
-    public Account update(Account account) {
+    public Account update(Account account, SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, account.getName());
         contentValues.put(_NUMBER, account.getAccountNumber());
         contentValues.put(_BALANCE, account.getBalance().toString());
         contentValues.put(_NOTE, account.getNote());
-        mDBH.getWritableDatabase().update(_TABLE, contentValues, _ID + " = " + account.getId(), null);
+        database.update(_TABLE, contentValues, _ID + " = " + account.getId(), null);
         return account;
     }
 
-    public Boolean delete(Long rowID) {
-        this.mDBH.getWritableDatabase().delete(_TABLE, _ID + " = " + rowID, null);
+    public Boolean delete(Long rowID, SQLiteDatabase database) {
+        database.delete(_TABLE, _ID + " = " + rowID, null);
         return true;
     }
 
@@ -120,11 +121,11 @@ public class AccountPersist  extends  Persist{
 
 
 
-    public boolean save(Account account) {
+    public boolean save(Account account, SQLiteDatabase database) {
         if (account.getId() > 0) {
-            this.update(account);
+            this.update(account, database);
         } else {
-            this.insert(account);
+            this.insert(account, database);
         }
 
         return true;
@@ -159,7 +160,7 @@ public class AccountPersist  extends  Persist{
      */
     public static Boolean initialize(SQLiteDatabase db) {
 
-        String[][] accounts = {{"Cash on hand", "00001"},{"Bank account","00002"},{"Credit card", "00003"}};
+        String[][] accounts = {{"Cash in hand", "00001"},{"Bank account","00002"},{"Credit card", "00003"}};
 
         ContentValues contentValues = new ContentValues();
         for( int i = 0 ; i < accounts.length; i++){
@@ -169,23 +170,7 @@ public class AccountPersist  extends  Persist{
             contentValues.clear();
         }
 
-//        Account account = new Account();
-//        account.setName("Bank account");
-//        account.setAccountNumber("000002");
-//        this.insert(account);
-//
-//        account = new Account();
-//        account.setName("Cash on Hand");
-//        account.setAccountNumber("000001");
-//        account.setNote("Cash cash cash !!!!.");
-//
-//        this.insert(account);
-//
-//
-//        account = new Account();
-//        account.setName("Credit card");
-//        account.setAccountNumber("000003");
-//        this.insert(account);
+
         return true;
     }
 

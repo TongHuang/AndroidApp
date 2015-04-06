@@ -74,7 +74,6 @@ public class ExpenseBudgetFragment extends Fragment {
         });
         mTextViewTotal = (TextView) view.findViewById(R.id.textViewTotal);
         mTextViewTotal.setText(Utils.calTotalExpenseBudgetAmount(mExpenseBudgetList, mSelectedCycle).toString());
-
         return view;
 
     }

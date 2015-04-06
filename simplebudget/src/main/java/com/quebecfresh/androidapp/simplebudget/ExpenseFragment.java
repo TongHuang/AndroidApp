@@ -41,11 +41,11 @@ public class ExpenseFragment extends Fragment {
 
         ListView listViewExpense = (ListView)view.findViewById(R.id.listViewExpense);
         ExpenseListViewAdapter expenseListViewAdapter = new ExpenseListViewAdapter(mExpenseList, inflater.getContext());
-        listViewExpense.setAdapter(expenseListViewAdapter);
         View listFooterExpense = (View)inflater.inflate(R.layout.list_footer_total,null);
         TextView textViewTotal = (TextView)listFooterExpense.findViewById(R.id.textViewTotal);
         textViewTotal.setText(Utils.calTotalExpense(mExpenseList).toString());
         listViewExpense.addFooterView(listFooterExpense);
+        listViewExpense.setAdapter(expenseListViewAdapter);
         return view;
 
     }

@@ -18,25 +18,25 @@ import java.util.List;
  */
 public class ExpenseBudgetHistoryPersist extends Persist {
 
-    public ExpenseBudgetHistoryPersist(Context context) {
-        super(context);
-    }
+//    public ExpenseBudgetHistoryPersist(Context context) {
+//        super(context);
+//    }
 
-    public ExpenseBudgetHistory insert(ExpenseBudgetHistory expenseBudgetHistory) {
+    public ExpenseBudgetHistory insert(ExpenseBudgetHistory expenseBudgetHistory, SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_BUDGET_ID, expenseBudgetHistory.getBudgetID());
         contentValues.put(_NAME, expenseBudgetHistory.getName());
         contentValues.put(_BEGIN_TIME, expenseBudgetHistory.getBeginTime());
         contentValues.put(_END_TIME, expenseBudgetHistory.getEndTime());
         contentValues.put(_NOTE, expenseBudgetHistory.getNote());
-        Long rowID = mDBH.getWritableDatabase().insert(_TABLE, null, contentValues);
+        Long rowID = database.insert(_TABLE, null, contentValues);
         expenseBudgetHistory.setId(rowID);
         return expenseBudgetHistory;
     }
 
-    public ExpenseBudgetHistory read(Long rowID){
+    public ExpenseBudgetHistory read(Long rowID,SQLiteDatabase database){
         String sql = "select * from "+ _TABLE + " where " + _ID  + " = " + rowID;
-        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         if (!cursor.isAfterLast()){
             ExpenseBudgetHistory expenseBudgetHistory = new ExpenseBudgetHistory();
@@ -46,15 +46,17 @@ public class ExpenseBudgetHistoryPersist extends Persist {
             expenseBudgetHistory.setEndTime(cursor.getLong(cursor.getColumnIndexOrThrow(_END_TIME)));
             expenseBudgetHistory.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
             expenseBudgetHistory.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
+            cursor.close();
             return expenseBudgetHistory;
         }else{
+            cursor.close();;
             return null;
         }
     }
 
-    public List<ExpenseBudgetHistory> readAllByBudgetID(Long budgetID){
+    public List<ExpenseBudgetHistory> readAllByBudgetID(Long budgetID, SQLiteDatabase database){
         String sql = " select * from " + _TABLE + " where " + _BUDGET_ID + " = " + budgetID;
-        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql,null);
+        Cursor cursor = database.rawQuery(sql,null);
         List<ExpenseBudgetHistory> expenseBudgetHistoryList = new ArrayList<ExpenseBudgetHistory>();
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
@@ -67,23 +69,23 @@ public class ExpenseBudgetHistoryPersist extends Persist {
             expenseBudgetHistory.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
             expenseBudgetHistoryList.add(expenseBudgetHistory);
         }
+        cursor.close();
         return expenseBudgetHistoryList;
     }
 
-    public ExpenseBudgetHistory update(ExpenseBudgetHistory expenseBudgetHistory){
+    public ExpenseBudgetHistory update(ExpenseBudgetHistory expenseBudgetHistory, SQLiteDatabase database){
         ContentValues contentValues = new ContentValues();
         contentValues.put(_BUDGET_ID, expenseBudgetHistory.getId());
         contentValues.put(_BEGIN_TIME, expenseBudgetHistory.getBeginTime());
         contentValues.put(_END_TIME, expenseBudgetHistory.getEndTime());
         contentValues.put(_NAME, expenseBudgetHistory.getName());
         contentValues.put(_NOTE, expenseBudgetHistory.getNote());
-        mDBH.getWritableDatabase().update(_TABLE, contentValues, _ID + " = " + expenseBudgetHistory.getId(), null);
+        database.update(_TABLE, contentValues, _ID + " = " + expenseBudgetHistory.getId(), null);
         return  expenseBudgetHistory;
     }
 
-    public Boolean delete(Long rowID){
-
-        mDBH.getWritableDatabase().delete(_TABLE, " where " + _ID + " = " + rowID, null );
+    public Boolean delete(Long rowID, SQLiteDatabase database){
+        database.delete(_TABLE, " where " + _ID + " = " + rowID, null );
         return true;
     }
 

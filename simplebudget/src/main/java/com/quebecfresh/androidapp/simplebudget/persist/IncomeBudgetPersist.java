@@ -21,14 +21,14 @@ import static com.quebecfresh.androidapp.simplebudget.model.IncomeBudget.Contrac
 public class IncomeBudgetPersist extends Persist {
     private  AccountPersist accountPersist;
 
-    public IncomeBudgetPersist(Context context){
-        super(context);
-        this.accountPersist = new AccountPersist(context);
-    }
+//    public IncomeBudgetPersist(Context context){
+//        super(context);
+//        this.accountPersist = new AccountPersist(context);
+//    }
 
 
 
-    public IncomeBudget insert(IncomeBudget incomeBudget){
+    public IncomeBudget insert(IncomeBudget incomeBudget, SQLiteDatabase database){
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, incomeBudget.getName());
         contentValues.put(_NOTE, incomeBudget.getNote());
@@ -38,15 +38,14 @@ public class IncomeBudgetPersist extends Persist {
         contentValues.put(_UNREALIZED_BALANCE, incomeBudget.getUnrealizedBalance().toString());
         contentValues.put(_ROLL_OVER, incomeBudget.getRollOver() == Boolean.TRUE ? 1:0);
         contentValues.put(_ACCOUNT_ID, incomeBudget.getAccount().getId());
-        Long rowID = this.mDBH.getWritableDatabase().insert(_TABLE, null, contentValues);
+        Long rowID = database.insert(_TABLE, null, contentValues);
         incomeBudget.setId(rowID);
         return incomeBudget;
     }
 
-    public IncomeBudget read(Long rowID){
+    public IncomeBudget read(Long rowID, SQLiteDatabase database){
         String sql = "Select * from " + _TABLE + " where " + _ID + "=" + rowID;
-
-        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         IncomeBudget incomeBudget = new IncomeBudget();
         incomeBudget.setId(rowID);
@@ -58,13 +57,14 @@ public class IncomeBudgetPersist extends Persist {
         incomeBudget.setUnrealizedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNREALIZED_BALANCE))));
         incomeBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? Boolean.TRUE : Boolean.FALSE);
         long accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
-        incomeBudget.setAccount(accountPersist.read(accountID));
+        incomeBudget.setAccount(accountPersist.read(accountID, database));
+        cursor.close();
         return incomeBudget;
     }
 
-    public List<IncomeBudget> readAll(){
+    public List<IncomeBudget> readAll(SQLiteDatabase database){
         String sql = " Select * from " + _TABLE + " order by " + _BUDGET_AMOUNT + " desc";
-        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         List<IncomeBudget> incomeBudgetList = new ArrayList<IncomeBudget>();
         while(!cursor.isAfterLast()){
@@ -78,17 +78,18 @@ public class IncomeBudgetPersist extends Persist {
             incomeBudget.setUnrealizedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNREALIZED_BALANCE))));
             incomeBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true : false);
             long accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
-            incomeBudget.setAccount(accountPersist.read(accountID));
+            incomeBudget.setAccount(accountPersist.read(accountID, database));
             incomeBudgetList.add(incomeBudget);
             cursor.moveToNext();
         }
+        cursor.close();
         return incomeBudgetList;
     }
 
-    public List<IncomeBudget> readAllBudgetAmountNotZero(){
+    public List<IncomeBudget> readAllBudgetAmountNotZero(SQLiteDatabase database){
         String sql = " Select * from " + _TABLE + " where " + _BUDGET_AMOUNT + " != 0 "
                 + " order by " + _BUDGET_AMOUNT + " desc";
-        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         List<IncomeBudget> incomeBudgetList = new ArrayList<IncomeBudget>();
         while(!cursor.isAfterLast()){
@@ -103,37 +104,15 @@ public class IncomeBudgetPersist extends Persist {
             incomeBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true : false);
             incomeBudgetList.add(incomeBudget);
             long accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
-            incomeBudget.setAccount(accountPersist.read(accountID));
+            incomeBudget.setAccount(accountPersist.read(accountID, database));
             cursor.moveToNext();
         }
+        cursor.close();
         return incomeBudgetList;
     }
 
 
-    /*
-    public List<IncomeBudget> readAllUnusedBalanceNotZero(){
-        String sql = " Select * from " + _TABLE + " where " + _UNUSED_BALANCE + " != 0 ";
-        Cursor cursor = this.db.rawQuery(sql, null);
-        cursor.moveToFirst();
-        List<IncomeBudget> incomeBudgetList = new ArrayList<IncomeBudget>();
-        while(!cursor.isAfterLast()){
-            IncomeBudget incomeBudget = new IncomeBudget();
-            incomeBudget.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
-            incomeBudget.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
-            incomeBudget.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
-            incomeBudget.setCycle(Cycle.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_CYCLE))));
-            incomeBudget.setBudgetAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_AMOUNT))));
-            incomeBudget.setIncomeBudgetCategory(IncomeBudget.INCOME_BUDGET_CATEGORY.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_CATEGORY))));
-            incomeBudget.setUnusedBalance(new BigDecimal((cursor.getString(cursor.getColumnIndexOrThrow(_UNUSED_BALANCE)))));
-            incomeBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true : false);
-            incomeBudgetList.add(incomeBudget);
-            cursor.moveToNext();
-        }
-        return incomeBudgetList;
-    }
-*/
-
-    public IncomeBudget update(IncomeBudget incomeBudget){
+    public IncomeBudget update(IncomeBudget incomeBudget, SQLiteDatabase database){
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, incomeBudget.getName());
         contentValues.put(_NOTE, incomeBudget.getNote());
@@ -143,12 +122,12 @@ public class IncomeBudgetPersist extends Persist {
         contentValues.put(_UNREALIZED_BALANCE, incomeBudget.getUnrealizedBalance().toString());
         contentValues.put(_ROLL_OVER, incomeBudget.getRollOver() == true ? 1 : 0);
         contentValues.put(_ACCOUNT_ID, incomeBudget.getAccount().getId());
-        this.mDBH.getWritableDatabase().update(_TABLE, contentValues, _ID + " = " + incomeBudget.getId(), null);
+        database.update(_TABLE, contentValues, _ID + " = " + incomeBudget.getId(), null);
         return incomeBudget;
     }
 
-    public Boolean delete(Long rowID){
-        this.mDBH.getWritableDatabase().delete(_TABLE, _ID + " = " + rowID, null);
+    public Boolean delete(Long rowID, SQLiteDatabase database){
+        database.delete(_TABLE, _ID + " = " + rowID, null);
         return true;
     }
 
@@ -156,11 +135,11 @@ public class IncomeBudgetPersist extends Persist {
 
 
 
-    public boolean save(IncomeBudget incomeBudget){
+    public boolean save(IncomeBudget incomeBudget, SQLiteDatabase database){
         if(incomeBudget.getId() > 0){
-            this.update(incomeBudget);
+            this.update(incomeBudget, database);
         }else{
-            this.insert(incomeBudget);
+            this.insert(incomeBudget, database);
         }
 
         return true;
@@ -217,52 +196,6 @@ public class IncomeBudgetPersist extends Persist {
 
 
 
-        //Read the first account as the default account
-//        Account account = this.accountPersist.read(1L);
-//
-//        IncomeBudget incomeBudget =  new IncomeBudget("Salary", Cycle.Weekly);
-//        incomeBudget.setIncomeBudgetCategory(IncomeBudget.INCOME_BUDGET_CATEGORY.EMPLOYMENT);
-//        incomeBudget.setAccount(account);
-//        this.insert(incomeBudget);
-//        incomeBudget = new IncomeBudget("Part-time job salary", Cycle.Every_2_Weeks);
-//        incomeBudget.setIncomeBudgetCategory(IncomeBudget.INCOME_BUDGET_CATEGORY.EMPLOYMENT);
-//        incomeBudget.setAccount(account);
-//        this.insert(incomeBudget);
-//        incomeBudget = new IncomeBudget("Bonus", Cycle.Yearly);
-//        incomeBudget.setIncomeBudgetCategory(IncomeBudget.INCOME_BUDGET_CATEGORY.EMPLOYMENT);
-//        incomeBudget.setAccount(account);
-//        this.insert(incomeBudget);
-//
-//
-//        incomeBudget =new IncomeBudget("Social welfare", Cycle.Monthly);
-//        incomeBudget.setIncomeBudgetCategory(IncomeBudget.INCOME_BUDGET_CATEGORY.GOVERNMENT_BENEFIT);
-//        incomeBudget.setAccount(account);
-//        this.insert(incomeBudget);
-//        incomeBudget = new IncomeBudget("Child care benefit", Cycle.Monthly);
-//        incomeBudget.setIncomeBudgetCategory(IncomeBudget.INCOME_BUDGET_CATEGORY.GOVERNMENT_BENEFIT);
-//        incomeBudget.setAccount(account);
-//        this.insert(incomeBudget);
-//        incomeBudget = new IncomeBudget("Employment Insurance", Cycle.Every_2_Weeks);
-//        incomeBudget.setIncomeBudgetCategory(IncomeBudget.INCOME_BUDGET_CATEGORY.GOVERNMENT_BENEFIT);
-//        incomeBudget.setAccount(account);
-//        this.insert(incomeBudget);
-//        incomeBudget =new IncomeBudget("Housing Allowance", Cycle.Monthly);
-//        incomeBudget.setIncomeBudgetCategory(IncomeBudget.INCOME_BUDGET_CATEGORY.GOVERNMENT_BENEFIT);
-//        incomeBudget.setAccount(account);
-//        this.insert(incomeBudget);
-//
-//        incomeBudget = new IncomeBudget("Saving Interest", Cycle.Yearly);
-//        incomeBudget.setIncomeBudgetCategory(IncomeBudget.INCOME_BUDGET_CATEGORY.INVESTMENT);
-//        incomeBudget.setAccount(account);
-//        this.insert(incomeBudget);
-//        incomeBudget = new IncomeBudget("Property renting", Cycle.Monthly);
-//        incomeBudget.setIncomeBudgetCategory(IncomeBudget.INCOME_BUDGET_CATEGORY.INVESTMENT);
-//        incomeBudget.setAccount(account);
-//        this.insert(incomeBudget);
-//        incomeBudget =new IncomeBudget("Stock market revenue", Cycle.Yearly);
-//        incomeBudget.setIncomeBudgetCategory(IncomeBudget.INCOME_BUDGET_CATEGORY.INVESTMENT);
-//        incomeBudget.setAccount(account);
-//        this.insert(incomeBudget);
     }
 
 }

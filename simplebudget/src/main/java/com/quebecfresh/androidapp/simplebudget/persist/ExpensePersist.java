@@ -20,43 +20,43 @@ import static com.quebecfresh.androidapp.simplebudget.model.Expense.Contract.*;
 public class ExpensePersist extends  Persist{
     private ExpenseBudgetPersist expenseBudgetPersist;
 
-    public ExpensePersist(Context context) {
-        super(context);
-        this.expenseBudgetPersist = new ExpenseBudgetPersist(context);
-    }
+//    public ExpensePersist(Context context) {
+//        super(context);
+//        this.expenseBudgetPersist = new ExpenseBudgetPersist(context);
+//    }
 
-    public Expense insert(Expense expense) {
+    public Expense insert(Expense expense, SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, expense.getName());
         contentValues.put(_NOTE, expense.getNote());
         contentValues.put(_BUDGET_ID, expense.getExpenseBudget().getId());
         contentValues.put(_AMOUNT, expense.getAmount().toString());
         contentValues.put(_SPENT_DATE, expense.getSpentDate());
-
-        Long rowID = this.mDBH.getWritableDatabase().insert(_TABLE, null, contentValues);
+        Long rowID = database.insert(_TABLE, null, contentValues);
         expense.setId(rowID);
         return expense;
     }
 
-    public Expense read(Long rowID) {
+    public Expense read(Long rowID, SQLiteDatabase database) {
         String sql = "select * from " + _TABLE + " where " + _ID + " = " + rowID;
-        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor =database.rawQuery(sql, null);
         cursor.moveToFirst();
         Long expenseBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
         Expense expense = new Expense();
         expense.setId(rowID);
         expense.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
         expense.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
-        expense.setExpenseBudget(expenseBudgetPersist.read(expenseBudgetID));
+        expense.setExpenseBudget(expenseBudgetPersist.read(expenseBudgetID, database));
         expense.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
         expense.setSpentDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
+        cursor.close();
         return expense;
     }
 
-    public List<Expense> readAll() {
+    public List<Expense> readAll(SQLiteDatabase database) {
         String sql = " select * from " + _TABLE + " order by " + _SPENT_DATE + " desc";
         List<Expense> expenseList = new ArrayList<Expense>();
-        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Long expenseBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
@@ -64,20 +64,21 @@ public class ExpensePersist extends  Persist{
             expense.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
             expense.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
             expense.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
-            expense.setExpenseBudget(expenseBudgetPersist.read(expenseBudgetID));
+            expense.setExpenseBudget(expenseBudgetPersist.read(expenseBudgetID, database));
             expense.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
             expense.setSpentDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
             expenseList.add(expense);
             cursor.moveToNext();
         }
+        cursor.close();
         return expenseList;
     }
 
-    public List<Expense> readAll(long begin, long end) {
+    public List<Expense> readAll(long begin, long end, SQLiteDatabase database) {
         String sql = " select * from " + _TABLE + " where " + _SPENT_DATE + " >= " + begin
                 + " and " + _SPENT_DATE + " <= " + end + " order by " + _SPENT_DATE + " desc";
         List<Expense> expenseList = new ArrayList<Expense>();
-        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Long expenseBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
@@ -85,40 +86,42 @@ public class ExpensePersist extends  Persist{
             expense.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
             expense.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
             expense.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
-            expense.setExpenseBudget(expenseBudgetPersist.read(expenseBudgetID));
+            expense.setExpenseBudget(expenseBudgetPersist.read(expenseBudgetID, database));
             expense.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
             expense.setSpentDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
             expenseList.add(expense);
             cursor.moveToNext();
         }
+        cursor.close();
         return expenseList;
     }
 
-    public BigDecimal readTotalAmount(long begin, long end) {
+    public BigDecimal readTotalAmount(long begin, long end, SQLiteDatabase database) {
         String sql = " select sum(" + _AMOUNT + ") as total from " + _TABLE + " where " + _SPENT_DATE + " >= " + begin
                 + " and " + _SPENT_DATE + " <= " + end;
         List<Expense> expenseList = new ArrayList<Expense>();
-        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         BigDecimal total;
         Double totalDouble = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
         total = new BigDecimal(totalDouble);
+        cursor.close();
         return total.setScale(2, RoundingMode.HALF_UP);
     }
 
-    public Expense update(Expense expense) {
+    public Expense update(Expense expense, SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, expense.getName());
         contentValues.put(_NOTE, expense.getNote());
         contentValues.put(_BUDGET_ID, expense.getExpenseBudget().getId());
         contentValues.put(_AMOUNT, expense.getAmount().toString());
         contentValues.put(_SPENT_DATE, expense.getSpentDate());
-        this.mDBH.getWritableDatabase().update(_TABLE, contentValues, _ID + " = " + expense.getId(), null);
+        database.update(_TABLE, contentValues, _ID + " = " + expense.getId(), null);
         return expense;
     }
 
-    public Boolean delete(Long rowID) {
-        this.mDBH.getWritableDatabase().delete(_TABLE, _ID + " = " + rowID, null);
+    public Boolean delete(Long rowID, SQLiteDatabase database) {
+        database.delete(_TABLE, _ID + " = " + rowID, null);
         return true;
     }
 

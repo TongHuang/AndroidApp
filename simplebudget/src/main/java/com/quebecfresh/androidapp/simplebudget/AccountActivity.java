@@ -21,31 +21,29 @@ import java.util.List;
 
 public class AccountActivity extends ActionBarActivity {
 
-    private DatabaseHelper mDBHelper = new DatabaseHelper(this);
-    private SQLiteDatabase mDB;
-    private AccountPersist mAccountPersist;
-    private List<Account> mAccountList;
-
-    private ListView mListViewAccounts;
-    private View mListViewFooterAccounts;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        mAccountPersist = new AccountPersist(this);
-        mAccountList = mAccountPersist.readAll();
-        mListViewAccounts = (ListView)findViewById(R.id.listViewAccounts);
-        AccountListViewAdapter accountListViewAdapter = new AccountListViewAdapter(mAccountList,this);
-        mListViewAccounts.setAdapter(accountListViewAdapter);
+        //Database related operation
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        AccountPersist accountPersist = new AccountPersist();
+        List<Account> accountList = accountPersist.readAll(database);
+        BigDecimal totalBalance = accountPersist.readTotalBalance(database);
 
-        BigDecimal totalBalance = mAccountPersist.readTotalBalance();
+        //UI related operation
+        ListView listViewAccounts = (ListView)findViewById(R.id.listViewAccounts);
+        AccountListViewAdapter accountListViewAdapter = new AccountListViewAdapter(accountList,this);
+        listViewAccounts.setAdapter(accountListViewAdapter);
+
+        //Add listViewFooter to listView
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View mListViewFooterAccounts = layoutInflater.inflate(R.layout.list_footer_total, null);
         TextView textViewTotal = (TextView)mListViewFooterAccounts.findViewById(R.id.textViewTotal);
         textViewTotal.setText(totalBalance.toString());
-        mListViewAccounts.addFooterView(mListViewFooterAccounts);
+        listViewAccounts.addFooterView(mListViewFooterAccounts);
     }
 
 

@@ -41,13 +41,15 @@ public class IncomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_income, container, false);
         mListViewIncomes = (ListView)view.findViewById(R.id.listViewIncomes);
-        IncomeListViewAdapter incomeListViewAdapter = new IncomeListViewAdapter(mIncomeList, inflater.getContext());
-        mListViewIncomes.setAdapter(incomeListViewAdapter);
-
         mListViewFooterIncome = inflater.inflate(R.layout.list_footer_total, null);
         TextView textViewTotal = (TextView)mListViewFooterIncome.findViewById(R.id.textViewTotal);
         textViewTotal.setText(Utils.calTotalIncome(mIncomeList).toString());
         mListViewIncomes.addFooterView(mListViewFooterIncome);
+
+        IncomeListViewAdapter incomeListViewAdapter = new IncomeListViewAdapter(mIncomeList, inflater.getContext());
+        mListViewIncomes.setAdapter(incomeListViewAdapter);
+
+
         return view;
     }
 

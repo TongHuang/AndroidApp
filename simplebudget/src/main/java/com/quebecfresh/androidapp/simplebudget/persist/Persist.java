@@ -7,13 +7,22 @@ import android.database.sqlite.SQLiteDatabase;
  * Created by Tong Huang on 2015-03-28, 11:37 PM.
  */
 public abstract class Persist {
-    protected DatabaseHelper mDBH;
+    private DatabaseHelper mDBH;
 
-    protected SQLiteDatabase mDB;
+    public Persist() {
+
+    }
 
     public Persist(Context context) {
         mDBH = new DatabaseHelper(context);
+    }
 
+    public SQLiteDatabase getWritableDatabase() {
+        return mDBH.getWritableDatabase();
+    }
+
+    public SQLiteDatabase getReadableDatabase() {
+        return mDBH.getReadableDatabase();
     }
 
 }

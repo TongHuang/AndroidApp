@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".WelcomeActivity"
-            android:label="@string/title_activity_initialize" >
+            android:label="@string/build_your_budget" >
         </activity>
         <activity
             android:name=".InitializeAccountActivity"

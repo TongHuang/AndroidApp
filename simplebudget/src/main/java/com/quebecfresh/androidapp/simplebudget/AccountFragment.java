@@ -26,12 +26,11 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class AccountFragment extends Fragment {
-
+    //When user click on specific account
     public static final String EXTRA_ACCOUNT_ID = "com.quebecfresh.androidapp.simplebudget.account";
 
-    private DatabaseHelper mDBHelper;
-    private SQLiteDatabase mDB;
-    private AccountPersist mAccountPersist;
+
+    private BigDecimal mTotalBalance = new BigDecimal("0");
     private List<Account> mAccountList;
 
     private ListView mListViewAccounts;
@@ -41,23 +40,38 @@ public class AccountFragment extends Fragment {
     }
 
 
+    public BigDecimal getTotalBalance() {
+        return mTotalBalance;
+    }
+
+    public void setTotalBalance(BigDecimal totalBalance) {
+        this.mTotalBalance = totalBalance;
+    }
+
+    public List<Account> getAccountList() {
+        return mAccountList;
+    }
+
+    public void setAccountList(List<Account> accountList) {
+        this.mAccountList = accountList;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_account, container, false);
-        mDBHelper = new DatabaseHelper(inflater.getContext());
-        mAccountPersist = new AccountPersist(inflater.getContext());
-        mAccountList = mAccountPersist.readAll();
-        mListViewAccounts = (ListView)view.findViewById(R.id.listViewAccounts);
-        AccountListViewAdapter accountListViewAdapter = new AccountListViewAdapter(mAccountList,inflater.getContext());
-        mListViewAccounts.setAdapter(accountListViewAdapter);
 
-        BigDecimal totalBalance = mAccountPersist.readTotalBalance();
+        mListViewAccounts = (ListView)view.findViewById(R.id.listViewAccounts);
+
         mListViewFooterAccounts = inflater.inflate(R.layout.list_footer_total, null);
         TextView textViewTotal = (TextView)mListViewFooterAccounts.findViewById(R.id.textViewTotal);
-        textViewTotal.setText(totalBalance.toString());
+
+        textViewTotal.setText(mTotalBalance.toString());
         mListViewAccounts.addFooterView(mListViewFooterAccounts);
+
+        AccountListViewAdapter accountListViewAdapter = new AccountListViewAdapter(mAccountList,inflater.getContext());
+        mListViewAccounts.setAdapter(accountListViewAdapter);
         mListViewAccounts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

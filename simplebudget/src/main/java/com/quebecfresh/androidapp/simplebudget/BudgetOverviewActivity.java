@@ -62,6 +62,9 @@ public class BudgetOverviewActivity extends ActionBarActivity {
     }
 
     private void updateOverView() {
+
+        long start = System.currentTimeMillis();
+
         SimpleDateFormat simpleDateFormat;
         switch (selectedCycle) {
             case Weekly:
@@ -135,6 +138,8 @@ public class BudgetOverviewActivity extends ActionBarActivity {
         progressBarExpenseBudget.setMax(max.intValue());
         progressBarExpenseBudget.setProgress(expenseBudgetTotal.intValue());
         textViewProgressBarExpenseBudgetCenter.setText(expenseBudgetTotal.toString());
+
+        System.out.println("*****************************:" + (System.currentTimeMillis() - start));
     }
 
 

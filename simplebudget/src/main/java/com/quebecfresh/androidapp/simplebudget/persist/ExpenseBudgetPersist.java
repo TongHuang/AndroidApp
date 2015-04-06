@@ -20,13 +20,13 @@ import static com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget.Contra
  */
 public class ExpenseBudgetPersist extends Persist {
     private AccountPersist accountPersist;
+//
+//    public ExpenseBudgetPersist(Context context) {
+//        super(context);
+//        this.accountPersist = new AccountPersist(context);
+//    }
 
-    public ExpenseBudgetPersist(Context context) {
-        super(context);
-        this.accountPersist = new AccountPersist(context);
-    }
-
-    public ExpenseBudget insert(ExpenseBudget expenseBudget) {
+    public ExpenseBudget insert(ExpenseBudget expenseBudget, SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, expenseBudget.getName());
         contentValues.put(_CYCLE, expenseBudget.getCycle().name());
@@ -38,14 +38,14 @@ public class ExpenseBudgetPersist extends Persist {
         contentValues.put(_ACCOUNT_ID, expenseBudget.getAccount().getId());
         contentValues.put(_LAST_FILL_DATE, expenseBudget.getLastFillDate());
         contentValues.put(_CYCLE_START_DATE, expenseBudget.getCycleStartDate());
-        Long rowID = mDBH.getWritableDatabase().insert(_TABLE, null, contentValues);
+        Long rowID = database.insert(_TABLE, null, contentValues);
         expenseBudget.setId(rowID);
         return expenseBudget;
     }
 
-    public ExpenseBudget read(Long rowID) {
+    public ExpenseBudget read(Long rowID, SQLiteDatabase database) {
         String sql = "select * from " + _TABLE + " where " + _ID + "=" + rowID;
-        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         ExpenseBudget expenseBudget = new ExpenseBudget();
         expenseBudget.setId(rowID);
@@ -59,14 +59,14 @@ public class ExpenseBudgetPersist extends Persist {
         expenseBudget.setLastFillDate(cursor.getLong(cursor.getColumnIndexOrThrow(_LAST_FILL_DATE)));
         expenseBudget.setCycleStartDate(cursor.getLong(cursor.getColumnIndexOrThrow(_CYCLE_START_DATE)));
         long accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
-        expenseBudget.setAccount(accountPersist.read(accountID));
-
+        expenseBudget.setAccount(accountPersist.read(accountID, database));
+        cursor.close();
         return expenseBudget;
     }
 
-    public List<ExpenseBudget> readAll() {
+    public List<ExpenseBudget> readAll(SQLiteDatabase database) {
         String sql = "select * from " + _TABLE + " order by " + _UNUSED_BALANCE + " desc";
-        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         List<ExpenseBudget> expenseBudgetList = new ArrayList<ExpenseBudget>();
         long accountID;
@@ -83,20 +83,21 @@ public class ExpenseBudgetPersist extends Persist {
             expenseBudget.setLastFillDate(cursor.getLong(cursor.getColumnIndexOrThrow(_LAST_FILL_DATE)));
             expenseBudget.setCycleStartDate(cursor.getLong(cursor.getColumnIndexOrThrow(_CYCLE_START_DATE)));
             accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
-            expenseBudget.setAccount(accountPersist.read(accountID));
+            expenseBudget.setAccount(accountPersist.read(accountID, database));
             expenseBudgetList.add(expenseBudget);
             cursor.moveToNext();
         }
+        cursor.close();
         return expenseBudgetList;
     }
 
     /*
 
      */
-    public List<ExpenseBudget> readAllBudgetAmountNotZero() {
+    public List<ExpenseBudget> readAllBudgetAmountNotZero(SQLiteDatabase database) {
         String sql = "select * from " + _TABLE + " where " + _BUDGET_AMOUNT + " != 0 order by "
                 + _BUDGET_AMOUNT + " desc";
-        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         List<ExpenseBudget> budgetList = new ArrayList<ExpenseBudget>();
         long accountID;
@@ -113,17 +114,18 @@ public class ExpenseBudgetPersist extends Persist {
             expenseBudget.setLastFillDate(cursor.getLong(cursor.getColumnIndexOrThrow(_LAST_FILL_DATE)));
             expenseBudget.setCycleStartDate(cursor.getLong(cursor.getColumnIndexOrThrow(_CYCLE_START_DATE)));
             accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
-            expenseBudget.setAccount(accountPersist.read(accountID));
+            expenseBudget.setAccount(accountPersist.read(accountID, database));
             budgetList.add(expenseBudget);
             cursor.moveToNext();
         }
+        cursor.close();
         return budgetList;
     }
 
-    public List<ExpenseBudget> readAllUnusedBalanceNotZero() {
+    public List<ExpenseBudget> readAllUnusedBalanceNotZero(SQLiteDatabase database) {
         String sql = "select * from " + _TABLE + " where " + _UNUSED_BALANCE + " != 0 " +
                 " order by " + _UNUSED_BALANCE + " asc";
-        Cursor cursor = this.mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         List<ExpenseBudget> budgetList = new ArrayList<ExpenseBudget>();
         long accountID;
@@ -140,25 +142,28 @@ public class ExpenseBudgetPersist extends Persist {
             expenseBudget.setLastFillDate(cursor.getLong(cursor.getColumnIndexOrThrow(_LAST_FILL_DATE)));
             expenseBudget.setCycleStartDate(cursor.getLong(cursor.getColumnIndexOrThrow(_CYCLE_START_DATE)));
             accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
-            expenseBudget.setAccount(accountPersist.read(accountID));
+            expenseBudget.setAccount(accountPersist.read(accountID, database));
             budgetList.add(expenseBudget);
             cursor.moveToNext();
         }
+        cursor.close();
         return budgetList;
     }
 
-    public BigDecimal readTotalUnusedBalance() {
+    public BigDecimal readTotalUnusedBalance(SQLiteDatabase database) {
         String sql = "select sum(" + _UNUSED_BALANCE + ") as total from " + _TABLE;
-        Cursor cursor = mDBH.getReadableDatabase().rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         BigDecimal total;
         Double totalDouble = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
         total = new BigDecimal(totalDouble);
+        cursor.close();
         return total.setScale(2, RoundingMode.HALF_UP);
     }
 
 
-    public ExpenseBudget update(ExpenseBudget expenseBudget) {
+
+    public ExpenseBudget update(ExpenseBudget expenseBudget, SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(_NAME, expenseBudget.getName());
         contentValues.put(_CYCLE, expenseBudget.getCycle().name());
@@ -170,34 +175,35 @@ public class ExpenseBudgetPersist extends Persist {
         contentValues.put(_ACCOUNT_ID, expenseBudget.getAccount().getId());
         contentValues.put(_LAST_FILL_DATE, expenseBudget.getLastFillDate());
         contentValues.put(_CYCLE_START_DATE, expenseBudget.getCycleStartDate());
-        this.mDBH.getWritableDatabase().update(_TABLE, contentValues, _ID + " = " + expenseBudget.getId(), null);
+        database.update(_TABLE, contentValues, _ID + " = " + expenseBudget.getId(), null);
         return expenseBudget;
     }
 
-    public Boolean delete(Long rowID) {
-        this.mDBH.getWritableDatabase().delete(_TABLE, _ID + " = " + rowID, null);
+    public Boolean delete(Long rowID, SQLiteDatabase database) {
+        database.delete(_TABLE, _ID + " = " + rowID, null);
         return true;
     }
 
 
 
-    public void fillEnvelope(ExpenseBudget expenseBudget) {
+    public void fillEnvelope(ExpenseBudget expenseBudget, SQLiteDatabase database) {
         expenseBudget.setUnusedBalance(expenseBudget.getUnusedBalance().add(expenseBudget.getBudgetAmount()));
-        this.update(expenseBudget);
+        this.update(expenseBudget, database);
     }
 
-    public void fillAllEnvelopes() {
-        List<ExpenseBudget> expenseBudgetList = this.readAllBudgetAmountNotZero();
+    public void fillAllEnvelopes(SQLiteDatabase database) {
+        List<ExpenseBudget> expenseBudgetList = this.readAllBudgetAmountNotZero(database);
+
         for (ExpenseBudget expenseBudget : expenseBudgetList) {
-            this.fillEnvelope(expenseBudget);
+            this.fillEnvelope(expenseBudget, database);
         }
     }
 
-    public Boolean save(ExpenseBudget expenseBudget) {
+    public Boolean save(ExpenseBudget expenseBudget, SQLiteDatabase database) {
         if (expenseBudget.getId() > 0) {
-            this.update(expenseBudget);
+            this.update(expenseBudget,database);
         } else {
-            this.insert(expenseBudget);
+            this.insert(expenseBudget,database);
         }
         return true;
     }
@@ -263,106 +269,6 @@ public class ExpenseBudgetPersist extends Persist {
             db.insert(_TABLE, null, contentValues);
             contentValues.clear();
         }
-
-
-
-        //Read the first account as the default account
-//        Account account = this.accountPersist.read(1L);
-//
-//        ExpenseBudget expenseBudget;
-//        expenseBudget = new ExpenseBudget("Groceries", Cycle.Weekly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.FOODS);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Restaurant", Cycle.Weekly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.FOODS);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Pet foods", Cycle.Weekly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.FOODS);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//
-//
-//        expenseBudget = new ExpenseBudget("Mortgage", Cycle.Every_2_Weeks);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Rent", Cycle.Monthly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Property Taxes", Cycle.Yearly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("House repair", Cycle.Yearly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Insurance", Cycle.Yearly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//
-//        expenseBudget = new ExpenseBudget("Electricity", Cycle.Monthly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Phone", Cycle.Monthly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Cable TV", Cycle.Monthly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Internet service", Cycle.Monthly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Water", Cycle.Yearly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Garbage", Cycle.Yearly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Heating", Cycle.Yearly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//
-//
-//        expenseBudget = new ExpenseBudget("Fuel", Cycle.Weekly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Tire", Cycle.Every_6_Months);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Oil change", Cycle.Every_6_Months);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Insurance", Cycle.Monthly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Auto plate", Cycle.Yearly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Driver licence", Cycle.Yearly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
-//        expenseBudget = new ExpenseBudget("Bus ticket", Cycle.Monthly);
-//        expenseBudget.setExpenseBudgetCategory(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION);
-//        expenseBudget.setAccount(account);
-//        this.insert(expenseBudget);
 
     }
 }

@@ -89,7 +89,7 @@
     <string name="total_expense">Total expense</string>
     <string name="welcome_message">Welcome to 123 budget.\n Before you can start. \n Please choose 1,2 and 3. \n To initialize your budget.</string>
     <string name="welcome_budget_overview_message">Account Balance: %1$s $. \nYearly income: %2$s $ \nYearly expense: %3$s $ \nYearly surplus:%4$s $</string>
-    <string name="title_activity_initialize">Initialization</string>
+    <string name="build_your_budget">Build your budget</string>
     <string name="amount">Amount</string>
     <string name="date">Date</string>
     <string name="roll_over">Rollover</string>

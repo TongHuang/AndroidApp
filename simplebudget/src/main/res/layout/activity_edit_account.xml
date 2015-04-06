@@ -1,113 +1,65 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.quebecfresh.androidapp.simplebudget.EditAccountActivity"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Name"
             android:id="@+id/textView4"
-            android:gravity="left|center_vertical"
-            android:layout_gravity="left|center_vertical"
-            android:layout_weight="3" />
+            style="@style/detailFirstColumnStyle"/>
 
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/editTextName"
-            android:layout_column="1"
-            android:layout_weight="7"
-            android:layout_gravity="center_vertical|right"
-            android:gravity="center_vertical|center_horizontal"
-            android:hint="@string/name_of_account" />
+            android:hint="@string/name_of_account"
+            style="@style/detailSecondColumnEditTextStyle"/>
 
-    </TableRow>
+    </LinearLayout>
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        android:layout_gravity="left|center_vertical">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Number"
             android:id="@+id/textView6"
-            android:layout_gravity="left|center_vertical"
-            android:layout_weight="3" />
+            style="@style/detailFirstColumnStyle"/>
 
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/editTextNumber"
-            android:layout_weight="7"
-            android:layout_gravity="center_vertical|right"
-            android:gravity="center_vertical|center_horizontal"
-            android:hint="@string/number_of_account" />
+            android:hint="@string/number_of_account"
+            style="@style/detailSecondColumnEditTextStyle"/>
 
-    </TableRow>
+    </LinearLayout>
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Balance"
             android:id="@+id/textView7"
-            android:layout_gravity="left|center_vertical"
-            android:layout_weight="3" />
+            style="@style/detailFirstColumnStyle"/>
 
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/editTextBalance"
-            android:layout_weight="7"
-            android:layout_gravity="center_vertical|right"
-            android:gravity="center_vertical|center_horizontal"
-            android:hint="@string/balance_of_account" />
+            android:hint="@string/balance_of_account"
+            style="@style/detailSecondColumnEditTextStyle"/>
 
-    </TableRow>
+    </LinearLayout>
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10">
+    <LinearLayout style="@style/detailRowStyle">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Note"
             android:id="@+id/textView8"
-            android:layout_gravity="left|center_vertical"
-            android:layout_weight="3" />
+            style="@style/detailFirstColumnStyle"/>
 
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/editTextNote"
-            android:layout_weight="7"
-            android:layout_gravity="center_vertical|right"
-            android:gravity="center_vertical|center_horizontal"
             android:hint="@string/note_of_account"
-            android:inputType="textMultiLine" />
+            style="@style/detailSecondColumnEditTextStyle"/>
 
-    </TableRow>
-</TableLayout>
+    </LinearLayout>
+</LinearLayout>

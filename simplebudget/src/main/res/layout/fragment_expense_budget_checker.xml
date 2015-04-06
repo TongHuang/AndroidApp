@@ -50,7 +50,6 @@
             android:id="@+id/progressBarUsedAmount"
             android:max="100"
             android:progress="50"
-            android:progressTint="@color/crimson"
             android:focusableInTouchMode="false" />
     </LinearLayout>
 

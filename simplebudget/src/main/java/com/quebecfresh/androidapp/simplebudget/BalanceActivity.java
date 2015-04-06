@@ -27,12 +27,7 @@ import java.util.List;
 public class BalanceActivity extends ActionBarActivity {
 
     private DatabaseHelper databaseHelper = new DatabaseHelper(this);
-    private SQLiteDatabase db;
 
-    private ListView listViewAccount;
-    private View mListViewFooterAccount;
-    private ListView listViewBudget;
-    private View mListViewFooterBudget;
 
     private AccountFragment mAccountFragment;
     private ExpenseBudgetFragment mExpenseBudgetFragment;
@@ -42,8 +37,12 @@ public class BalanceActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance);
 
+        AccountPersist accountPersist = new AccountPersist();
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
 
         mAccountFragment = new AccountFragment();
+        mAccountFragment.setAccountList(accountPersist.readAll(database));
+        mAccountFragment.setTotalBalance(accountPersist.readTotalBalance(database));
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragmentContainerAccount, mAccountFragment);
         fragmentTransaction.commit();

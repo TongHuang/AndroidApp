@@ -45,40 +45,13 @@ public class InitializeAccountActivity extends ActionBarActivity {
         if(initializeDone){
             this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }else{
-            this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
+            this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);        }
 
 
         mAccountFragment = new AccountFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainerAccountList, mAccountFragment);
         fragmentTransaction.commit();
-
-//        DatabaseHelper dHelper = new DatabaseHelper(this);
-//        SQLiteDatabase db = dHelper.getWritableDatabase();
-//
-//        AccountPersist accountPersist = new AccountPersist(db);
-//
-//        List<Account> accounts = accountPersist.readAll();
-//
-//        BigDecimal total = new BigDecimal("0");
-//        for (int i = 0; i < accounts.size(); i++) {
-//            total = total.add(accounts.get(i).getBalance());
-//        }
-//
-//        TextView textViewTotal = (TextView) this.findViewById(R.id.textViewTotal);
-//        textViewTotal.setText("Total:" + total.toString());
-//        AccountListViewAdapter adapter = new AccountListViewAdapter(accounts, this);
-//        ListView listView = (ListView) this.findViewById(R.id.listViewAccount);
-//        listView.setAdapter(adapter);
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(InitializeAccountActivity.this, EditAccountActivity.class);
-//                intent.putExtra(EXTRA_ACCOUNT_ID, id);
-//                startActivity(intent);
-//            }
-//        });
 
         super.onResume();
     }
