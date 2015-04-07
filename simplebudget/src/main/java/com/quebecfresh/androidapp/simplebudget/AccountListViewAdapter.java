@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,37 +19,37 @@ public class AccountListViewAdapter extends BaseAdapter implements ListAdapter {
 
 
 
-    private List<Account> accounts = new ArrayList<Account>();
-    private Context context;
+    private List<Account> mAccounts;
+    private Context mContext;
 
     public AccountListViewAdapter(List<Account> accounts, Context context) {
-        this.accounts = accounts;
-        this.context = context;
+        this.mAccounts = accounts;
+        this.mContext = context;
     }
 
 
 
     @Override
     public int getCount() {
-        return accounts.size();
+        return mAccounts.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return accounts.get(position);
+        return mAccounts.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return accounts.get(position).getId();
+        return mAccounts.get(position).getId();
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        Account account = accounts.get(position);
+        Account account = mAccounts.get(position);
         if (view == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.list_item_account, null);
         }
 

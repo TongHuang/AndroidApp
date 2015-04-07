@@ -26,11 +26,19 @@ import java.util.List;
 public class InitializeAccountActivity extends ActionBarActivity {
     public static final String EXTRA_ACCOUNT_ID = "com.quebecfresh.androidapp.simplebudget.account";
 
+    private  SQLiteDatabase mReadableDatabase;
+    private AccountPersist mAccountPersist;
+
     private  AccountFragment mAccountFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initialize_account);
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        mReadableDatabase = databaseHelper.getReadableDatabase();
+        mAccountPersist = new AccountPersist();
+
 
     }
 
@@ -45,10 +53,13 @@ public class InitializeAccountActivity extends ActionBarActivity {
         if(initializeDone){
             this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }else{
-            this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);        }
+            this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
 
 
         mAccountFragment = new AccountFragment();
+        mAccountFragment.setAccountList(mAccountPersist.readAll(mReadableDatabase));
+        mAccountFragment.setTotalBalance(mAccountPersist.readTotalBalance(mReadableDatabase));
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainerAccountList, mAccountFragment);
         fragmentTransaction.commit();

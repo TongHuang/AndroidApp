@@ -45,7 +45,8 @@
         <EditText
             android:id="@+id/editTextBalance"
             android:hint="@string/balance_of_account"
-            style="@style/detailSecondColumnEditTextStyle"/>
+            style="@style/detailSecondColumnEditTextStyle"
+            android:inputType="numberSigned" />
 
     </LinearLayout>
 

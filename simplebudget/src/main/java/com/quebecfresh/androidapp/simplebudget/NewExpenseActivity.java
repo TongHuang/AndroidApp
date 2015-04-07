@@ -146,7 +146,7 @@ public class NewExpenseActivity extends ActionBarActivity {
         mExpenseBudgetList = mExpenseBudgetPersist.readAllBudgetAmountNotZero(mWritableDatabase);
 
         this.mExpense = new Expense();
-        if (mExpenseBudgetList.size() > 1) {
+        if (mExpenseBudgetList.size() > 0) {
             this.mExpense.setExpenseBudget(mExpenseBudgetList.get(0));
         }
         this.mExpense.setSpentDate(System.currentTimeMillis());

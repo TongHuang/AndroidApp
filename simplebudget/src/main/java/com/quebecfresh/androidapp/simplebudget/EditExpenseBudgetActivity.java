@@ -73,7 +73,7 @@ public class EditExpenseBudgetActivity extends ActionBarActivity {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         AccountPersist accountPersist = new AccountPersist();
-        accountPersist.readAll(mWritableDatabase);
+        mAccountList = accountPersist.readAll(mWritableDatabase);
 
         mExpenseBudgetPersist = new ExpenseBudgetPersist();
         if (mRowID > 0) {

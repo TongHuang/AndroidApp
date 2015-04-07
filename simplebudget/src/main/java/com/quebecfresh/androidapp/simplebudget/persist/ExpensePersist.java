@@ -1,7 +1,6 @@
 package com.quebecfresh.androidapp.simplebudget.persist;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -18,12 +17,7 @@ import static com.quebecfresh.androidapp.simplebudget.model.Expense.Contract.*;
  * Created by Tong Huang on 2015-03-16, 7:01 AM.
  */
 public class ExpensePersist extends  Persist{
-    private ExpenseBudgetPersist expenseBudgetPersist;
 
-//    public ExpensePersist(Context context) {
-//        super(context);
-//        this.expenseBudgetPersist = new ExpenseBudgetPersist(context);
-//    }
 
     public Expense insert(Expense expense, SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
@@ -41,6 +35,7 @@ public class ExpensePersist extends  Persist{
         String sql = "select * from " + _TABLE + " where " + _ID + " = " + rowID;
         Cursor cursor =database.rawQuery(sql, null);
         cursor.moveToFirst();
+        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist();
         Long expenseBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
         Expense expense = new Expense();
         expense.setId(rowID);
@@ -58,6 +53,7 @@ public class ExpensePersist extends  Persist{
         List<Expense> expenseList = new ArrayList<Expense>();
         Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
+        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist();
         while (!cursor.isAfterLast()) {
             Long expenseBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
             Expense expense = new Expense();
@@ -78,6 +74,7 @@ public class ExpensePersist extends  Persist{
         String sql = " select * from " + _TABLE + " where " + _SPENT_DATE + " >= " + begin
                 + " and " + _SPENT_DATE + " <= " + end + " order by " + _SPENT_DATE + " desc";
         List<Expense> expenseList = new ArrayList<Expense>();
+
         Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -86,6 +83,7 @@ public class ExpensePersist extends  Persist{
             expense.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
             expense.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
             expense.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
+            ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist();
             expense.setExpenseBudget(expenseBudgetPersist.read(expenseBudgetID, database));
             expense.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
             expense.setSpentDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));

@@ -20,8 +20,6 @@ import static com.quebecfresh.androidapp.simplebudget.model.Income.Contract.*;
  * Created by Tong Huang on 2015-03-15, 11:22 PM.
  */
 public class IncomePersist extends Persist {
-    private AccountPersist accountPersist;
-    private IncomeBudgetPersist incomeBudgetPersist;
 
 //    public IncomePersist(Context context) {
 //        super(context);
@@ -46,7 +44,8 @@ public class IncomePersist extends Persist {
     public Income read(Long rowID, SQLiteDatabase database) {
         String sql = "select * from " + _TABLE + " where " + _ID + " = " + rowID;
         Cursor cursor = database.rawQuery(sql, null);
-
+        IncomeBudgetPersist incomeBudgetPersist = new IncomeBudgetPersist();
+        AccountPersist accountPersist = new AccountPersist();
         cursor.moveToFirst();
         Long incomeBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
         IncomeBudget incomeBudget = incomeBudgetPersist.read(incomeBudgetID, database);
@@ -70,6 +69,8 @@ public class IncomePersist extends Persist {
         List<Income> incomeList = new ArrayList<Income>();
         Cursor cursor =  database.rawQuery(sql, null);
         cursor.moveToFirst();
+        IncomeBudgetPersist incomeBudgetPersist = new IncomeBudgetPersist();
+        AccountPersist accountPersist = new AccountPersist();
         while (!cursor.isAfterLast()) {
             Long incomeBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
             IncomeBudget incomeBudget = incomeBudgetPersist.read(incomeBudgetID,database);
@@ -97,6 +98,8 @@ public class IncomePersist extends Persist {
         List<Income> incomeList = new ArrayList<Income>();
         Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
+        IncomeBudgetPersist incomeBudgetPersist = new IncomeBudgetPersist();
+        AccountPersist accountPersist = new AccountPersist();
         while (!cursor.isAfterLast()) {
             Long incomeBudgetID = cursor.getLong(cursor.getColumnIndexOrThrow(_BUDGET_ID));
             IncomeBudget incomeBudget = incomeBudgetPersist.read(incomeBudgetID, database);
@@ -135,6 +138,8 @@ public class IncomePersist extends Persist {
         String sql = "select * from " + _TABLE + " where " + _CONFIRMED + " = 0"
                 + " order by " + _RECEIVED_DATE + " desc";
         List<Income> incomeList = new ArrayList<Income>();
+        IncomeBudgetPersist incomeBudgetPersist = new IncomeBudgetPersist();
+        AccountPersist accountPersist = new AccountPersist();
         Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -159,6 +164,8 @@ public class IncomePersist extends Persist {
     }
 
     public List<Income> readAllByAccount(Long accountID, SQLiteDatabase database){
+        IncomeBudgetPersist incomeBudgetPersist = new IncomeBudgetPersist();
+        AccountPersist accountPersist = new AccountPersist();
         Account account = accountPersist.read(accountID,database );
         String sql = "select * from " + _TABLE + " where " + _ACCOUNT_ID + " = " + accountID + "  order by "
                 + _RECEIVED_DATE + " desc";
