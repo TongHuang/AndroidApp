@@ -19,12 +19,7 @@ import static com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget.Contra
  * Created by Tong Huang on 2015-02-24, 5:44 AM.
  */
 public class ExpenseBudgetPersist extends Persist {
-    private AccountPersist accountPersist;
-//
-//    public ExpenseBudgetPersist(Context context) {
-//        super(context);
-//        this.accountPersist = new AccountPersist(context);
-//    }
+
 
     public ExpenseBudget insert(ExpenseBudget expenseBudget, SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
@@ -47,6 +42,7 @@ public class ExpenseBudgetPersist extends Persist {
         String sql = "select * from " + _TABLE + " where " + _ID + "=" + rowID;
         Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
+        AccountPersist accountPersist = new AccountPersist();
         ExpenseBudget expenseBudget = new ExpenseBudget();
         expenseBudget.setId(rowID);
         expenseBudget.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
@@ -68,6 +64,7 @@ public class ExpenseBudgetPersist extends Persist {
         String sql = "select * from " + _TABLE + " order by " + _UNUSED_BALANCE + " desc";
         Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
+        AccountPersist accountPersist = new AccountPersist();
         List<ExpenseBudget> expenseBudgetList = new ArrayList<ExpenseBudget>();
         long accountID;
         while (!cursor.isAfterLast()) {
@@ -99,6 +96,7 @@ public class ExpenseBudgetPersist extends Persist {
                 + _BUDGET_AMOUNT + " desc";
         Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
+        AccountPersist accountPersist = new AccountPersist();
         List<ExpenseBudget> budgetList = new ArrayList<ExpenseBudget>();
         long accountID;
         while (!cursor.isAfterLast()) {
@@ -127,6 +125,7 @@ public class ExpenseBudgetPersist extends Persist {
                 " order by " + _UNUSED_BALANCE + " asc";
         Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
+        AccountPersist accountPersist = new AccountPersist();
         List<ExpenseBudget> budgetList = new ArrayList<ExpenseBudget>();
         long accountID;
         while (!cursor.isAfterLast()) {

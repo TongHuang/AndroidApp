@@ -19,12 +19,6 @@ import static com.quebecfresh.androidapp.simplebudget.model.IncomeBudget.Contrac
  * Created by Tong Huang on 2015-02-22, 7:05 PM.
  */
 public class IncomeBudgetPersist extends Persist {
-    private  AccountPersist accountPersist;
-
-//    public IncomeBudgetPersist(Context context){
-//        super(context);
-//        this.accountPersist = new AccountPersist(context);
-//    }
 
 
 
@@ -46,6 +40,7 @@ public class IncomeBudgetPersist extends Persist {
     public IncomeBudget read(Long rowID, SQLiteDatabase database){
         String sql = "Select * from " + _TABLE + " where " + _ID + "=" + rowID;
         Cursor cursor = database.rawQuery(sql, null);
+        AccountPersist accountPersist = new AccountPersist();
         cursor.moveToFirst();
         IncomeBudget incomeBudget = new IncomeBudget();
         incomeBudget.setId(rowID);
@@ -66,7 +61,9 @@ public class IncomeBudgetPersist extends Persist {
         String sql = " Select * from " + _TABLE + " order by " + _BUDGET_AMOUNT + " desc";
         Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
+        AccountPersist accountPersist = new AccountPersist();
         List<IncomeBudget> incomeBudgetList = new ArrayList<IncomeBudget>();
+        long accountID;
         while(!cursor.isAfterLast()){
             IncomeBudget incomeBudget = new IncomeBudget();
             incomeBudget.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
@@ -77,7 +74,7 @@ public class IncomeBudgetPersist extends Persist {
             incomeBudget.setIncomeBudgetCategory(IncomeBudget.INCOME_BUDGET_CATEGORY.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(_BUDGET_CATEGORY))));
             incomeBudget.setUnrealizedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNREALIZED_BALANCE))));
             incomeBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true : false);
-            long accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
+            accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
             incomeBudget.setAccount(accountPersist.read(accountID, database));
             incomeBudgetList.add(incomeBudget);
             cursor.moveToNext();
@@ -91,7 +88,9 @@ public class IncomeBudgetPersist extends Persist {
                 + " order by " + _BUDGET_AMOUNT + " desc";
         Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
+        AccountPersist accountPersist = new AccountPersist();
         List<IncomeBudget> incomeBudgetList = new ArrayList<IncomeBudget>();
+        long accountID;
         while(!cursor.isAfterLast()){
             IncomeBudget incomeBudget = new IncomeBudget();
             incomeBudget.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
@@ -103,7 +102,7 @@ public class IncomeBudgetPersist extends Persist {
            incomeBudget.setUnrealizedBalance(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_UNREALIZED_BALANCE))));
             incomeBudget.setRollOver(cursor.getInt(cursor.getColumnIndexOrThrow(_ROLL_OVER)) == 1 ? true : false);
             incomeBudgetList.add(incomeBudget);
-            long accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
+             accountID = cursor.getLong(cursor.getColumnIndexOrThrow(_ACCOUNT_ID));
             incomeBudget.setAccount(accountPersist.read(accountID, database));
             cursor.moveToNext();
         }
