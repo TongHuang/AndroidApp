@@ -27,10 +27,19 @@ import java.util.List;
 
 
 public class InitializeExpenseBudgetActivity extends ActionBarActivity {
+
+    private  SQLiteDatabase mReadableDatabase;
+    private  ExpenseBudgetPersist mExpenseBudgetPersist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initialize_expense_budget);
+
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        mReadableDatabase = databaseHelper.getReadableDatabase();
+        mExpenseBudgetPersist = new ExpenseBudgetPersist();
 
     }
 
@@ -45,10 +54,9 @@ public class InitializeExpenseBudgetActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
 
-        ExpenseBudgetPersist persist = new ExpenseBudgetPersist(this);
 
         ExpandableExpenseBudgetFragment expandableExpenseBudgetFragment = new ExpandableExpenseBudgetFragment();
-        expandableExpenseBudgetFragment.setExpenseBudgetList(persist.readAll());
+        expandableExpenseBudgetFragment.setExpenseBudgetList(mExpenseBudgetPersist.readAll(mReadableDatabase));
 
         FragmentTransaction fragmentTransaction =  getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainerExpenseBudget, expandableExpenseBudgetFragment);

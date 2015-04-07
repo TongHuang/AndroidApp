@@ -2,6 +2,7 @@ package com.quebecfresh.androidapp.simplebudget;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,31 +20,34 @@ import static com.quebecfresh.androidapp.simplebudget.model.Utils.*;
 
 public class EditAccountActivity extends ActionBarActivity {
 
+    private  DatabaseHelper mDBHelper = new DatabaseHelper(this);
+    private SQLiteDatabase mWritableDatabase;
+    private AccountPersist mAccountPersist;
+
     private Long mAccountID;
     private EditText mEditTextName;
     private EditText mEditTextNumber;
     private EditText mEditTextBalance;
     private EditText mEditTextNote;
     private Account mAccount;
-    private  DatabaseHelper mDBHelper;
-    private AccountPersist mAccountPersist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account);
         Intent intent = getIntent();
         mAccountID = intent.getLongExtra(InitializeAccountActivity.EXTRA_ACCOUNT_ID, 0);
 
-        mDBHelper = new DatabaseHelper(this);
-        mAccountPersist = new AccountPersist(this);
+        mWritableDatabase = mDBHelper.getWritableDatabase();
+        mAccountPersist = new AccountPersist();
+
+
         mEditTextName = (EditText) this.findViewById(R.id.editTextName);
         mEditTextNumber = (EditText) this.findViewById(R.id.editTextNumber);
         mEditTextBalance = (EditText) this.findViewById(R.id.editTextBalance);
         mEditTextNote = (EditText) this.findViewById(R.id.editTextNote);
         if (mAccountID > 0) {
-            mAccount = mAccountPersist.read(mAccountID);
+            mAccount = mAccountPersist.read(mAccountID, mWritableDatabase);
             mEditTextName.setText(mAccount.getName());
             mEditTextNumber.setText(mAccount.getAccountNumber());
             mEditTextBalance.setText(mAccount.getBalance().toString());
@@ -76,7 +80,7 @@ public class EditAccountActivity extends ActionBarActivity {
                     mAccount.setAccountNumber(mEditTextNumber.getText().toString());
                     mAccount.setBalance(new BigDecimal(mEditTextBalance.getText().toString()));
                     mAccount.setNote(mEditTextNote.getText().toString());
-                    mAccountPersist.save(mAccount);
+                    mAccountPersist.save(mAccount, mWritableDatabase);
                     this.finish();
                 }else{
                     return false;
@@ -88,7 +92,7 @@ public class EditAccountActivity extends ActionBarActivity {
                     @Override
                     public void onYesClick() {
                         if(mAccountID > 0) {
-                            mAccountPersist.delete(mAccountID);
+                            mAccountPersist.delete(mAccountID, mWritableDatabase);
                         }
                         finish();
                     }

@@ -1,5 +1,6 @@
 package com.quebecfresh.androidapp.simplebudget;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -27,13 +28,16 @@ public class ExpenseActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense);
 
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase readableDatabase = databaseHelper.getReadableDatabase();
+
         this.mSelectedCycle = Cycle.valueOf(getIntent().getStringExtra(BudgetOverviewActivity.EXTRA_SELECTED_CYCLE));
         this.mSelectedDate.setTimeInMillis(getIntent().getLongExtra(BudgetOverviewActivity.EXTRA_SELECTED_DATE, System.currentTimeMillis()));
         long begin = Utils.getBeginOfCycle(mSelectedCycle, mSelectedDate);
         long end = Utils.getEndOfCycle(mSelectedCycle, mSelectedDate);
-        ExpensePersist expensePersist = new ExpensePersist(this);
+        ExpensePersist expensePersist = new ExpensePersist();
         ExpenseFragment expenseFragment = new ExpenseFragment();
-        expenseFragment.setExpenseList(expensePersist.readAll(begin, end));
+        expenseFragment.setExpenseList(expensePersist.readAll(begin, end, readableDatabase));
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragmentContainerExpenseList, expenseFragment);
         fragmentTransaction.commit();

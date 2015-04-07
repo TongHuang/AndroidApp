@@ -24,27 +24,31 @@ import com.quebecfresh.androidapp.simplebudget.persist.ExpenseBudgetPersist;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class EditExpenseBudgetActivity extends ActionBarActivity {
+
+    private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
+    private SQLiteDatabase mWritableDatabase;
+    private ExpenseBudgetPersist mExpenseBudgetPersist;
 
     private EditText mEditTextName;
     private Button mButtonAccount;
     private Spinner mSpinnerExpenseBudgetCategory;
     private Spinner mSpinnerCycle;
-    private Button mButtonChooseCycleStartDate;
     private EditText mEditTextBudgetAmount;
     private EditText mEditTextNote;
-    private CheckBox mCheckBoxRollover;
     private ExpenseBudget mExpenseBudget;
-    private ExpenseBudgetPersist mExpenseBudgetPersist;
+
+    private List<Account> mAccountList;
     private Long mRowID;
 
 
     public void chooseAccount(View view) {
         ChooseAccountDialogFragment chooseAccountDialogFragment = new ChooseAccountDialogFragment();
-        AccountPersist accountPersist = new AccountPersist(this);
-        chooseAccountDialogFragment.setAccountList(accountPersist.readAll());
+
+        chooseAccountDialogFragment.setAccountList(mAccountList);
         chooseAccountDialogFragment.show(this.getSupportFragmentManager(), "Choose account");
         chooseAccountDialogFragment.setAccountChooseListener(new ChooseAccountDialogFragment.AccountChooseListener() {
             @Override
@@ -56,36 +60,24 @@ public class EditExpenseBudgetActivity extends ActionBarActivity {
     }
 
 
-    public void chooseCycleStartDate(View view){
-        ChooseDateDialogFragment chooseDateDialogFragment = new ChooseDateDialogFragment();
-        chooseDateDialogFragment.setCalendar(Calendar.getInstance());
-        chooseDateDialogFragment.setDateSetListener(new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar c = Calendar.getInstance();
-                c.set(Calendar.YEAR, year);
-                c.set(Calendar.MONTH, monthOfYear);
-                c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                mExpenseBudget.setCycleStartDate(c.getTimeInMillis());
-                mButtonChooseCycleStartDate.setText(mExpenseBudget.getCycleStartDateLabel());
-            }
-        });
-        chooseDateDialogFragment.show(getSupportFragmentManager(), "Choose cycle start date");
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_expense_budget);
+
+        mWritableDatabase = mDatabaseHelper.getWritableDatabase();
 
         Intent intent = getIntent();
         mRowID = intent.getLongExtra(ExpandableExpenseBudgetFragment.EXTRA_EXPENSE_BUDGET_ID, -1);
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        mExpenseBudgetPersist = new ExpenseBudgetPersist(this);
+        AccountPersist accountPersist = new AccountPersist();
+        accountPersist.readAll(mWritableDatabase);
+
+        mExpenseBudgetPersist = new ExpenseBudgetPersist();
         if (mRowID > 0) {
-            mExpenseBudget = mExpenseBudgetPersist.read(mRowID);
+            mExpenseBudget = mExpenseBudgetPersist.read(mRowID, mWritableDatabase);
         } else {
             mExpenseBudget = new ExpenseBudget();
         }
@@ -102,7 +94,7 @@ public class EditExpenseBudgetActivity extends ActionBarActivity {
         mSpinnerExpenseBudgetCategory.setAdapter(expenseCategoryGroupSpinnerAdapter);
         mSpinnerExpenseBudgetCategory.setSelection(mExpenseBudget.getExpenseBudgetCategory().ordinal());
         mSpinnerCycle = (Spinner) findViewById(R.id.spinnerCycle);
-        CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(this, Cycle.values());
+        CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(Cycle.values(),this);
 
         mSpinnerCycle.setAdapter(cycleSpinnerAdapter);
         mSpinnerCycle.setSelection(mExpenseBudget.getCycle().ordinal());
@@ -135,7 +127,7 @@ public class EditExpenseBudgetActivity extends ActionBarActivity {
                 mExpenseBudget.setCycle(Cycle.valueOf(mSpinnerCycle.getSelectedItem().toString()));
                 mExpenseBudget.setBudgetAmount(new BigDecimal(mEditTextBudgetAmount.getText().toString()));
                 mExpenseBudget.setNote(mEditTextNote.getText().toString());
-                this.mExpenseBudgetPersist.save(mExpenseBudget);
+                this.mExpenseBudgetPersist.save(mExpenseBudget, mWritableDatabase);
         }
 //        Intent intent = new Intent(this, BudgetExpenseActivity.class);
 //        startActivity(intent);

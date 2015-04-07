@@ -1,6 +1,7 @@
 package com.quebecfresh.androidapp.simplebudget;
 
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.IncomeBudget;
 import com.quebecfresh.androidapp.simplebudget.model.Utils;
+import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 
 import java.util.List;
 import java.util.zip.Inflater;
@@ -25,6 +27,7 @@ import java.util.zip.Inflater;
 public class IncomeBudgetFragment extends Fragment {
 
     private List<IncomeBudget> mIncomeBudgetList;
+
     private Cycle mSelectedCycle = Cycle.Monthly;
     private TextView mTextViewTotal;
 
@@ -59,7 +62,7 @@ public class IncomeBudgetFragment extends Fragment {
         listViewIncomeBudget.setAdapter(incomeBudgetListViewAdapter);
 
         Spinner spinnerCycle = (Spinner)view.findViewById(R.id.spinnerCycle);
-        CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(inflater.getContext(),Cycle.values());
+        CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(Cycle.values(),inflater.getContext());
         spinnerCycle.setAdapter(cycleSpinnerAdapter);
         spinnerCycle.setSelection(mSelectedCycle.ordinal());
         spinnerCycle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

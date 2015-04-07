@@ -26,7 +26,7 @@ import java.util.List;
 
 public class NewIncomeActivity extends ActionBarActivity {
 
-    private DatabaseHelper databaseHelper = new DatabaseHelper(this);
+    private  SQLiteDatabase mWritableDatabase;
     private IncomePersist incomePersist;
     private AccountPersist accountPersist;
     private IncomeBudgetPersist incomeBudgetPersist;
@@ -93,13 +93,14 @@ public class NewIncomeActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_income);
 
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        incomePersist = new IncomePersist(this);
-        accountPersist = new AccountPersist(this);
-        incomeBudgetPersist = new IncomeBudgetPersist(this);
-        List<Income> incomeUnconfirmedList = incomePersist.readAllUnconfirmedConfirmed();
-        accountList = accountPersist.readAll();
-        incomeBudgetList = incomeBudgetPersist.readAllBudgetAmountNotZero();
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        mWritableDatabase = databaseHelper.getWritableDatabase();
+        incomePersist = new IncomePersist();
+        accountPersist = new AccountPersist();
+        incomeBudgetPersist = new IncomeBudgetPersist();
+        List<Income> incomeUnconfirmedList = incomePersist.readAllUnconfirmedConfirmed(mWritableDatabase);
+        accountList = accountPersist.readAll(mWritableDatabase);
+        incomeBudgetList = incomeBudgetPersist.readAllBudgetAmountNotZero(mWritableDatabase);
 
         income = new Income();
         income.setIncomeBudget(incomeBudgetList.get(0));
@@ -138,8 +139,8 @@ public class NewIncomeActivity extends ActionBarActivity {
             income.setNote(editTextIncomeNote.getText().toString());
             Account account = income.getAccount();
             account.setBalance(account.getBalance().add(income.getAmount()));
-            accountPersist.update(account);
-            incomePersist.insert(income);
+            accountPersist.update(account, mWritableDatabase);
+            incomePersist.insert(income, mWritableDatabase);
         }
         this.finish();
         return super.onOptionsItemSelected(item);

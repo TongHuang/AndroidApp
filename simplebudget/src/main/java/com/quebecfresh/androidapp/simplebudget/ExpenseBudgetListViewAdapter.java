@@ -17,42 +17,42 @@ import java.util.List;
  */
 public class ExpenseBudgetListViewAdapter extends BaseAdapter implements ListAdapter {
 
-    private List<ExpenseBudget> budgetList;
-    private Context context;
+    private List<ExpenseBudget> mBudgetList;
+    private Context mContext;
 
     public ExpenseBudgetListViewAdapter(List<ExpenseBudget> budgetList, Context context) {
-        this.budgetList = budgetList;
-        this.context = context;
+        this.mBudgetList = budgetList;
+        this.mContext = context;
     }
 
     @Override
     public int getCount() {
-        return this.budgetList.size();
+        return this.mBudgetList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return this.budgetList.get(position);
+        return this.mBudgetList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return this.budgetList.get(position).getId();
+        return this.mBudgetList.get(position).getId();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        ExpenseBudget budget = budgetList.get(position);
+        ExpenseBudget budget = mBudgetList.get(position);
         if (view == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.list_item_expense_budget, null);
         }
 
         TextView textViewBudgetName = (TextView) view.findViewById(R.id.textViewBudgetName);
         textViewBudgetName.setText(budget.getName());
         TextView textViewCycle = (TextView) view.findViewById(R.id.textViewCycle);
-        textViewCycle.setText(budget.getCycle().getLabel(context));
+        textViewCycle.setText(budget.getCycle().getLabel(mContext));
         TextView textViewBudgetAmount = (TextView) view.findViewById(R.id.textViewAmount);
         textViewBudgetAmount.setText(budget.getBudgetAmount().toString());
         return view;

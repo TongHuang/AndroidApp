@@ -3,6 +3,7 @@ package com.quebecfresh.androidapp.simplebudget;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -67,22 +68,19 @@ public class WelcomeActivity extends ActionBarActivity {
         BigDecimal incomeTotal = new BigDecimal("0");
         BigDecimal expenseTotal = new BigDecimal("0");
 
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase readableDatabase = databaseHelper.getReadableDatabase();
 
         if (initializeAccountDone) {
-            AccountPersist accountPersist = new AccountPersist(this);
-            List<Account> accountList = accountPersist.readAll();
-
-            for (int i = 0; i < accountList.size(); i++) {
-                accountTotal = accountTotal.add(accountList.get(i).getBalance());
-            }
+            AccountPersist accountPersist = new AccountPersist();
+            accountTotal = accountPersist.readTotalBalance(readableDatabase);
         }
 
 
         if (initializeIncomeBudgetDone) {
-            IncomeBudgetPersist incomeCategoryPersist = new IncomeBudgetPersist(this);
-            List<IncomeBudget> incomeCategoryList = incomeCategoryPersist.readAll();
+            IncomeBudgetPersist incomeCategoryPersist = new IncomeBudgetPersist();
 
+            List<IncomeBudget> incomeCategoryList = incomeCategoryPersist.readAll(readableDatabase);
             for (int i = 0; i < incomeCategoryList.size(); i++) {
                 incomeTotal = incomeTotal.add(incomeCategoryList.get(i).convertBudgetAmountTo(Cycle.Yearly));
             }
@@ -90,8 +88,8 @@ public class WelcomeActivity extends ActionBarActivity {
 
         Button buttonInitializeExpense = (Button) this.findViewById(R.id.buttonInitializeExpense);
         if (initializeExpenseBudgetDone) {
-            ExpenseBudgetPersist expenseCategoryPersist = new ExpenseBudgetPersist(this);
-            List<ExpenseBudget> expenseCategoryList = expenseCategoryPersist.readAll();
+            ExpenseBudgetPersist expenseCategoryPersist = new ExpenseBudgetPersist();
+            List<ExpenseBudget> expenseCategoryList = expenseCategoryPersist.readAll(readableDatabase);
 
             for (int i = 0; i < expenseCategoryList.size(); i++) {
                 expenseTotal = expenseTotal.add(expenseCategoryList.get(i).convertBudgetAmountTo(Cycle.Yearly));

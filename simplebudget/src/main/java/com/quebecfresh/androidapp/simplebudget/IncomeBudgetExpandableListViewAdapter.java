@@ -17,36 +17,36 @@ import java.util.List;
  */
 public class IncomeBudgetExpandableListViewAdapter extends BaseExpandableListAdapter {
 
-    private HashMap<String, List<IncomeBudget>> budgetHashMap;
-    private List<String> categoryList;
-    private Context context;
+    private HashMap<String, List<IncomeBudget>> mBudgetHashMap;
+    private List<String> mCategoryList;
+    private Context mContext;
 
     public IncomeBudgetExpandableListViewAdapter(List<String> categoryGroup, HashMap<String, List<IncomeBudget>> categories, Context context) {
-        this.categoryList = categoryGroup;
-        this.budgetHashMap = categories;
-        this.context = context;
+        this.mCategoryList = categoryGroup;
+        this.mBudgetHashMap = categories;
+        this.mContext = context;
     }
 
     @Override
     public int getGroupCount() {
-        return this.categoryList.size();
+        return this.mCategoryList.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        String group = categoryList.get(groupPosition);
-        return budgetHashMap.get(group).size();
+        String group = mCategoryList.get(groupPosition);
+        return mBudgetHashMap.get(group).size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return categoryList.get(groupPosition);
+        return mCategoryList.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        String group = categoryList.get(groupPosition);
-        return budgetHashMap.get(group).get(childPosition);
+        String group = mCategoryList.get(groupPosition);
+        return mBudgetHashMap.get(group).get(childPosition);
     }
 
     @Override
@@ -56,8 +56,8 @@ public class IncomeBudgetExpandableListViewAdapter extends BaseExpandableListAda
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        String group = this.categoryList.get(groupPosition);
-        return budgetHashMap.get(group).get(childPosition).getId();
+        String group = this.mCategoryList.get(groupPosition);
+        return mBudgetHashMap.get(group).get(childPosition).getId();
 
     }
 
@@ -70,10 +70,10 @@ public class IncomeBudgetExpandableListViewAdapter extends BaseExpandableListAda
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
 
-        String group = this.categoryList.get(groupPosition);
+        String group = this.mCategoryList.get(groupPosition);
         View view = convertView;
         if (view == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.list_item_budget_category, null);
         }
         TextView textViewGroup = (TextView) view.findViewById(R.id.textView_Group);
@@ -84,19 +84,19 @@ public class IncomeBudgetExpandableListViewAdapter extends BaseExpandableListAda
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        String category = this.categoryList.get(groupPosition);
-        IncomeBudget budget = this.budgetHashMap.get(category).get(childPosition);
+        String category = this.mCategoryList.get(groupPosition);
+        IncomeBudget budget = this.mBudgetHashMap.get(category).get(childPosition);
         View view = convertView;
 
         if (view == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.list_item_income_budget, null);
         }
 
         TextView textViewCategory = (TextView) view.findViewById(R.id.textViewBudgetName);
         textViewCategory.setText(budget.getName());
         TextView textViewCycle = (TextView) view.findViewById(R.id.textViewCycle);
-        textViewCycle.setText(budget.getCycle().getLabel(context));
+        textViewCycle.setText(budget.getCycle().getLabel(mContext));
         TextView textViewAmount = (TextView) view.findViewById(R.id.textViewAmount);
         textViewAmount.setText(budget.getBudgetAmount().toString());
         return view;

@@ -29,12 +29,12 @@ public class AccountFragment extends Fragment {
     //When user click on specific account
     public static final String EXTRA_ACCOUNT_ID = "com.quebecfresh.androidapp.simplebudget.account";
 
-
-    private BigDecimal mTotalBalance = new BigDecimal("0");
+    //Provide interfaces to set data into Fragment;
     private List<Account> mAccountList;
+    private BigDecimal mTotalBalance = new BigDecimal("0");
 
-    private ListView mListViewAccounts;
-    private View mListViewFooterAccounts;
+
+
     public AccountFragment() {
         // Required empty public constructor
     }
@@ -62,21 +62,24 @@ public class AccountFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_account, container, false);
 
-        mListViewAccounts = (ListView)view.findViewById(R.id.listViewAccounts);
+        ListView listViewAccounts = (ListView)view.findViewById(R.id.listViewAccounts);
 
-        mListViewFooterAccounts = inflater.inflate(R.layout.list_footer_total, null);
-        TextView textViewTotal = (TextView)mListViewFooterAccounts.findViewById(R.id.textViewTotal);
 
+        //Inflate listViewFooter
+        View listViewFooterAccounts = inflater.inflate(R.layout.list_footer_total, null);
+        TextView textViewTotal = (TextView)listViewFooterAccounts.findViewById(R.id.textViewTotal);
         textViewTotal.setText(mTotalBalance.toString());
-        mListViewAccounts.addFooterView(mListViewFooterAccounts);
+
+        //ListViewFooter have to be add before setAdapter()
+        listViewAccounts.addFooterView(listViewFooterAccounts);
 
         AccountListViewAdapter accountListViewAdapter = new AccountListViewAdapter(mAccountList,inflater.getContext());
-        mListViewAccounts.setAdapter(accountListViewAdapter);
-        mListViewAccounts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewAccounts.setAdapter(accountListViewAdapter);
+        listViewAccounts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //If user click on ListView Footer, do nothing
-                if(position < parent.getAdapter().getCount()-1) {
+                if (position < parent.getAdapter().getCount() - 1) {
                     Intent intent = new Intent(getActivity(), EditAccountActivity.class);
                     intent.putExtra(EXTRA_ACCOUNT_ID, id);
                     startActivity(intent);

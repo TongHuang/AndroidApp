@@ -3,6 +3,7 @@ package com.quebecfresh.androidapp.simplebudget;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -27,20 +28,26 @@ import java.util.List;
 
 public class InitializeIncomeBudgetActivity extends ActionBarActivity {
 
+    private SQLiteDatabase mReadableDatabase;
+    private IncomeBudgetPersist mIncomeBudgetPersist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initialize_income_budget);
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        mReadableDatabase = databaseHelper.getReadableDatabase();
+        mIncomeBudgetPersist = new IncomeBudgetPersist();
     }
 
 
 
     @Override
     protected void onResume() {
-        IncomeBudgetPersist persist = new IncomeBudgetPersist(this);
 
         ExpandableIncomeBudgetFragment expandableIncomeBudgetFragment = new ExpandableIncomeBudgetFragment();
-        expandableIncomeBudgetFragment.setIncomeBudgetList(persist.readAll());
+        expandableIncomeBudgetFragment.setIncomeBudgetList(mIncomeBudgetPersist.readAll(mReadableDatabase));
 
         FragmentTransaction fragmentTransaction =  getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainerIncomeBudget, expandableIncomeBudgetFragment);

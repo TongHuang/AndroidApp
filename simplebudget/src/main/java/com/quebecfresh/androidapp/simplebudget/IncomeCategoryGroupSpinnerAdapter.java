@@ -15,39 +15,39 @@ import com.quebecfresh.androidapp.simplebudget.model.IncomeBudget;
  */
 public class IncomeCategoryGroupSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
 
-    private Context context;
-    private IncomeBudget.INCOME_BUDGET_CATEGORY[] groups;
+    private Context mContext;
+    private IncomeBudget.INCOME_BUDGET_CATEGORY[] mCategories;
 
-    public IncomeCategoryGroupSpinnerAdapter(Context context, IncomeBudget.INCOME_BUDGET_CATEGORY[] groups){
-        this.context = context;
-        this.groups = groups;
+    public IncomeCategoryGroupSpinnerAdapter(Context context, IncomeBudget.INCOME_BUDGET_CATEGORY[] categories){
+        this.mContext = context;
+        this.mCategories = categories;
     }
 
     @Override
     public int getCount() {
-        return this.groups.length;
+        return this.mCategories.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return this.groups[position];
+        return this.mCategories[position];
     }
 
     @Override
     public long getItemId(int position) {
-        return this.groups[position].ordinal();
+        return this.mCategories[position].ordinal();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        IncomeBudget.INCOME_BUDGET_CATEGORY group = this.groups[position];
+        IncomeBudget.INCOME_BUDGET_CATEGORY group = this.mCategories[position];
         if(view == null){
-            LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.spinner_item_budget_category, null);
         }
         TextView textViewGroup = (TextView)view.findViewById(R.id.textViewExpenseCategoryGroup);
-        textViewGroup.setText(group.getLabel(context));
+        textViewGroup.setText(group.getLabel(mContext));
         return view;
     }
 }

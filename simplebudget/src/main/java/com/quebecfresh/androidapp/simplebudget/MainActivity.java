@@ -59,19 +59,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        SQLiteDatabase database = databaseHelper.getReadableDatabase();
-        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(this);
-
-        long start = System.currentTimeMillis();
-        for(int i = 0 ; i<100; i++){
-            expenseBudgetPersist.readTotalUnusedBalance();
-        }
-
-        System.out.println("*****" + (System.currentTimeMillis() - start));
-
-
-
         SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
         if(!preferences.getBoolean(getString(R.string.initialize_done), true)){
             Intent intent = new Intent(this, WelcomeActivity.class);
@@ -79,8 +66,6 @@ public class MainActivity extends ActionBarActivity {
         }
 
     }
-
-
 
 
     @Override

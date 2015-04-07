@@ -1,6 +1,7 @@
 package com.quebecfresh.androidapp.simplebudget;
 
 import android.app.DatePickerDialog;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.quebecfresh.androidapp.simplebudget.model.Expense;
 import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
 import com.quebecfresh.androidapp.simplebudget.model.Utils;
 import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
+import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 import com.quebecfresh.androidapp.simplebudget.persist.ExpenseBudgetPersist;
 import com.quebecfresh.androidapp.simplebudget.persist.ExpensePersist;
 
@@ -26,11 +28,14 @@ import java.util.List;
 
 public class NewExpenseActivity extends ActionBarActivity {
 
+    private SQLiteDatabase mWritableDatabase;
+    private ExpensePersist mExpensePersist;
+    private ExpenseBudgetPersist mExpenseBudgetPersist;
+
     private Expense mExpense = new Expense();
     private List<ExpenseBudget> mExpenseBudgetList;
     private List<Account> mAccountList;
-    private ExpensePersist mExpensePersist;
-    private ExpenseBudgetPersist mExpenseBudgetPersist;
+
     private Button mButtonDate;
     private Button mButtonChooseExpenseBudget;
     private EditText mEditTextExpenseAmount;
@@ -78,12 +83,12 @@ public class NewExpenseActivity extends ActionBarActivity {
     public void chooseExpenseBudget(View view) {
         ChooseExpenseBudgetDialogFragment chooseExpenseBudgetDialogFragment = new ChooseExpenseBudgetDialogFragment();
         chooseExpenseBudgetDialogFragment.setExpenseBudgetList(this.mExpenseBudgetList);
-        chooseExpenseBudgetDialogFragment.setExpenseBudgetChooseListener(new ChooseExpenseBudgetDialogFragment.ExpenseBudgetChooseListener() {
+        chooseExpenseBudgetDialogFragment.setmExpenseBudgetChooseListener(new ChooseExpenseBudgetDialogFragment.ExpenseBudgetChooseListener() {
             @Override
             public void Choose(ExpenseBudget expenseBudget) {
-             mExpense.setExpenseBudget(expenseBudget);
-             mExpense.setAccount(expenseBudget.getAccount());
-             updateView();
+                mExpense.setExpenseBudget(expenseBudget);
+                mExpense.setAccount(expenseBudget.getAccount());
+                updateView();
 
             }
         });
@@ -98,7 +103,7 @@ public class NewExpenseActivity extends ActionBarActivity {
         Calendar current = Calendar.getInstance();
         long end = current.getTimeInMillis();
         long begin = Utils.getBeginOfPastCycle(mExpense.getExpenseBudget().getCycle(), current);
-        List<Expense> expenseList = mExpensePersist.readAll(begin, end);
+        List<Expense> expenseList = mExpensePersist.readAll(begin, end, mWritableDatabase);
         BigDecimal budgetAmount = mExpense.getExpenseBudget().getBudgetAmount();
         BigDecimal usedAmount = Utils.calTotalExpense(expenseList);
         BigDecimal unusedBalance = budgetAmount.subtract(usedAmount);
@@ -130,12 +135,15 @@ public class NewExpenseActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_expense);
 
-        AccountPersist accountPersist = new AccountPersist(this);
-        mAccountList = accountPersist.readAll();
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        mWritableDatabase = databaseHelper.getWritableDatabase();
 
-        mExpensePersist = new ExpensePersist(this);
-        mExpenseBudgetPersist = new ExpenseBudgetPersist(this);
-        mExpenseBudgetList = mExpenseBudgetPersist.readAllBudgetAmountNotZero();
+        AccountPersist accountPersist = new AccountPersist();
+        mAccountList = accountPersist.readAll(mWritableDatabase);
+
+        mExpensePersist = new ExpensePersist();
+        mExpenseBudgetPersist = new ExpenseBudgetPersist();
+        mExpenseBudgetList = mExpenseBudgetPersist.readAllBudgetAmountNotZero(mWritableDatabase);
 
         this.mExpense = new Expense();
         if (mExpenseBudgetList.size() > 1) {
@@ -176,8 +184,8 @@ public class NewExpenseActivity extends ActionBarActivity {
             mExpense.setNote(mEditTextNote.getText().toString());
             ExpenseBudget expenseBudget = mExpense.getExpenseBudget();
             expenseBudget.setUnusedBalance(expenseBudget.getUnusedBalance().subtract(mExpense.getAmount()));
-            this.mExpenseBudgetPersist.update(expenseBudget);
-            this.mExpensePersist.insert(this.mExpense);
+            this.mExpenseBudgetPersist.update(expenseBudget, mWritableDatabase);
+            this.mExpensePersist.insert(this.mExpense, mWritableDatabase);
         }
         this.finish();
         return super.onOptionsItemSelected(item);

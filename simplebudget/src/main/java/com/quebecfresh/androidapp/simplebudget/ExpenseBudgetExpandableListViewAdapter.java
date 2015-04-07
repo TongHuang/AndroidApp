@@ -16,34 +16,36 @@ import java.util.List;
  * Created by Tong Huang on 2015-02-17, 8:24 AM.
  */
 public class ExpenseBudgetExpandableListViewAdapter extends BaseExpandableListAdapter {
-    private HashMap<String, List<ExpenseBudget>> budgetHashMap;
-    private List<String> categoryList;
+
+    private HashMap<String, List<ExpenseBudget>> mBudgetHashMap;
+    private List<String> mCategoryList;
+
     private Context context;  public ExpenseBudgetExpandableListViewAdapter(List<String> categoryGroup, HashMap<String, List<ExpenseBudget>> categories, Context context) {
-        this.categoryList = categoryGroup;
-        this.budgetHashMap = categories;
+        this.mCategoryList = categoryGroup;
+        this.mBudgetHashMap = categories;
         this.context = context;
     }
 
     @Override
     public int getGroupCount() {
-        return this.categoryList.size();
+        return this.mCategoryList.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        String group = categoryList.get(groupPosition);
-        return budgetHashMap.get(group).size();
+        String group = mCategoryList.get(groupPosition);
+        return mBudgetHashMap.get(group).size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return categoryList.get(groupPosition);
+        return mCategoryList.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        String group = categoryList.get(groupPosition);
-        return budgetHashMap.get(group).get(childPosition);
+        String group = mCategoryList.get(groupPosition);
+        return mBudgetHashMap.get(group).get(childPosition);
     }
 
     @Override
@@ -53,8 +55,8 @@ public class ExpenseBudgetExpandableListViewAdapter extends BaseExpandableListAd
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        String group = this.categoryList.get(groupPosition);
-        return budgetHashMap.get(group).get(childPosition).getId();
+        String group = this.mCategoryList.get(groupPosition);
+        return mBudgetHashMap.get(group).get(childPosition).getId();
 
     }
 
@@ -67,7 +69,7 @@ public class ExpenseBudgetExpandableListViewAdapter extends BaseExpandableListAd
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
 
-            String group = this.categoryList.get(groupPosition);
+            String group = this.mCategoryList.get(groupPosition);
             View view = convertView;
             if (view == null) {
                 LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -81,8 +83,8 @@ public class ExpenseBudgetExpandableListViewAdapter extends BaseExpandableListAd
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        String category = this.categoryList.get(groupPosition);
-        ExpenseBudget budget = this.budgetHashMap.get(category).get(childPosition);
+        String category = this.mCategoryList.get(groupPosition);
+        ExpenseBudget budget = this.mBudgetHashMap.get(category).get(childPosition);
         View view = convertView;
         if (view == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

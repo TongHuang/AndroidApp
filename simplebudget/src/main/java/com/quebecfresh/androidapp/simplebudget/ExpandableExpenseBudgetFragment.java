@@ -28,6 +28,7 @@ import java.util.List;
  */
 public class ExpandableExpenseBudgetFragment extends Fragment {
     public static final String EXTRA_EXPENSE_BUDGET_ID = "com.quebecfresh.androidapp.simplebudget.expense.budget.id";
+
     private Integer mExpandedCategoryPosition = 0;
     private ExpandableListView mExpandableListViewExpenseBudget;
     private List<ExpenseBudget> mExpenseBudgetList;
@@ -99,7 +100,7 @@ public class ExpandableExpenseBudgetFragment extends Fragment {
 
         //Spinner have to initialize before mTextViewTotal, because mTextViewTotal invoke getSelectedItem
         Spinner spinnerCycle = (Spinner)view.findViewById(R.id.spinnerCycle);
-        CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(inflater.getContext(), Cycle.values());
+        CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(Cycle.values(),inflater.getContext());
         spinnerCycle.setAdapter(cycleSpinnerAdapter);
         spinnerCycle.setSelection(3);
         spinnerCycle.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {

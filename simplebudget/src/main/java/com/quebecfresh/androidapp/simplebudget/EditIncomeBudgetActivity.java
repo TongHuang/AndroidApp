@@ -1,6 +1,7 @@
 package com.quebecfresh.androidapp.simplebudget;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import com.quebecfresh.androidapp.simplebudget.model.Account;
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
 import com.quebecfresh.androidapp.simplebudget.model.IncomeBudget;
 import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
+import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 import com.quebecfresh.androidapp.simplebudget.persist.IncomeBudgetPersist;
 
 import java.math.BigDecimal;
@@ -22,7 +24,10 @@ import java.util.List;
 
 public class EditIncomeBudgetActivity extends ActionBarActivity {
 
-    private Long mRowID;
+    private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
+    private SQLiteDatabase mWritableDatabase;
+    private IncomeBudgetPersist mIncomeBudgetPersist;
+
     private EditText mEditTextName;
     private Button mButtonAccount;
     private Spinner mSpinnerIncomeGroup;
@@ -30,8 +35,9 @@ public class EditIncomeBudgetActivity extends ActionBarActivity {
     private EditText mEditTextAmount;
     private EditText mEditTextNote;
     private IncomeBudget mIncomeBudget;
+
     private List<Account> mAccountList;
-    private IncomeBudgetPersist mIncomeBudgetPersist;
+    private Long mRowID;
 
     public void chooseIncomeAccount(View view) {
         ChooseAccountDialogFragment chooseAccountDialogFragment = new ChooseAccountDialogFragment();
@@ -51,13 +57,16 @@ public class EditIncomeBudgetActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_income_budget);
 
+
+        mWritableDatabase = mDatabaseHelper.getWritableDatabase();
+
         Intent intent = getIntent();
         mRowID = intent.getLongExtra(ExpandableIncomeBudgetFragment.EXTRA_INCOME_BUDGET_ID, -1);
-        AccountPersist accountPersist = new AccountPersist(this);
-        mAccountList = accountPersist.readAll();
-        mIncomeBudgetPersist = new IncomeBudgetPersist(this);
+        AccountPersist accountPersist = new AccountPersist();
+        mAccountList = accountPersist.readAll(mWritableDatabase);
+        mIncomeBudgetPersist = new IncomeBudgetPersist();
         if(mRowID > 0) {
-            mIncomeBudget = mIncomeBudgetPersist.read(mRowID);
+            mIncomeBudget = mIncomeBudgetPersist.read(mRowID, mWritableDatabase);
         }else{
             mIncomeBudget = new IncomeBudget();
         }
@@ -73,7 +82,7 @@ public class EditIncomeBudgetActivity extends ActionBarActivity {
         mSpinnerIncomeGroup.setAdapter(incomeCategoryGroupSpinnerAdapter);
         mSpinnerIncomeGroup.setSelection(mIncomeBudget.getIncomeBudgetCategory().ordinal());
         mSpinnerCycle = (Spinner)this.findViewById(R.id.spinnerCycle);
-        CycleSpinnerAdapter adapter = new CycleSpinnerAdapter(this,  Cycle.values());
+        CycleSpinnerAdapter adapter = new CycleSpinnerAdapter(Cycle.values(), this);
         mSpinnerCycle.setAdapter(adapter);
         mSpinnerCycle.setSelection(mIncomeBudget.getCycle().ordinal());
         mEditTextAmount = (EditText)this.findViewById(R.id.editTextAmount);
@@ -104,7 +113,7 @@ public class EditIncomeBudgetActivity extends ActionBarActivity {
                 mIncomeBudget.setCycle((Cycle) mSpinnerCycle.getSelectedItem());
                 mIncomeBudget.setBudgetAmount(new BigDecimal(mEditTextAmount.getText().toString()));
                 mIncomeBudget.setNote(mEditTextNote.getText().toString());
-                mIncomeBudgetPersist.save(mIncomeBudget);
+                mIncomeBudgetPersist.save(mIncomeBudget, mWritableDatabase);
                 break;
         }
         this.finish();

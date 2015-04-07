@@ -13,8 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
-import com.quebecfresh.androidapp.simplebudget.persist.AccountPersist;
-import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 
 import java.util.List;
 
@@ -22,27 +20,29 @@ import java.util.List;
  * Created by Tong Huang on 2015-03-06, 8:27 AM.
  */
 public class ChooseAccountDialogFragment extends DialogFragment {
-    private List<Account> accountList;
-    private AccountChooseListener accountChooseListener;
+
+
+    private List<Account> mAccountList;
+    private AccountChooseListener mAccountChooseListener;
 
     public interface AccountChooseListener {
         public void choose(Account account);
     }
 
     public List<Account> getAccountList() {
-        return accountList;
+        return mAccountList;
     }
 
     public void setAccountList(List<Account> accountList) {
-        this.accountList = accountList;
+        this.mAccountList = accountList;
     }
 
     public void setAccountChooseListener(AccountChooseListener accountChooseListener){
-        this.accountChooseListener = accountChooseListener;
+        this.mAccountChooseListener = accountChooseListener;
     }
 
     public AccountChooseListener getAccountChooseListener() {
-        return accountChooseListener;
+        return mAccountChooseListener;
     }
 
     @Override
@@ -50,15 +50,12 @@ public class ChooseAccountDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_view_accounts, container, true);
         ListView listView = (ListView) view.findViewById(R.id.listViewAccounts);
-//        DatabaseHelper databaseHelper = new DatabaseHelper(this.getActivity());
-//        AccountPersist accountPersist = new AccountPersist(databaseHelper.getReadableDatabase());
-//        accountList = accountPersist.readAll();
-        AccountListViewAdapter accountListViewAdapter = new AccountListViewAdapter(accountList, this.getActivity());
+        AccountListViewAdapter accountListViewAdapter = new AccountListViewAdapter(mAccountList, this.getActivity());
         listView.setAdapter(accountListViewAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                accountChooseListener.choose(accountList.get(position));
+                mAccountChooseListener.choose(mAccountList.get(position));
                 ChooseAccountDialogFragment.this.dismiss();
             }
         });

@@ -16,38 +16,39 @@ import java.util.List;
  * Created by Tong Huang on 2015-03-17, 2:49 PM.
  */
 public class IncomeListViewAdapter extends BaseAdapter implements ListAdapter {
-    private List<Income> incomeList;
-    private Context context;
+
+    private List<Income> mIncomeList;
+    private Context mContext;
 
     public IncomeListViewAdapter(List<Income> incomeList, Context context) {
-        this.incomeList = incomeList;
-        this.context = context;
+        this.mIncomeList = incomeList;
+        this.mContext = context;
     }
 
     @Override
     public int getCount() {
-        return this.incomeList.size();
+        return this.mIncomeList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return this.incomeList.get(position);
+        return this.mIncomeList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return this.incomeList.get(position).getId();
+        return this.mIncomeList.get(position).getId();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if(view == null){
-            LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.list_item_income, null);
         }
 
-        Income income = incomeList.get(position);
+        Income income = mIncomeList.get(position);
         TextView textViewIncomeReceivedDate = (TextView)view.findViewById(R.id.textViewIncomeReceivedDate);
         textViewIncomeReceivedDate.setText(income.getReceivedDateShortLabel());
         TextView textViewIncomeBudgetName = (TextView)view.findViewById(R.id.textViewIncomeBudgetName);

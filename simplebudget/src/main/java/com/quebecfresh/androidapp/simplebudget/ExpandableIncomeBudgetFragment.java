@@ -90,7 +90,7 @@ public class ExpandableIncomeBudgetFragment extends Fragment {
 
 
         //Spinner have to initialize before mTextViewTotal, because mTextViewTotal invoke getSelectedItem
-        CycleSpinnerAdapter spinnerAdapter = new CycleSpinnerAdapter(inflater.getContext(), Cycle.values());
+        CycleSpinnerAdapter spinnerAdapter = new CycleSpinnerAdapter(Cycle.values(),inflater.getContext());
         final Spinner cycleSpinner = (Spinner) view.findViewById(R.id.spinnerCycle);
         cycleSpinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override

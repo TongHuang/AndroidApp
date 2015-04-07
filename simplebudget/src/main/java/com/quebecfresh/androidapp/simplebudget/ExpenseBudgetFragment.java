@@ -57,7 +57,7 @@ public class ExpenseBudgetFragment extends Fragment {
         ExpenseBudgetListViewAdapter expenseBudgetListViewAdapter = new ExpenseBudgetListViewAdapter(mExpenseBudgetList, inflater.getContext());
         listViewExpenseBudgets.setAdapter(expenseBudgetListViewAdapter);
         Spinner spinnerCycle = (Spinner) view.findViewById(R.id.spinnerCycle);
-        CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(inflater.getContext(), Cycle.values());
+        CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(Cycle.values(),inflater.getContext());
         spinnerCycle.setAdapter(cycleSpinnerAdapter);
         spinnerCycle.setSelection(mSelectedCycle.ordinal());
         spinnerCycle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

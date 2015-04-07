@@ -1,34 +1,25 @@
 package com.quebecfresh.androidapp.simplebudget;
 
-import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.quebecfresh.androidapp.simplebudget.model.Cycle;
-import com.quebecfresh.androidapp.simplebudget.model.Income;
 import com.quebecfresh.androidapp.simplebudget.model.Utils;
 import com.quebecfresh.androidapp.simplebudget.persist.DatabaseHelper;
 import com.quebecfresh.androidapp.simplebudget.persist.IncomePersist;
 
 import java.util.Calendar;
-import java.util.List;
 
 
 public class IncomeActivity extends ActionBarActivity {
 
 
-    private IncomePersist incomePersist;
-
-    private IncomeFragment incomeFragment;
-    private Calendar selectedDate = Calendar.getInstance();
-    private Cycle selectedCycle = Cycle.Monthly;
+    private Calendar mSelectedDate = Calendar.getInstance();
+    private Cycle mSelectedCycle = Cycle.Monthly;
 
 
     @Override
@@ -36,13 +27,16 @@ public class IncomeActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_income);
 
-        this.selectedCycle = Cycle.valueOf(getIntent().getStringExtra(BudgetOverviewActivity.EXTRA_SELECTED_CYCLE));
-        this.selectedDate.setTimeInMillis(getIntent().getLongExtra(BudgetOverviewActivity.EXTRA_SELECTED_DATE, System.currentTimeMillis()));
-        incomePersist = new IncomePersist(this);
-        long begin = Utils.getBeginOfCycle(this.selectedCycle, this.selectedDate);
-        long end = Utils.getEndOfCycle(this.selectedCycle, this.selectedDate);
-        incomeFragment = new IncomeFragment();
-        incomeFragment.setIncomeList(incomePersist.readAll(begin, end));
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase readableDatabase = databaseHelper.getWritableDatabase();
+
+        this.mSelectedCycle = Cycle.valueOf(getIntent().getStringExtra(BudgetOverviewActivity.EXTRA_SELECTED_CYCLE));
+        this.mSelectedDate.setTimeInMillis(getIntent().getLongExtra(BudgetOverviewActivity.EXTRA_SELECTED_DATE, System.currentTimeMillis()));
+        IncomePersist incomePersist = new IncomePersist();
+        long begin = Utils.getBeginOfCycle(this.mSelectedCycle, this.mSelectedDate);
+        long end = Utils.getEndOfCycle(this.mSelectedCycle, this.mSelectedDate);
+        IncomeFragment incomeFragment = new IncomeFragment();
+        incomeFragment.setIncomeList(incomePersist.readAll(begin, end, readableDatabase));
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragmentContainIncomeList, incomeFragment).commit();
     }

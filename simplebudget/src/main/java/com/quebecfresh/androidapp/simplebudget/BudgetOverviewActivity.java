@@ -38,72 +38,58 @@ public class BudgetOverviewActivity extends ActionBarActivity {
     public static final String EXTRA_SELECTED_CYCLE = "com.quebecfresh.androidapp.123budget.budgetoverviewactivity.cycle";
     public static final String EXTRA_SELECTED_DATE = "com.quebecfresh.androidapp.123budget.budgetoverviewactivity.date";
 
+    private SQLiteDatabase mReadableDatabase;
+
+
     private Calendar selectedDate = Calendar.getInstance();
     private Cycle selectedCycle = Cycle.Monthly;
-    private Spinner spinnerCycle;
-    private Button buttonChooseDate;
-    private DatabaseHelper dbHelper = new DatabaseHelper(this);
-    private SQLiteDatabase readableDB;
-    private BigDecimal balanceTotal;
-    private BigDecimal incomeTotal;
-    private BigDecimal incomeBudgetTotal;
-    private BigDecimal expenseTotal;
-    private BigDecimal expenseBudgetTotal;
+    private Button mButtonChooseDate;
 
-    private void calcTotalIncomesAndExpenses() {
-        long begin = Utils.getBeginOfCycle(this.selectedCycle, this.selectedDate);
-        long end = Utils.getEndOfCycle(this.selectedCycle, this.selectedDate);
-        IncomePersist incomePersist = new IncomePersist(this);
-        incomeTotal =incomePersist.readTotal(begin, end);
-
-        ExpensePersist expensePersist = new ExpensePersist(this);
-        expenseTotal = expensePersist.readTotalAmount(begin, end);
-
-    }
-
+    //Initialize UI or update UI when selection change;
     private void updateOverView() {
-
-        long start = System.currentTimeMillis();
 
         SimpleDateFormat simpleDateFormat;
         switch (selectedCycle) {
             case Weekly:
                 simpleDateFormat = new SimpleDateFormat("yyyy-w");
-                buttonChooseDate.setText(simpleDateFormat.format(selectedDate.getTime()));
+                mButtonChooseDate.setText(simpleDateFormat.format(selectedDate.getTime()));
                 break;
             case Monthly:
                 simpleDateFormat = new SimpleDateFormat("yyyy-MMM");
-                buttonChooseDate.setText(simpleDateFormat.format(selectedDate.getTime()));
+                mButtonChooseDate.setText(simpleDateFormat.format(selectedDate.getTime()));
                 break;
             case Yearly:
                 simpleDateFormat = new SimpleDateFormat("yyyy");
-                buttonChooseDate.setText(simpleDateFormat.format(selectedDate.getTime()));
+                mButtonChooseDate.setText(simpleDateFormat.format(selectedDate.getTime()));
                 break;
         }
 
+        long begin = Utils.getBeginOfCycle(this.selectedCycle, this.selectedDate);
+        long end = Utils.getEndOfCycle(this.selectedCycle, this.selectedDate);
 
 
+        AccountPersist accountPersist = new AccountPersist();
+        BigDecimal balanceTotal = accountPersist.readTotalBalance(mReadableDatabase);
 
-        this.calcTotalIncomesAndExpenses();
+        IncomePersist incomePersist = new IncomePersist();
+        BigDecimal incomeTotal = incomePersist.readTotal(begin, end, mReadableDatabase);
 
-        IncomeBudgetPersist incomeBudgetPersist = new IncomeBudgetPersist(this);
-        List<IncomeBudget> incomeBudgetList = incomeBudgetPersist.readAll();
-        incomeBudgetTotal = new BigDecimal("0");
+        ExpensePersist expensePersist = new ExpensePersist();
+        BigDecimal expenseTotal = expensePersist.readTotalAmount(begin, end, mReadableDatabase);
+
+        IncomeBudgetPersist incomeBudgetPersist = new IncomeBudgetPersist();
+        List<IncomeBudget> incomeBudgetList = incomeBudgetPersist.readAll(mReadableDatabase);
+        BigDecimal incomeBudgetTotal = new BigDecimal("0");
         for (IncomeBudget incomeBudget : incomeBudgetList) {
             incomeBudgetTotal = incomeBudgetTotal.add(incomeBudget.convertBudgetAmountTo(selectedCycle));
         }
 
-        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist(this);
-        List<ExpenseBudget> expenseBudgetList = expenseBudgetPersist.readAll();
-        expenseBudgetTotal = new BigDecimal("0");
+        ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist();
+        List<ExpenseBudget> expenseBudgetList = expenseBudgetPersist.readAll(mReadableDatabase);
+        BigDecimal expenseBudgetTotal = new BigDecimal("0");
         for (ExpenseBudget expenseBudget : expenseBudgetList) {
             expenseBudgetTotal = expenseBudgetTotal.add(expenseBudget.convertBudgetAmountTo(selectedCycle));
         }
-
-
-        AccountPersist accountPersist = new AccountPersist(this);
-
-        balanceTotal = accountPersist.readTotalBalance().add(expenseBudgetPersist.readTotalUnusedBalance());
 
         BigDecimal max = balanceTotal.max(expenseBudgetTotal).max(incomeBudgetTotal).max(incomeTotal).max(expenseTotal);
 
@@ -138,8 +124,6 @@ public class BudgetOverviewActivity extends ActionBarActivity {
         progressBarExpenseBudget.setMax(max.intValue());
         progressBarExpenseBudget.setProgress(expenseBudgetTotal.intValue());
         textViewProgressBarExpenseBudgetCenter.setText(expenseBudgetTotal.toString());
-
-        System.out.println("*****************************:" + (System.currentTimeMillis() - start));
     }
 
 
@@ -148,9 +132,12 @@ public class BudgetOverviewActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget_overview);
 
-        buttonChooseDate = (Button)findViewById(R.id.buttonChooseDate);
-        CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(this, Cycle.valuesShort());
-        spinnerCycle = (Spinner) this.findViewById(R.id.spinnerCycle);
+        DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
+        mReadableDatabase = mDatabaseHelper.getReadableDatabase();
+
+        mButtonChooseDate = (Button) findViewById(R.id.buttonChooseDate);
+        CycleSpinnerAdapter cycleSpinnerAdapter = new CycleSpinnerAdapter(Cycle.valuesShort(),this);
+        Spinner spinnerCycle = (Spinner) this.findViewById(R.id.spinnerCycle);
         spinnerCycle.setAdapter(cycleSpinnerAdapter);
         spinnerCycle.setSelection(1);
         spinnerCycle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -189,7 +176,6 @@ public class BudgetOverviewActivity extends ActionBarActivity {
         intent.putExtra(EXTRA_SELECTED_DATE, this.selectedDate.getTimeInMillis());
         startActivity(intent);
     }
-
 
 
     public void showExpenseList(View view) {

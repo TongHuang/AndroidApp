@@ -17,37 +17,37 @@ import java.util.List;
  */
 public class ExpenseListViewAdapter extends BaseAdapter implements ListAdapter {
 
-    private List<Expense> expenseList;
-    private Context context;
+    private List<Expense> mExpenseList;
+    private Context mContext;
 
     public ExpenseListViewAdapter(List<Expense> expenseList, Context context) {
-        this.expenseList = expenseList;
-        this.context = context;
+        this.mExpenseList = expenseList;
+        this.mContext = context;
     }
 
     @Override
     public int getCount() {
-        return this.expenseList.size();
+        return this.mExpenseList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return this.expenseList.get(position);
+        return this.mExpenseList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return this.expenseList.get(position).getId();
+        return this.mExpenseList.get(position).getId();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if(view ==null){
-            LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.list_item_expense,null);
         }
-        Expense expense = expenseList.get(position);
+        Expense expense = mExpenseList.get(position);
         TextView textViewExpenseDate = (TextView)view.findViewById(R.id.textViewExpenseDate);
         textViewExpenseDate.setText(expense.getSpendDateShortLabel());
         TextView textViewExpenseBudgetName = (TextView)view.findViewById(R.id.textViewExpenseBudgetName);

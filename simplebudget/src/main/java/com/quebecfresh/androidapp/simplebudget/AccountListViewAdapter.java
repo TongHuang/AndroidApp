@@ -28,15 +28,7 @@ public class AccountListViewAdapter extends BaseAdapter implements ListAdapter {
         this.context = context;
     }
 
-//    public void addNewAccount(){
-//        accounts.add(0,new Account());
-//        this.notifyDataSetChanged();
-//    }
-//
-//    public void removeAccount(int position){
-//        accounts.remove(position);
-//        this.notifyDataSetChanged();
-//    }
+
 
     @Override
     public int getCount() {
