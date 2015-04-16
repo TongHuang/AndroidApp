@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.quebecfresh.androidapp.simplebudget.model.Expense;
+import com.quebecfresh.androidapp.simplebudget.model.ExpenseBudget;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -85,6 +86,29 @@ public class ExpensePersist extends  Persist{
             expense.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
             ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist();
             expense.setExpenseBudget(expenseBudgetPersist.read(expenseBudgetID, database));
+            expense.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
+            expense.setSpentDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
+            expenseList.add(expense);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return expenseList;
+    }
+
+    public List<Expense> readAll(long begin, long end, ExpenseBudget expenseBudget, SQLiteDatabase database) {
+        String sql = " select * from " + _TABLE + " where " + _SPENT_DATE + " >= " + begin
+                + " and " + _SPENT_DATE + " <= " + end + " and " + _BUDGET_ID +  " = " + expenseBudget.getId()
+        + " order by " + _SPENT_DATE + " desc";
+        List<Expense> expenseList = new ArrayList<Expense>();
+        Cursor cursor = database.rawQuery(sql, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Expense expense = new Expense();
+            expense.setId(cursor.getLong(cursor.getColumnIndexOrThrow(_ID)));
+            expense.setName(cursor.getString(cursor.getColumnIndexOrThrow(_NAME)));
+            expense.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
+            ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist();
+            expense.setExpenseBudget(expenseBudget);
             expense.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
             expense.setSpentDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
             expenseList.add(expense);

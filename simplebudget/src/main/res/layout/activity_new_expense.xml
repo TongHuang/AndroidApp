@@ -39,10 +39,24 @@
             style="@style/detailFirstColumnStyle" />
 
         <EditText
-            android:inputType="numberDecimal"
+            android:inputType="textAutoComplete|numberDecimal"
             android:ems="10"
             android:id="@+id/editTextExpenseAmount"
             style="@style/detailSecondColumnEditTextStyle" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/detailRowStyle">
+
+        <TextView
+            android:text="@string/note"
+            android:id="@+id/textViewExpenseNote"
+            style="@style/detailFirstColumnStyle" />
+
+        <EditText
+            android:id="@+id/editTextExpenseNote"
+            android:layout_gravity="center_vertical"
+            style="@style/detailSecondColumnEditTextStyle" />
+
     </LinearLayout>
 
     <LinearLayout style="@style/detailRowStyle">
@@ -73,20 +87,6 @@
             android:id="@+id/buttonChooseExpenseAccount"
             style="@style/detailSecondColumnButtonStyle"
             android:onClick="chooseExpenseAccount" />
-    </LinearLayout>
-
-    <LinearLayout style="@style/detailRowStyle">
-
-        <TextView
-            android:text="@string/note"
-            android:id="@+id/textViewExpenseNote"
-            style="@style/detailFirstColumnStyle" />
-
-        <EditText
-            android:id="@+id/editTextExpenseNote"
-            android:layout_gravity="center_vertical"
-            style="@style/detailSecondColumnEditTextStyle" />
-
     </LinearLayout>
 
 

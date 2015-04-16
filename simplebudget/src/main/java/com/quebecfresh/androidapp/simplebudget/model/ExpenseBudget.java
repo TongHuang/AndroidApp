@@ -15,7 +15,7 @@ public class ExpenseBudget extends Budget {
     private BigDecimal unusedBalance = new BigDecimal("0");
 
     public enum EXPENSE_BUDGET_CATEGORY {
-        FOODS, SHELTER, UTILITIES, TRANSPORTATION, OTHERS;
+        FOODS, SHELTER, UTILITIES, TRANSPORTATION,GIFTS, OTHERS;
 
         public String getLabel(Context context) {
             switch (this) {
@@ -27,6 +27,8 @@ public class ExpenseBudget extends Budget {
                     return "Utilities";
                 case TRANSPORTATION:
                     return "Transportation";
+                case GIFTS:
+                    return "Gifts and Donations";
                 default:
                     return "Others";
             }

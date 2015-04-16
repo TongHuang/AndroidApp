@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -34,6 +35,7 @@ public class NewExpenseActivity extends ActionBarActivity {
 
     private Expense mExpense = new Expense();
     private List<ExpenseBudget> mExpenseBudgetList;
+    private ExpenseBudget mSelectedExpenseBudget;
     private List<Account> mAccountList;
 
     private Button mButtonDate;
@@ -88,6 +90,7 @@ public class NewExpenseActivity extends ActionBarActivity {
             public void Choose(ExpenseBudget expenseBudget) {
                 mExpense.setExpenseBudget(expenseBudget);
                 mExpense.setAccount(expenseBudget.getAccount());
+                mSelectedExpenseBudget = expenseBudget;
                 updateView();
 
             }
@@ -103,7 +106,7 @@ public class NewExpenseActivity extends ActionBarActivity {
         Calendar current = Calendar.getInstance();
         long end = current.getTimeInMillis();
         long begin = Utils.getBeginOfPastCycle(mExpense.getExpenseBudget().getCycle(), current);
-        List<Expense> expenseList = mExpensePersist.readAll(begin, end, mWritableDatabase);
+        List<Expense> expenseList = mExpensePersist.readAll(begin, end, mSelectedExpenseBudget, mWritableDatabase);
         BigDecimal budgetAmount = mExpense.getExpenseBudget().getBudgetAmount();
         BigDecimal usedAmount = Utils.calTotalExpense(expenseList);
         BigDecimal unusedBalance = budgetAmount.subtract(usedAmount);
@@ -132,7 +135,10 @@ public class NewExpenseActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_new_expense);
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
@@ -144,6 +150,9 @@ public class NewExpenseActivity extends ActionBarActivity {
         mExpensePersist = new ExpensePersist();
         mExpenseBudgetPersist = new ExpenseBudgetPersist();
         mExpenseBudgetList = mExpenseBudgetPersist.readAllBudgetAmountNotZero(mWritableDatabase);
+        if(mExpenseBudgetList.size() > 0){
+            mSelectedExpenseBudget = mExpenseBudgetList.get(0);
+        }
 
         this.mExpense = new Expense();
         if (mExpenseBudgetList.size() > 0) {

@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  */
 public class IncomeBudget extends Budget {
 
-    private BigDecimal mUnrealizedBalance;
+    private BigDecimal mUnrealizedBalance = new BigDecimal("0");
 
     public enum INCOME_BUDGET_CATEGORY {
         EMPLOYMENT, GOVERNMENT_BENEFIT, INVESTMENT, OTHERS;

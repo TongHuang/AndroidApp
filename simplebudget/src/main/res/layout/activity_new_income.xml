@@ -35,6 +35,17 @@
     <LinearLayout style="@style/detailRowStyle">
 
         <TextView style="@style/detailFirstColumnStyle"
+            android:text="@string/note"
+            android:id="@+id/textView14"/>
+
+        <EditText style="@style/detailSecondColumnEditTextStyle"
+            android:id="@+id/editTextIncomeNote"
+            android:inputType="textAutoComplete" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/detailRowStyle">
+
+        <TextView style="@style/detailFirstColumnStyle"
             android:text="@string/date"
             android:id="@+id/textViewReceivedDate"/>
 
@@ -56,13 +67,4 @@
             android:onClick="chooseIncomeAccount" />
     </LinearLayout>
 
-    <LinearLayout style="@style/detailRowStyle">
-
-        <TextView style="@style/detailFirstColumnStyle"
-            android:text="@string/note"
-            android:id="@+id/textView14"/>
-
-        <EditText style="@style/detailSecondColumnEditTextStyle"
-            android:id="@+id/editTextIncomeNote" />
-    </LinearLayout>
 </LinearLayout>

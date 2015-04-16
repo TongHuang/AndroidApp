@@ -257,7 +257,10 @@ public class ExpenseBudgetPersist extends Persist {
                 {"Auto Insurance",ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION.toString(),  Cycle.Yearly.toString(), "2"},
                 {"Car plate",ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION.toString(),  Cycle.Yearly.toString(), "2"},
                 {"Driver license",ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION.toString(),  Cycle.Yearly.toString(), "2"},
-                {"Bus ticket",ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION.toString(),  Cycle.Monthly.toString(), "3"},};
+                {"Bus ticket",ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION.toString(),  Cycle.Monthly.toString(), "3"},
+                {"Christmas gift",ExpenseBudget.EXPENSE_BUDGET_CATEGORY.GIFTS.toString(),  Cycle.Weekly.toString(), "1"},
+                {"Birthday gift",ExpenseBudget.EXPENSE_BUDGET_CATEGORY.GIFTS.toString(),  Cycle.Yearly.toString(), "1"},
+                {"Donations",ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION.toString(),  Cycle.Every_6_Months.toString(), "1"}};
 
         ContentValues contentValues = new ContentValues();
         for(int i = 0; i < expenseBudgets.length; i++){
