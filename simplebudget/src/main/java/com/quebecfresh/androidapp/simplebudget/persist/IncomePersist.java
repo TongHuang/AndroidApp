@@ -33,7 +33,7 @@ public class IncomePersist extends Persist {
         contentValues.put(_NOTE, income.getNote());
         contentValues.put(_BUDGET_ID, income.getIncomeBudget().getId());
         contentValues.put(_AMOUNT, income.getAmount().toString());
-        contentValues.put(_RECEIVED_DATE, income.getReceivedDate());
+        contentValues.put(_RECEIVED_DATE, income.getDate());
         contentValues.put(_ACCOUNT_ID, income.getAccount().getId());
         contentValues.put(_CONFIRMED, income.getConfirmed() == Boolean.TRUE ? 1 : 0);
         Long rowID = database.insert(_TABLE, null, contentValues);
@@ -58,7 +58,7 @@ public class IncomePersist extends Persist {
         income.setIncomeBudget(incomeBudget);
         income.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
         income.setAccount(account);
-        income.setReceivedDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
+        income.setDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
         income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true : false);
        cursor.close();
         return income;
@@ -83,7 +83,7 @@ public class IncomePersist extends Persist {
             income.setIncomeBudget(incomeBudget);
             income.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
             income.setAccount(account);
-            income.setReceivedDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
+            income.setDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
             income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true : false);
             incomeList.add(income);
             cursor.moveToNext();
@@ -112,7 +112,7 @@ public class IncomePersist extends Persist {
             income.setIncomeBudget(incomeBudget);
             income.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
             income.setAccount(account);
-            income.setReceivedDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
+            income.setDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
             income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true : false);
             incomeList.add(income);
             cursor.moveToNext();
@@ -154,7 +154,7 @@ public class IncomePersist extends Persist {
             income.setIncomeBudget(incomeBudget);
             income.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
             income.setAccount(account);
-            income.setReceivedDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
+            income.setDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
             income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true : false);
             incomeList.add(income);
             cursor.moveToNext();
@@ -182,7 +182,7 @@ public class IncomePersist extends Persist {
             income.setIncomeBudget(incomeBudget);
             income.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
             income.setAccount(account);
-            income.setReceivedDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
+            income.setDate(cursor.getLong(cursor.getColumnIndexOrThrow(_RECEIVED_DATE)));
             income.setConfirmed(cursor.getLong(cursor.getColumnIndexOrThrow(_CONFIRMED)) == 1 ? true : false);
             incomeList.add(income);
             cursor.moveToNext();
@@ -198,7 +198,7 @@ public class IncomePersist extends Persist {
         contentValues.put(_BUDGET_ID, income.getIncomeBudget().getId());
         contentValues.put(_AMOUNT, income.getAmount().toString());
         contentValues.put(_ACCOUNT_ID, income.getAccount().getId());
-        contentValues.put(_RECEIVED_DATE, income.getReceivedDate());
+        contentValues.put(_RECEIVED_DATE, income.getDate());
         contentValues.put(_CONFIRMED, income.getConfirmed() == true ? 1 : 0);
         database.update(_TABLE, contentValues, _ID + " = " + income.getId(), null);
         return income;

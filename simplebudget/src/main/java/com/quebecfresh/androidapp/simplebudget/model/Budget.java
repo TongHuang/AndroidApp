@@ -17,7 +17,7 @@ public class Budget extends BaseData {
     private Account account;
     private Long cycleStartDate = Calendar.getInstance().getTimeInMillis();
     private Long lastFillDate = 0L;
-    private Boolean rollOver = Boolean.TRUE;
+    private Boolean  rollOver = Boolean.TRUE;
 
 
     public Budget() {

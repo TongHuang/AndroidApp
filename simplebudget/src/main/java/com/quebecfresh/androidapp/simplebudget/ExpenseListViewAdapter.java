@@ -49,7 +49,7 @@ public class ExpenseListViewAdapter extends BaseAdapter implements ListAdapter {
         }
         Expense expense = mExpenseList.get(position);
         TextView textViewExpenseDate = (TextView)view.findViewById(R.id.textViewExpenseDate);
-        textViewExpenseDate.setText(expense.getSpendDateShortLabel());
+        textViewExpenseDate.setText(expense.getDateShortLabel());
         TextView textViewExpenseBudgetName = (TextView)view.findViewById(R.id.textViewExpenseBudgetName);
         textViewExpenseBudgetName.setText(expense.getExpenseBudget().getName());
         TextView textViewExpenseAmount = (TextView)view.findViewById(R.id.textViewExpenseAmount);

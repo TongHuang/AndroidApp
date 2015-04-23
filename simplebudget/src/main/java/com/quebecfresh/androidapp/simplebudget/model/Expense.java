@@ -9,20 +9,9 @@ import java.util.Date;
 /**
  * Created by Tong Huang on 2015-02-13, 9:04 AM.
  */
-public class Expense extends BaseData {
+public class Expense extends Transaction {
 
-    private Account account;
     private ExpenseBudget expenseBudget;
-    private BigDecimal amount;
-    private Long spentDate;
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
 
     public ExpenseBudget getExpenseBudget() {
         return expenseBudget;
@@ -30,32 +19,6 @@ public class Expense extends BaseData {
 
     public void setExpenseBudget(ExpenseBudget expenseBudget) {
         this.expenseBudget = expenseBudget;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public String getSpendDateShortLabel(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd ");
-        return simpleDateFormat.format(this.spentDate);
-    }
-
-    public String getSpendDateLabel() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy ");
-        return simpleDateFormat.format(this.spentDate);
-    }
-
-    public Long getSpentDate() {
-        return spentDate;
-    }
-
-    public void setSpentDate(Long spentDate) {
-        this.spentDate = spentDate;
     }
 
     public static abstract class Contract implements BaseColumns {

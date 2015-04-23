@@ -50,7 +50,7 @@ public class IncomeListViewAdapter extends BaseAdapter implements ListAdapter {
 
         Income income = mIncomeList.get(position);
         TextView textViewIncomeReceivedDate = (TextView)view.findViewById(R.id.textViewIncomeReceivedDate);
-        textViewIncomeReceivedDate.setText(income.getReceivedDateShortLabel());
+        textViewIncomeReceivedDate.setText(income.getDateShortLabel());
         TextView textViewIncomeBudgetName = (TextView)view.findViewById(R.id.textViewIncomeBudgetName);
         textViewIncomeBudgetName.setText(income.getIncomeBudget().getName());
         TextView textViewIncomeAmount  = (TextView)view.findViewById(R.id.textViewIncomeAmount);

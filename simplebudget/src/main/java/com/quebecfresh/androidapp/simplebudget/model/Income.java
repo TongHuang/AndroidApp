@@ -8,12 +8,9 @@ import java.text.SimpleDateFormat;
 /**
  * Created by Tong Huang on 2015-03-15, 11:06 PM.
  */
-public class Income extends BaseData {
+public class Income extends Transaction {
 
     private IncomeBudget incomeBudget;
-    private Account account;
-    private BigDecimal amount = new BigDecimal("0");
-    private Long receivedDate = 0L;
     private Boolean confirmed = Boolean.FALSE;
 
 
@@ -25,39 +22,9 @@ public class Income extends BaseData {
         this.incomeBudget = incomeBudget;
     }
 
-    public Account getAccount() {
-        return account;
-    }
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public Long getReceivedDate() {
-        return receivedDate;
-    }
-
-    public void setReceivedDate(Long receivedDate) {
-        this.receivedDate = receivedDate;
-    }
-
-    public String getReceivedDateShortLabel(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd ");
-        return simpleDateFormat.format(this.receivedDate);
-    }
-
-    public String getReceivedDateLabel() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy ");
-        return simpleDateFormat.format(this.receivedDate);
-    }
 
     public Boolean getConfirmed() {
         return confirmed;

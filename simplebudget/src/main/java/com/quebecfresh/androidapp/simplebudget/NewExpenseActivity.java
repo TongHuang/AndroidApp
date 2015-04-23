@@ -59,7 +59,7 @@ public class NewExpenseActivity extends ActionBarActivity {
                 c.set(Calendar.YEAR, year);
                 c.set(Calendar.MONTH, monthOfYear);
                 c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                mExpense.setSpentDate(c.getTimeInMillis());
+                mExpense.setDate(c.getTimeInMillis());
                 updateView();
 //                mButtonDate.setText(mExpense.getSpendDateLabel());
             }
@@ -111,7 +111,7 @@ public class NewExpenseActivity extends ActionBarActivity {
     private void updateView() {
         mButtonChooseExpenseBudget.setText(mExpense.getExpenseBudget().getName());
         mEditTextExpenseAmount.requestFocus();
-        mButtonDate.setText(this.mExpense.getSpendDateLabel());
+        mButtonDate.setText(this.mExpense.getDateLabel());
         mButtonChooseExpenseAccount.setText(mExpense.getExpenseBudget().getAccount().getName());
 
         Calendar current = Calendar.getInstance();
@@ -169,7 +169,7 @@ public class NewExpenseActivity extends ActionBarActivity {
         if (mExpenseBudgetList.size() > 0) {
             this.mExpense.setExpenseBudget(mExpenseBudgetList.get(0));
         }
-        this.mExpense.setSpentDate(System.currentTimeMillis());
+        this.mExpense.setDate(System.currentTimeMillis());
         if (mAccountList.size() > 0) {
             mExpense.setAccount(mAccountList.get(0));
         }

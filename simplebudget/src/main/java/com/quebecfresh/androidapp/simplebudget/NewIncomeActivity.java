@@ -81,7 +81,7 @@ public class NewIncomeActivity extends ActionBarActivity {
                 c.set(Calendar.YEAR, year);
                 c.set(Calendar.MONTH, monthOfYear);
                 c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                mIncome.setReceivedDate(c.getTimeInMillis());
+                mIncome.setDate(c.getTimeInMillis());
                 updateView();
             }
         });
@@ -109,7 +109,7 @@ public class NewIncomeActivity extends ActionBarActivity {
 
         mIncome = new Income();
         mIncome.setIncomeBudget(mIncomeBudgetList.get(0));
-        mIncome.setReceivedDate(System.currentTimeMillis());
+        mIncome.setDate(System.currentTimeMillis());
         mIncome.setAccount(mAccountList.get(0));
 
         mButtonChooseIncomeBudget = (Button) findViewById(R.id.buttonChooseIncomeBudget);
@@ -124,7 +124,7 @@ public class NewIncomeActivity extends ActionBarActivity {
         mButtonChooseIncomeBudget.setText(mIncome.getIncomeBudget().getName());
         mEditTextIncomeAmount.setHint(getResources().getString(R.string.budget_amount) + " " + mIncome.getIncomeBudget().getBudgetAmount().toString());
         mEditTextIncomeAmount.requestFocus();
-        mButtonChooseIncomeDate.setText(mIncome.getReceivedDateLabel());
+        mButtonChooseIncomeDate.setText(mIncome.getDateLabel());
         mButtonChooseIncomeAccount.setText(mIncome.getAccount().getName());
 
     }

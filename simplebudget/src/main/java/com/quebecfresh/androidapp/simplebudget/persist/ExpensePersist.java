@@ -26,7 +26,7 @@ public class ExpensePersist extends  Persist{
         contentValues.put(_NOTE, expense.getNote());
         contentValues.put(_BUDGET_ID, expense.getExpenseBudget().getId());
         contentValues.put(_AMOUNT, expense.getAmount().toString());
-        contentValues.put(_SPENT_DATE, expense.getSpentDate());
+        contentValues.put(_SPENT_DATE, expense.getDate());
         Long rowID = database.insert(_TABLE, null, contentValues);
         expense.setId(rowID);
         return expense;
@@ -44,7 +44,7 @@ public class ExpensePersist extends  Persist{
         expense.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
         expense.setExpenseBudget(expenseBudgetPersist.read(expenseBudgetID, database));
         expense.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
-        expense.setSpentDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
+        expense.setDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
         cursor.close();
         return expense;
     }
@@ -63,7 +63,7 @@ public class ExpensePersist extends  Persist{
             expense.setNote(cursor.getString(cursor.getColumnIndexOrThrow(_NOTE)));
             expense.setExpenseBudget(expenseBudgetPersist.read(expenseBudgetID, database));
             expense.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
-            expense.setSpentDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
+            expense.setDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
             expenseList.add(expense);
             cursor.moveToNext();
         }
@@ -87,7 +87,7 @@ public class ExpensePersist extends  Persist{
             ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist();
             expense.setExpenseBudget(expenseBudgetPersist.read(expenseBudgetID, database));
             expense.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
-            expense.setSpentDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
+            expense.setDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
             expenseList.add(expense);
             cursor.moveToNext();
         }
@@ -110,7 +110,7 @@ public class ExpensePersist extends  Persist{
             ExpenseBudgetPersist expenseBudgetPersist = new ExpenseBudgetPersist();
             expense.setExpenseBudget(expenseBudget);
             expense.setAmount(new BigDecimal(cursor.getString(cursor.getColumnIndexOrThrow(_AMOUNT))));
-            expense.setSpentDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
+            expense.setDate(cursor.getLong(cursor.getColumnIndexOrThrow(_SPENT_DATE)));
             expenseList.add(expense);
             cursor.moveToNext();
         }
@@ -137,7 +137,7 @@ public class ExpensePersist extends  Persist{
         contentValues.put(_NOTE, expense.getNote());
         contentValues.put(_BUDGET_ID, expense.getExpenseBudget().getId());
         contentValues.put(_AMOUNT, expense.getAmount().toString());
-        contentValues.put(_SPENT_DATE, expense.getSpentDate());
+        contentValues.put(_SPENT_DATE, expense.getDate());
         database.update(_TABLE, contentValues, _ID + " = " + expense.getId(), null);
         return expense;
     }

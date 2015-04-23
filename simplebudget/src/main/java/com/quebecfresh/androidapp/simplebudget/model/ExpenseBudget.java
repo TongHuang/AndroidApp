@@ -10,8 +10,6 @@ import java.math.BigDecimal;
  */
 public class ExpenseBudget extends Budget {
 
-
-
     private BigDecimal unusedBalance = new BigDecimal("0");
 
     public enum EXPENSE_BUDGET_CATEGORY {
