@@ -41,8 +41,9 @@
     <string name="please_selected_incomes">Please selected incomes you will have</string>
     <string name="initialize_budget">Initialize Budget</string>
     <string name="expenses">Expenses</string>
+    <string name="spend_money">Spend money</string>
     <string name="add_more_expense">Add more expense</string>
-    <string name="accounts">Accounts</string>
+    <string name="accounts">Account</string>
     <string name="reports">Reports</string>
     <string name="expenses_budget">Expenses budget</string>
     <string name="incomes_budget">Incomes budgets</string>
@@ -109,9 +110,10 @@
     <string name="title_activity_demo">DemoActivity</string>
     <string name="unused_balance">Unused Balance</string>
     <string name="unused_budget">Unused budget</string>
+    <string name="unrealized_budget">Unrealized budget</string>
     <string name="input_expense_name">Input Expense Name</string>
-    <string name="title_activity_new_income">"New Income "</string>
-    <string name="chooose_account">Choose account</string>
+    <string name="receive_money">"Receive money"</string>
+    <string name="choose_account">Choose account</string>
     <string name="title_activity_income">Incomes</string>
     <string name="income_budget">Income Budget</string>
     <string name="expense_budget">Expense Budget</string>
@@ -129,6 +131,8 @@
     <string name="toast_name_is_required">Name is required</string>
     <string name="toast_number_is_required">Number is required</string>
     <string name="toast_balance_have_to_be_numeric">Balance have to be numeric</string>
+    <string name="toast_amount_is_required">Amount is required</string>
+    <string name="toast_amount_have_to_be_numeric">Amount have to be numeric</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

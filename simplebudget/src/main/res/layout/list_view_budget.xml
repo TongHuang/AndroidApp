@@ -6,11 +6,6 @@
     android:divider="@color/light_blue">
     //Use in ChooseExpenseBudgetDialogFragment and ChooseIncomeBudgetDialogFragment
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText2" />
-
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

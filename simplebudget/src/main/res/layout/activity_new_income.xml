@@ -8,63 +8,80 @@
     tools:context="com.quebecfresh.androidapp.simplebudget.NewIncomeActivity"
     android:id="@+id/linearLayout">
 
-    <LinearLayout style="@style/detailRowStyle">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView3" >
 
-        <TextView
-            android:text="@string/incomes_budget"
-            android:id="@+id/textViewIncomeBudget"
-            style="@style/detailFirstColumnStyle"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/linearLayoutInsideScrollView">
 
-        <Button style="@style/detailSecondColumnButtonStyle"
-            android:text="Choose a budget"
-            android:id="@+id/buttonChooseIncomeBudget"
-            android:onClick="chooseIncomeBudget" />
-    </LinearLayout>
+            <LinearLayout style="@style/detailRowStyle">
 
-    <LinearLayout style="@style/detailRowStyle">
+                <TextView
+                    android:text="@string/budget"
+                    android:id="@+id/textViewIncomeBudget"
+                    style="@style/detailFirstColumnStyle"/>
 
-        <TextView style="@style/detailFirstColumnStyle"
-            android:text="@string/amount"
-            android:id="@+id/textViewIncomeAmount" />
+                <Button style="@style/detailSecondColumnButtonStyle"
+                    android:text="Choose a budget"
+                    android:id="@+id/buttonChooseIncomeBudget"
+                    android:onClick="chooseIncomeBudget"/>
+            </LinearLayout>
 
-        <EditText style="@style/detailSecondColumnEditTextStyle"
-            android:id="@+id/editTextIncomeAmount"
-            android:inputType="numberDecimal" />
-    </LinearLayout>
+            <LinearLayout style="@style/detailRowStyle">
 
-    <LinearLayout style="@style/detailRowStyle">
+                <TextView style="@style/detailFirstColumnStyle"
+                    android:text="@string/amount"
+                    android:id="@+id/textViewIncomeAmount" />
 
-        <TextView style="@style/detailFirstColumnStyle"
-            android:text="@string/note"
-            android:id="@+id/textView14"/>
+                <EditText style="@style/detailSecondColumnEditTextStyle"
+                    android:id="@+id/editTextIncomeAmount"
+                    android:inputType="numberDecimal"
+                    android:focusable="true"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
+                    android:focusableInTouchMode="true" />
+            </LinearLayout>
 
-        <EditText style="@style/detailSecondColumnEditTextStyle"
-            android:id="@+id/editTextIncomeNote"
-            android:inputType="textAutoComplete" />
-    </LinearLayout>
+            <LinearLayout style="@style/detailRowStyle">
 
-    <LinearLayout style="@style/detailRowStyle">
+                <TextView style="@style/detailFirstColumnStyle"
+                    android:text="@string/date"
+                    android:id="@+id/textViewReceivedDate"/>
 
-        <TextView style="@style/detailFirstColumnStyle"
-            android:text="@string/date"
-            android:id="@+id/textViewReceivedDate"/>
+                <Button style="@style/detailSecondColumnButtonStyle"
+                    android:text="Choose Date"
+                    android:id="@+id/buttonChooseIncomeDate"
+                    android:onClick="chooseIncomeDate" />
+            </LinearLayout>
 
-        <Button style="@style/detailSecondColumnButtonStyle"
-            android:text="Choose Date"
-            android:id="@+id/buttonChooseIncomeDate"
-            android:onClick="chooseIncomeDate" />
-    </LinearLayout>
+            <LinearLayout style="@style/detailRowStyle">
 
-    <LinearLayout style="@style/detailRowStyle">
+                <TextView style="@style/detailFirstColumnStyle"
+                    android:text="@string/accounts"
+                    android:id="@+id/textViewChooseAccount" />
 
-        <TextView style="@style/detailFirstColumnStyle"
-            android:text="@string/accounts"
-            android:id="@+id/textViewChooseAccount" />
+                <Button style="@style/detailSecondColumnButtonStyle"
+                    android:text="@string/choose_account"
+                    android:id="@+id/buttonChooseIncomeAccount"
+                    android:onClick="chooseIncomeAccount" />
+            </LinearLayout>
 
-        <Button style="@style/detailSecondColumnButtonStyle"
-            android:text="@string/chooose_account"
-            android:id="@+id/buttonChooseIncomeAccount"
-            android:onClick="chooseIncomeAccount" />
-    </LinearLayout>
+            <LinearLayout style="@style/detailRowStyle">
+
+                <TextView style="@style/detailFirstColumnStyle"
+                    android:text="@string/note"
+                    android:id="@+id/textView14"/>
+
+                <EditText style="@style/detailSecondColumnEditTextStyle"
+                    android:id="@+id/editTextIncomeNote"
+                    android:gravity="left" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

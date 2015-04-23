@@ -10,84 +10,102 @@
     tools:context="com.quebecfresh.androidapp.simplebudget.NewExpenseActivity">
 
 
-    <LinearLayout style="@style/detailRowStyle">
-
-        <TextView
-            android:text="@string/budget"
-            android:id="@+id/textViewExpenseBudget"
-            style="@style/detailFirstColumnStyle" />
-
-        <Button
-            android:text="@string/choose_pocket"
-            android:id="@+id/buttonChooseExpenseBudget"
-            style="@style/detailSecondColumnButtonStyle"
-            android:onClick="chooseExpenseBudget" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_height="wrap_content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:id="@+id/fragmentContainerExpenseBudgetChecker"
-        android:orientation="vertical"> </LinearLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView" >
 
-    <LinearLayout style="@style/detailRowStyle">
+        <LinearLayout
+            android:id="@+id/linearLayoutInsideScrollView"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
-        <TextView
-            android:text="@string/amount"
-            android:id="@+id/textViewExpenseAmount"
-            style="@style/detailFirstColumnStyle" />
+            <LinearLayout style="@style/detailRowStyle">
 
-        <EditText
-            android:inputType="textAutoComplete|numberDecimal"
-            android:ems="10"
-            android:id="@+id/editTextExpenseAmount"
-            style="@style/detailSecondColumnEditTextStyle" />
-    </LinearLayout>
+                <TextView
+                    android:text="@string/budget"
+                    android:id="@+id/textViewExpenseBudget"
+                    style="@style/detailFirstColumnStyle" />
 
-    <LinearLayout style="@style/detailRowStyle">
+                <Button
+                    android:text="@string/choose_pocket"
+                    android:id="@+id/buttonChooseExpenseBudget"
+                    style="@style/detailSecondColumnButtonStyle"
+                    android:onClick="chooseExpenseBudget"/>
 
-        <TextView
-            android:text="@string/note"
-            android:id="@+id/textViewExpenseNote"
-            style="@style/detailFirstColumnStyle" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/editTextExpenseNote"
-            android:layout_gravity="center_vertical"
-            style="@style/detailSecondColumnEditTextStyle" />
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/fragmentContainerExpenseBudgetChecker"
+                android:orientation="vertical"> </LinearLayout>
 
-    </LinearLayout>
+            <LinearLayout style="@style/detailRowStyle">
 
-    <LinearLayout style="@style/detailRowStyle">
+                <TextView
+                    android:text="@string/amount"
+                    android:id="@+id/textViewExpenseAmount"
+                    style="@style/detailFirstColumnStyle" />
 
-        <TextView
-            android:text="@string/date"
-            android:id="@+id/textViewExpenseDate"
-            style="@style/detailFirstColumnStyle" />
+                <EditText
+                    android:inputType="numberDecimal"
+                    android:ems="10"
+                    android:id="@+id/editTextExpenseAmount"
+                    style="@style/detailSecondColumnEditTextStyle"
+                    android:focusable="true"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"/>
+            </LinearLayout>
 
-        <Button
-            android:text="@string/choose_date"
-            android:id="@+id/buttonChooseDate"
-            style="@style/detailSecondColumnButtonStyle"
-            android:onClick="chooseDate" />
+            <LinearLayout style="@style/detailRowStyle">
+
+                <TextView
+                    android:text="@string/date"
+                    android:id="@+id/textViewExpenseDate"
+                    style="@style/detailFirstColumnStyle" />
+
+                <Button
+                    android:text="@string/choose_date"
+                    android:id="@+id/buttonChooseDate"
+                    style="@style/detailSecondColumnButtonStyle"
+                    android:onClick="chooseDate"/>
 
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <LinearLayout style="@style/detailRowStyle">
+            <LinearLayout style="@style/detailRowStyle">
 
-        <TextView
-            android:text="@string/accounts"
-            android:id="@+id/textView19"
-            style="@style/detailFirstColumnStyle" />
+                <TextView
+                    android:text="@string/accounts"
+                    android:id="@+id/textView19"
+                    style="@style/detailFirstColumnStyle" />
 
-        <Button
-            android:text="@string/chooose_account"
-            android:id="@+id/buttonChooseExpenseAccount"
-            style="@style/detailSecondColumnButtonStyle"
-            android:onClick="chooseExpenseAccount" />
-    </LinearLayout>
+                <Button
+                    android:text="@string/choose_account"
+                    android:id="@+id/buttonChooseExpenseAccount"
+                    style="@style/detailSecondColumnButtonStyle"
+                    android:onClick="chooseExpenseAccount"/>
+            </LinearLayout>
+
+            <LinearLayout style="@style/detailRowStyle">
+
+                <TextView
+                    android:text="@string/note"
+                    android:id="@+id/textViewExpenseNote"
+                    style="@style/detailFirstColumnStyle" />
+
+                <EditText
+                    android:id="@+id/editTextExpenseNote"
+                    android:layout_gravity="center_vertical"
+                    style="@style/detailSecondColumnEditTextStyle"
+                    android:gravity="left"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

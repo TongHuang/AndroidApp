@@ -52,7 +52,7 @@ public class AccountPersist  extends  Persist{
     }
 
     public List<Account> readAll(SQLiteDatabase database) {
-        String sql = "Select * from " + _TABLE;
+        String sql = "Select * from " + _TABLE + " order  by " + _NAME + " asc";
         Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         List<Account> accounts = new ArrayList<Account>();

@@ -9,5 +9,6 @@
         android:text="Cycle"
         android:id="@+id/textViewCycle"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_vertical|center_horizontal" />
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="25dp" />
 </LinearLayout>

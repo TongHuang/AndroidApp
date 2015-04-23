@@ -93,7 +93,7 @@ public class ExpenseBudgetPersist extends Persist {
      */
     public List<ExpenseBudget> readAllBudgetAmountNotZero(SQLiteDatabase database) {
         String sql = "select * from " + _TABLE + " where " + _BUDGET_AMOUNT + " != 0 order by "
-                + _BUDGET_AMOUNT + " desc";
+                + _NAME + " asc";
         Cursor cursor = database.rawQuery(sql, null);
         cursor.moveToFirst();
         AccountPersist accountPersist = new AccountPersist();

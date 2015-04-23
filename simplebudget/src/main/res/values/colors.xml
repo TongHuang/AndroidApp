@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="positive">#4169E1</color>
+    <color name="negative">#FF4500</color>
+    <color name="neutral">#000000</color>
+
+    <color name="background_positive">#6495ED</color>
+    <color name="background_negative">#FF69B4</color>
+    <color name="background_neutral">#D3D3D3</color>
+
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
 

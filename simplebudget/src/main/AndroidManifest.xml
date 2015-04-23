@@ -59,7 +59,8 @@
         </activity>
         <activity
             android:name=".NewExpenseActivity"
-            android:label="@string/expenses"
+            android:label="@string/spend_money"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -99,7 +100,8 @@
         </activity>
         <activity
             android:name=".NewIncomeActivity"
-            android:label="@string/title_activity_new_income"
+            android:label="@string/receive_money"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
