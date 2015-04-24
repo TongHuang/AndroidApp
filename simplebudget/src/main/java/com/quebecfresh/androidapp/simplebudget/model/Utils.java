@@ -5,7 +5,9 @@ import android.widget.EditText;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +17,16 @@ import java.util.List;
 public final class Utils {
 
 
+
+
+    public List<Transaction> mergeAndSort2List(List<Expense> expenseList, List<Income> incomeList){
+        List<Transaction> transactionList = new ArrayList<Transaction>();
+        transactionList.addAll(expenseList);
+        transactionList.addAll(incomeList);
+        Collections.sort(transactionList);
+        return transactionList;
+
+    }
 
     public static String formatDate(long time){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy");

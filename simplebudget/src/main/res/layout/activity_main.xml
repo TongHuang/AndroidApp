@@ -15,7 +15,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="20">
+            android:layout_weight="10">
 
             <Button
                 android:layout_width="match_parent"
@@ -51,320 +51,314 @@
         </LinearLayout>
 
 
-    <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="20"
-            android:id="@+id/scrollViewOverview"
-            android:layout_marginTop="10dp">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="50">
+        //Account balance layout
 
-                //Account balance layout
+        <!--<LinearLayout-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="10">-->
 
-                <!--<LinearLayout-->
-                    <!--android:orientation="horizontal"-->
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+                <!--android:text="@string/over_view"-->
+                <!--android:id="@+id/textView13"-->
+                <!--android:gravity="center_vertical|center_horizontal" />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="10">-->
+
+            <!--<Spinner-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:id="@+id/spinnerCycle"-->
+                <!--android:layout_weight="10"-->
+                <!--android:layout_gravity="left|center_vertical"-->
+                <!--android:gravity="left|center_vertical" />-->
+
+            <!--<Button-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Date"-->
+                <!--android:id="@+id/buttonChooseDate"-->
+                <!--android:layout_gravity="center_vertical|right"-->
+                <!--android:layout_weight="10"-->
+                <!--android:onClick="chooseOverViewDate"-->
+                <!--style="@style/budgetButtonStyle" />-->
+
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="10">-->
+
+            <!--<Button-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="@string/balance"-->
+                <!--android:id="@+id/buttonAccountBalance"-->
+                <!--android:layout_gravity="left|center_vertical"-->
+                <!--android:layout_weight="10"-->
+                <!--android:nestedScrollingEnabled="true"-->
+                <!--android:onClick="showBalance" />-->
+
+            <!--<LinearLayout-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="25">-->
+
+                <!--<TextView-->
                     <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0dp"-->
-                    <!--android:layout_weight="10">-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                    <!--android:id="@+id/textView15"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--android:gravity="center_vertical|center_horizontal" />-->
 
-                    <!--<TextView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                        <!--android:text="@string/over_view"-->
-                        <!--android:id="@+id/textView13"-->
-                        <!--android:gravity="center_vertical|center_horizontal" />-->
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                    <!--android:orientation="horizontal"-->
+                <!--<ProgressBar-->
                     <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0dp"-->
-                    <!--android:layout_weight="10">-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/progressBarBalance"-->
+                    <!--android:max="100"-->
+                    <!--android:indeterminate="false"-->
+                    <!--style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"-->
+                    <!--android:layout_gravity="center_vertical" />-->
 
-                    <!--<Spinner-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:id="@+id/spinnerCycle"-->
-                        <!--android:layout_weight="10"-->
-                        <!--android:layout_gravity="left|center_vertical"-->
-                        <!--android:gravity="left|center_vertical" />-->
-
-                    <!--<Button-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="Date"-->
-                        <!--android:id="@+id/buttonChooseDate"-->
-                        <!--android:layout_gravity="center_vertical|right"-->
-                        <!--android:layout_weight="10"-->
-                        <!--android:onClick="chooseOverViewDate"-->
-                        <!--style="@style/budgetButtonStyle" />-->
-
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                    <!--android:orientation="horizontal"-->
+                <!--<TextView-->
                     <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0dp"-->
-                    <!--android:layout_weight="10">-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                    <!--android:id="@+id/textViewProgressBarBalanceCenter"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--android:gravity="center_vertical|center_horizontal" />-->
+            <!--</LinearLayout>-->
 
-                    <!--<Button-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:text="@string/balance"-->
-                        <!--android:id="@+id/buttonAccountBalance"-->
-                        <!--android:layout_gravity="left|center_vertical"-->
-                        <!--android:layout_weight="10"-->
-                        <!--android:nestedScrollingEnabled="true"-->
-                        <!--android:onClick="showBalance" />-->
+        <!--</LinearLayout>-->
+        <!--//Income layout-->
 
-                    <!--<LinearLayout-->
-                        <!--android:orientation="vertical"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_weight="25">-->
+        <!--<LinearLayout-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="10">-->
 
-                        <!--<TextView-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-                            <!--android:id="@+id/textView15"-->
-                            <!--android:layout_gravity="bottom"-->
-                            <!--android:gravity="center_vertical|center_horizontal" />-->
+            <!--<Button-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="Income"-->
+                <!--android:id="@+id/buttonIncome"-->
+                <!--android:layout_gravity="left|center_vertical"-->
+                <!--android:layout_weight="10"-->
+                <!--android:onClick="showIncomeList" />-->
 
-                        <!--<ProgressBar-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:id="@+id/progressBarBalance"-->
-                            <!--android:max="100"-->
-                            <!--android:indeterminate="false"-->
-                            <!--style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"-->
-                            <!--android:layout_gravity="center_vertical" />-->
+            <!--<LinearLayout-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="25">-->
 
-                        <!--<TextView-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-                            <!--android:id="@+id/textViewProgressBarBalanceCenter"-->
-                            <!--android:layout_gravity="bottom"-->
-                            <!--android:gravity="center_vertical|center_horizontal" />-->
-                    <!--</LinearLayout>-->
-
-                <!--</LinearLayout>-->
-                <!--//Income layout-->
-
-                <!--<LinearLayout-->
-                    <!--android:orientation="horizontal"-->
+                <!--<TextView-->
                     <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_weight="10">-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                    <!--android:id="@+id/textView17"-->
+                    <!--android:gravity="center_vertical|center_horizontal" />-->
 
-                    <!--<Button-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:text="Income"-->
-                        <!--android:id="@+id/buttonIncome"-->
-                        <!--android:layout_gravity="left|center_vertical"-->
-                        <!--android:layout_weight="10"-->
-                        <!--android:onClick="showIncomeList" />-->
-
-                    <!--<LinearLayout-->
-                        <!--android:orientation="vertical"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_weight="25">-->
-
-                        <!--<TextView-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-                            <!--android:id="@+id/textView17"-->
-                            <!--android:gravity="center_vertical|center_horizontal" />-->
-
-                        <!--<ProgressBar-->
-                            <!--style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:id="@+id/progressBarIncome"-->
-                            <!--android:max="100"-->
-                            <!--android:layout_gravity="center_vertical" />-->
-
-                        <!--<TextView-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-                            <!--android:id="@+id/textViewProgressBarIncomeCenter"-->
-                            <!--android:gravity="center_vertical|center_horizontal" />-->
-                    <!--</LinearLayout>-->
-                <!--</LinearLayout>-->
-                <!--//Income budget Layout-->
-
-                <!--<LinearLayout-->
-                    <!--android:orientation="horizontal"-->
+                <!--<ProgressBar-->
+                    <!--style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"-->
                     <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0dp"-->
-                    <!--android:layout_weight="10">-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/progressBarIncome"-->
+                    <!--android:max="100"-->
+                    <!--android:layout_gravity="center_vertical" />-->
 
-                    <!--<Button-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="@string/income_budget"-->
-                        <!--android:id="@+id/buttonIncomeBudget"-->
-                        <!--android:layout_gravity="left|center_vertical"-->
-                        <!--android:layout_weight="10"-->
-                        <!--android:onClick="editIncomeBudget" />-->
-
-                    <!--<LinearLayout-->
-                        <!--android:orientation="vertical"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_weight="25">-->
-
-                        <!--<TextView-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-                            <!--android:id="@+id/textView18"-->
-                            <!--android:gravity="center_vertical|center_horizontal"-->
-                            <!--android:layout_gravity="top" />-->
-
-                        <!--<ProgressBar-->
-                            <!--style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:id="@+id/progressBarIncomeBudget"-->
-                            <!--android:max="100" />-->
-
-                        <!--<TextView-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-                            <!--android:id="@+id/textViewProgressBarIncomeBudgetCenter"-->
-                            <!--android:layout_gravity="bottom"-->
-                            <!--android:gravity="center_vertical|center_horizontal" />-->
-                    <!--</LinearLayout>-->
-
-                <!--</LinearLayout>-->
-
-                <!--//Expense Layout-->
-
-                <!--<LinearLayout-->
-                    <!--android:orientation="horizontal"-->
+                <!--<TextView-->
                     <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0dp"-->
-                    <!--android:layout_weight="10">-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                    <!--android:id="@+id/textViewProgressBarIncomeCenter"-->
+                    <!--android:gravity="center_vertical|center_horizontal" />-->
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
+        <!--//Income budget Layout-->
 
-                    <!--<Button-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:text="Expense"-->
-                        <!--android:id="@+id/buttonExpenseBudget"-->
-                        <!--android:layout_gravity="left|center_vertical"-->
-                        <!--android:layout_weight="10"-->
-                        <!--android:onClick="showExpenseList" />-->
+        <!--<LinearLayout-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="10">-->
 
-                    <!--<LinearLayout-->
-                        <!--android:orientation="vertical"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_weight="25">-->
+            <!--<Button-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/income_budget"-->
+                <!--android:id="@+id/buttonIncomeBudget"-->
+                <!--android:layout_gravity="left|center_vertical"-->
+                <!--android:layout_weight="10"-->
+                <!--android:onClick="editIncomeBudget" />-->
 
-                        <!--<TextView-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-                            <!--android:id="@+id/textView20"-->
-                            <!--android:layout_gravity="top"-->
-                            <!--android:gravity="center_vertical|center_horizontal" />-->
+            <!--<LinearLayout-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="25">-->
 
-                        <!--<ProgressBar-->
-                            <!--style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:id="@+id/progressBarExpense"-->
-                            <!--android:max="100" />-->
-
-                        <!--<TextView-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-                            <!--android:id="@+id/textViewProgressBarExpenseCenter"-->
-                            <!--android:gravity="center_vertical|center_horizontal"-->
-                            <!--android:layout_gravity="top|bottom" />-->
-                    <!--</LinearLayout>-->
-
-
-                <!--</LinearLayout>-->
-
-                <!--//Expense budget layout-->
-
-                <!--<LinearLayout-->
-                    <!--android:orientation="horizontal"-->
+                <!--<TextView-->
                     <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0dp"-->
-                    <!--android:layout_weight="10">-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                    <!--android:id="@+id/textView18"-->
+                    <!--android:gravity="center_vertical|center_horizontal"-->
+                    <!--android:layout_gravity="top" />-->
 
-                    <!--<Button-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:text="@string/expense_budget"-->
-                        <!--android:id="@+id/buttonExpenseBudget"-->
-                        <!--android:layout_gravity="left|center_vertical"-->
-                        <!--android:layout_weight="10"-->
-                        <!--android:onClick="editExpenseBudget" />-->
+                <!--<ProgressBar-->
+                    <!--style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/progressBarIncomeBudget"-->
+                    <!--android:max="100" />-->
 
-                    <!--<LinearLayout-->
-                        <!--android:orientation="vertical"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="fill_parent"-->
-                        <!--android:layout_weight="25">-->
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                    <!--android:id="@+id/textViewProgressBarIncomeBudgetCenter"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--android:gravity="center_vertical|center_horizontal" />-->
+            <!--</LinearLayout>-->
 
-                        <!--<TextView-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-                            <!--android:id="@+id/textView22"-->
-                            <!--android:layout_gravity="top"-->
-                            <!--android:gravity="center_vertical|center_horizontal" />-->
+        <!--</LinearLayout>-->
 
-                        <!--<ProgressBar-->
-                            <!--style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:id="@+id/progressBarExpenseBudget"-->
-                            <!--android:max="100"-->
-                            <!--android:layout_gravity="center_vertical" />-->
+        <!--//Expense Layout-->
 
-                        <!--<TextView-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-                            <!--android:id="@+id/textViewProgressBarExpenseBudgetCenter"-->
-                            <!--android:layout_gravity="bottom"-->
-                            <!--android:gravity="center_vertical|center_horizontal" />-->
-                    <!--</LinearLayout>-->
+        <!--<LinearLayout-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="10">-->
 
-                <!--</LinearLayout>-->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/most_recent_transactions"
-                    android:id="@+id/textView13"
-                    android:textSize="18dp"
-                    android:textStyle="bold|italic"
-                    android:textColor="@color/dark_slate_blue" />
+            <!--<Button-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="Expense"-->
+                <!--android:id="@+id/buttonExpenseBudget"-->
+                <!--android:layout_gravity="left|center_vertical"-->
+                <!--android:layout_weight="10"-->
+                <!--android:onClick="showExpenseList" />-->
 
-                <ListView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/listView" />
-            </LinearLayout>
-        </ScrollView>
+            <!--<LinearLayout-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="25">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                    <!--android:id="@+id/textView20"-->
+                    <!--android:layout_gravity="top"-->
+                    <!--android:gravity="center_vertical|center_horizontal" />-->
+
+                <!--<ProgressBar-->
+                    <!--style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/progressBarExpense"-->
+                    <!--android:max="100" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                    <!--android:id="@+id/textViewProgressBarExpenseCenter"-->
+                    <!--android:gravity="center_vertical|center_horizontal"-->
+                    <!--android:layout_gravity="top|bottom" />-->
+            <!--</LinearLayout>-->
+
+
+        <!--</LinearLayout>-->
+
+        <!--//Expense budget layout-->
+
+        <!--<LinearLayout-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="10">-->
+
+            <!--<Button-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="@string/expense_budget"-->
+                <!--android:id="@+id/buttonExpenseBudget"-->
+                <!--android:layout_gravity="left|center_vertical"-->
+                <!--android:layout_weight="10"-->
+                <!--android:onClick="editExpenseBudget" />-->
+
+            <!--<LinearLayout-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--android:layout_weight="25">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                    <!--android:id="@+id/textView22"-->
+                    <!--android:layout_gravity="top"-->
+                    <!--android:gravity="center_vertical|center_horizontal" />-->
+
+                <!--<ProgressBar-->
+                    <!--style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/progressBarExpenseBudget"-->
+                    <!--android:max="100"-->
+                    <!--android:layout_gravity="center_vertical" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                    <!--android:id="@+id/textViewProgressBarExpenseBudgetCenter"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--android:gravity="center_vertical|center_horizontal" />-->
+            <!--</LinearLayout>-->
+
+        <!--</LinearLayout>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/most_recent_transactions"
+            android:id="@+id/textView13"
+            android:textSize="18dp"
+            android:textStyle="bold|italic"
+            android:textColor="@color/dark_slate_blue" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/fragmentContainerRecentTransaction"></LinearLayout>
+
+    </LinearLayout>
 
 
 </LinearLayout>

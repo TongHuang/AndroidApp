@@ -6,12 +6,20 @@ import java.text.SimpleDateFormat;
 /**
  * Created by Tong Huang on 2015-04-23, 3:20 AM.
  */
-public class Transaction extends  BaseData {
+public class Transaction extends  BaseData implements Comparable  {
 
     private Account account;
     private BigDecimal amount = new BigDecimal("0");
     private Long date = 0L;
 
+
+    @Override
+    public int compareTo(Object another) {
+        if(this.date <= ((Transaction)another).getDate()){
+            return 1;
+        }
+        return -1;
+    }
 
     public Account getAccount() {
         return account;
