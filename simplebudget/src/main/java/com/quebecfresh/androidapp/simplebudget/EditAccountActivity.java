@@ -5,9 +5,11 @@ import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
@@ -35,6 +37,13 @@ public class EditAccountActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account);
+
+
+        LinearLayout linearLayout =(LinearLayout)findViewById(R.id.linearLayoutInsideScrollView);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        linearLayout.setMinimumHeight(metrics.heightPixels*8/10);
+
         Intent intent = getIntent();
         mAccountID = intent.getLongExtra(InitializeAccountActivity.EXTRA_ACCOUNT_ID, 0);
 
@@ -45,6 +54,7 @@ public class EditAccountActivity extends ActionBarActivity {
         mEditTextName = (EditText) this.findViewById(R.id.editTextName);
         mEditTextNumber = (EditText) this.findViewById(R.id.editTextNumber);
         mEditTextBalance = (EditText) this.findViewById(R.id.editTextBalance);
+
         mEditTextNote = (EditText) this.findViewById(R.id.editTextNote);
         if (mAccountID > 0) {
             mAccount = mAccountPersist.read(mAccountID, mWritableDatabase);
@@ -55,7 +65,7 @@ public class EditAccountActivity extends ActionBarActivity {
         } else {
             mAccount = new Account();
         }
-
+        mEditTextName.requestFocus();
     }
 
 
