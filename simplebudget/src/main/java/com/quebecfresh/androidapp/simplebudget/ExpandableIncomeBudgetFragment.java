@@ -31,6 +31,7 @@ public class ExpandableIncomeBudgetFragment extends Fragment {
     private Integer expandedGroupPosition = 0;
     private List<IncomeBudget> mIncomeBudgetList;
     private  TextView mTextViewTotal;
+    private Spinner mCycleSpinner;
 
     public ExpandableIncomeBudgetFragment() {
         // Required empty public constructor
@@ -42,6 +43,7 @@ public class ExpandableIncomeBudgetFragment extends Fragment {
 
     public void setIncomeBudgetList(List<IncomeBudget> incomeBudgetList) {
         this.mIncomeBudgetList = incomeBudgetList;
+
     }
 
     @Override
@@ -91,11 +93,11 @@ public class ExpandableIncomeBudgetFragment extends Fragment {
 
         //Spinner have to initialize before mTextViewTotal, because mTextViewTotal invoke getSelectedItem
         CycleSpinnerAdapter spinnerAdapter = new CycleSpinnerAdapter(Cycle.values(),inflater.getContext());
-        final Spinner cycleSpinner = (Spinner) view.findViewById(R.id.spinnerCycle);
-        cycleSpinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+        mCycleSpinner = (Spinner) view.findViewById(R.id.spinnerCycle);
+        mCycleSpinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mTextViewTotal.setText(Utils.calTotalIncomeBudgetAmount(mIncomeBudgetList, (Cycle) cycleSpinner.getSelectedItem()).toString());
+                mTextViewTotal.setText(Utils.calTotalIncomeBudgetAmount(mIncomeBudgetList, (Cycle) mCycleSpinner.getSelectedItem()).toString());
             }
 
             @Override
@@ -103,12 +105,10 @@ public class ExpandableIncomeBudgetFragment extends Fragment {
 
             }
         });
-        cycleSpinner.setAdapter(spinnerAdapter);
-        cycleSpinner.setSelection(3);
+        mCycleSpinner.setAdapter(spinnerAdapter);
         mTextViewTotal = (TextView) view.findViewById(R.id.textViewTotal);
-        mTextViewTotal.setText(Utils.calTotalIncomeBudgetAmount(mIncomeBudgetList, (Cycle) cycleSpinner.getSelectedItem()).toString());
-
-
+        mCycleSpinner.setSelection(3);
+        mTextViewTotal.setText(Utils.calTotalIncomeBudgetAmount(mIncomeBudgetList, (Cycle) mCycleSpinner.getSelectedItem()).toString());
         mExpandableListViewIncomeBudget = (ExpandableListView) view.findViewById(R.id.expandableListViewIncomeBudget);
         IncomeBudgetExpandableListViewAdapter adapter = new IncomeBudgetExpandableListViewAdapter(group, incomeBudgetMap, inflater.getContext());
         mExpandableListViewIncomeBudget.setAdapter(adapter);
@@ -122,9 +122,6 @@ public class ExpandableIncomeBudgetFragment extends Fragment {
                 return true;
             }
         });
-        if (this.expandedGroupPosition >= 0) {
-            mExpandableListViewIncomeBudget.expandGroup(expandedGroupPosition);
-        }
 
 
         return  view;

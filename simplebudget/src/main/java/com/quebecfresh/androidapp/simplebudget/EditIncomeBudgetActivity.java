@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
@@ -57,6 +59,11 @@ public class EditIncomeBudgetActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_income_budget);
 
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayoutInsideScrollView);
+        linearLayout.setMinimumHeight(metrics.heightPixels*8/10);
+
 
         mWritableDatabase = mDatabaseHelper.getWritableDatabase();
 
@@ -69,10 +76,12 @@ public class EditIncomeBudgetActivity extends ActionBarActivity {
             mIncomeBudget = mIncomeBudgetPersist.read(mRowID, mWritableDatabase);
         }else{
             mIncomeBudget = new IncomeBudget();
+            mIncomeBudget.setAccount(mAccountList.get(0));
         }
 
         mEditTextName = (EditText)this.findViewById(R.id.editTextName);
         mEditTextName.setText(mIncomeBudget.getName());
+        mEditTextName.requestFocus();
         mButtonAccount = (Button)this.findViewById(R.id.buttonAccount);
         if(mIncomeBudget.getAccount() != null){
             mButtonAccount.setText(mIncomeBudget.getAccount().getName());

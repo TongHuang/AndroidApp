@@ -29,10 +29,9 @@ import java.util.List;
 public class ExpandableExpenseBudgetFragment extends Fragment {
     public static final String EXTRA_EXPENSE_BUDGET_ID = "com.quebecfresh.androidapp.simplebudget.expense.budget.id";
 
-    private Integer mExpandedCategoryPosition = 0;
+
     private ExpandableListView mExpandableListViewExpenseBudget;
     private List<ExpenseBudget> mExpenseBudgetList;
-    private View mListViewFooter;
     private TextView mTextViewTotal;
 
 
@@ -60,6 +59,7 @@ public class ExpandableExpenseBudgetFragment extends Fragment {
         List<ExpenseBudget> shelters = new ArrayList<ExpenseBudget>();
         List<ExpenseBudget> utilities = new ArrayList<ExpenseBudget>();
         List<ExpenseBudget> transportation = new ArrayList<ExpenseBudget>();
+        List<ExpenseBudget> gifts = new ArrayList<ExpenseBudget>();
         List<ExpenseBudget> others = new ArrayList<ExpenseBudget>();
         ExpenseBudget category;
         for (int i = 0; i < mExpenseBudgetList.size(); i++) {
@@ -77,6 +77,9 @@ public class ExpandableExpenseBudgetFragment extends Fragment {
                 case TRANSPORTATION:
                     transportation.add(category);
                     break;
+                case GIFTS:
+                    gifts.add(category);
+                    break;
                 case OTHERS:
                     others.add(category);
                     break;
@@ -88,6 +91,7 @@ public class ExpandableExpenseBudgetFragment extends Fragment {
         group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.SHELTER.getLabel(inflater.getContext()));
         group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.UTILITIES.getLabel(inflater.getContext()));
         group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.TRANSPORTATION.getLabel(inflater.getContext()));
+        group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.GIFTS.getLabel(inflater.getContext()));
         group.add(ExpenseBudget.EXPENSE_BUDGET_CATEGORY.OTHERS.getLabel(inflater.getContext()));
 
         HashMap<String, List<ExpenseBudget>> expenseBudgetMap = new HashMap<String, List<ExpenseBudget>>();
@@ -95,7 +99,8 @@ public class ExpandableExpenseBudgetFragment extends Fragment {
         expenseBudgetMap.put(group.get(1), shelters);
         expenseBudgetMap.put(group.get(2), utilities);
         expenseBudgetMap.put(group.get(3), transportation);
-        expenseBudgetMap.put(group.get(4), others);
+        expenseBudgetMap.put(group.get(4),gifts);
+        expenseBudgetMap.put(group.get(5), others);
 
 
         //Spinner have to initialize before mTextViewTotal, because mTextViewTotal invoke getSelectedItem
@@ -120,19 +125,16 @@ public class ExpandableExpenseBudgetFragment extends Fragment {
         ExpenseBudgetExpandableListViewAdapter adapter = new ExpenseBudgetExpandableListViewAdapter(group, expenseBudgetMap, inflater.getContext());
         mExpandableListViewExpenseBudget = (ExpandableListView) view.findViewById(R.id.expandableListViewExpenseBudget);
         mExpandableListViewExpenseBudget.setAdapter(adapter);
+
         mExpandableListViewExpenseBudget.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 Intent intent = new Intent(getActivity(), EditExpenseBudgetActivity.class);
                 intent.putExtra(EXTRA_EXPENSE_BUDGET_ID, id);
                 startActivity(intent);
-                mExpandedCategoryPosition = groupPosition;
                 return true;
             }
         });
-        if (this.mExpandedCategoryPosition >= 0) {
-            mExpandableListViewExpenseBudget.expandGroup(this.mExpandedCategoryPosition);
-        }
 
        return view;
     }

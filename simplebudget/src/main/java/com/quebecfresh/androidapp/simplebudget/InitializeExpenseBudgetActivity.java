@@ -30,6 +30,7 @@ public class InitializeExpenseBudgetActivity extends ActionBarActivity {
 
     private  SQLiteDatabase mReadableDatabase;
     private  ExpenseBudgetPersist mExpenseBudgetPersist;
+    private ExpandableExpenseBudgetFragment mExpandableExpenseBudgetFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,9 @@ public class InitializeExpenseBudgetActivity extends ActionBarActivity {
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         mReadableDatabase = databaseHelper.getReadableDatabase();
         mExpenseBudgetPersist = new ExpenseBudgetPersist();
+
+
+        mExpandableExpenseBudgetFragment = new ExpandableExpenseBudgetFragment();
 
     }
 
@@ -55,11 +59,11 @@ public class InitializeExpenseBudgetActivity extends ActionBarActivity {
     protected void onResume() {
 
 
-        ExpandableExpenseBudgetFragment expandableExpenseBudgetFragment = new ExpandableExpenseBudgetFragment();
-        expandableExpenseBudgetFragment.setExpenseBudgetList(mExpenseBudgetPersist.readAll(mReadableDatabase));
+
+        mExpandableExpenseBudgetFragment.setExpenseBudgetList(mExpenseBudgetPersist.readAll(mReadableDatabase));
 
         FragmentTransaction fragmentTransaction =  getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainerExpenseBudget, expandableExpenseBudgetFragment);
+        fragmentTransaction.replace(R.id.fragmentContainerExpenseBudget, mExpandableExpenseBudgetFragment);
         fragmentTransaction.commit();
 
         super.onResume();

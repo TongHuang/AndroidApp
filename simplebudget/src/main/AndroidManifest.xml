@@ -26,7 +26,8 @@
         <activity
             android:name=".InitializeAccountActivity"
             android:label="@string/accounts"
-            android:parentActivityName=".WelcomeActivity" >
+            android:parentActivityName=".WelcomeActivity"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".WelcomeActivity" />
@@ -34,7 +35,8 @@
         <activity
             android:name=".InitializeIncomeBudgetActivity"
             android:label="@string/incomes"
-            android:parentActivityName=".WelcomeActivity" >
+            android:parentActivityName=".WelcomeActivity"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".WelcomeActivity" />
@@ -42,7 +44,8 @@
         <activity
             android:name=".InitializeExpenseBudgetActivity"
             android:label="@string/expenses"
-            android:parentActivityName=".WelcomeActivity" >
+            android:parentActivityName=".WelcomeActivity"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".WelcomeActivity" />
@@ -68,15 +71,26 @@
         </activity>
         <activity
             android:name=".EditIncomeBudgetActivity"
-            android:label="@string/edit_income" >
+            android:label="@string/edit_income"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:parentActivityName=".InitializeIncomeBudgetActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.quebecfresh.androidapp.simplebudget.InitializeIncomeBudgetActivity" />
         </activity>
         <activity
             android:name=".EditExpenseBudgetActivity"
-            android:label="@string/edit_expense" >
+            android:label="@string/edit_expense"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:parentActivityName=".InitializeExpenseBudgetActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.quebecfresh.androidapp.simplebudget.InitializeExpenseBudgetActivity" />
         </activity>
         <activity
             android:name=".EditAccountActivity"
             android:label="@string/edit_account"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:parentActivityName=".InitializeAccountActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

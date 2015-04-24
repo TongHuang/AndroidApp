@@ -31,6 +31,8 @@ public class InitializeIncomeBudgetActivity extends ActionBarActivity {
     private SQLiteDatabase mReadableDatabase;
     private IncomeBudgetPersist mIncomeBudgetPersist;
 
+    ExpandableIncomeBudgetFragment mExpandableIncomeBudgetFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,19 +41,19 @@ public class InitializeIncomeBudgetActivity extends ActionBarActivity {
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         mReadableDatabase = databaseHelper.getReadableDatabase();
         mIncomeBudgetPersist = new IncomeBudgetPersist();
+
+        mExpandableIncomeBudgetFragment = new ExpandableIncomeBudgetFragment();
     }
 
 
 
     @Override
     protected void onResume() {
-
-        ExpandableIncomeBudgetFragment expandableIncomeBudgetFragment = new ExpandableIncomeBudgetFragment();
-        expandableIncomeBudgetFragment.setIncomeBudgetList(mIncomeBudgetPersist.readAll(mReadableDatabase));
-
+        mExpandableIncomeBudgetFragment.setIncomeBudgetList(mIncomeBudgetPersist.readAll(mReadableDatabase));
         FragmentTransaction fragmentTransaction =  getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainerIncomeBudget, expandableIncomeBudgetFragment);
+        fragmentTransaction.replace(R.id.fragmentContainerIncomeBudget, mExpandableIncomeBudgetFragment);
         fragmentTransaction.commit();
+
         super.onResume();
     }
 

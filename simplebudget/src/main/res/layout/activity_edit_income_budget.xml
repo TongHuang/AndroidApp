@@ -10,80 +10,99 @@
     tools:context="com.quebecfresh.androidapp.simplebudget.EditIncomeBudgetActivity">
 
 
-    <LinearLayout style="@style/detailRowStyle">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView6" >
 
-        <TextView
-            android:text="@string/name"
-            android:id="@+id/textViewName"
-            style="@style/detailFirstColumnStyle" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/linearLayoutInsideScrollView">
 
-        <EditText
-            android:id="@+id/editTextName"
-            style="@style/detailSecondColumnEditTextStyle" />
-    </LinearLayout>
+            <LinearLayout style="@style/detailRowStyle">
 
-    <LinearLayout style="@style/detailRowStyle">
+                <TextView
+                    android:text="@string/name"
+                    android:id="@+id/textViewName"
+                    style="@style/detailFirstColumnStyle" />
 
-        <TextView
-            android:text="@string/accounts"
-            android:id="@+id/textView5"
-            style="@style/detailFirstColumnStyle" />
+                <EditText
+                    android:id="@+id/editTextName"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
+                    style="@style/detailSecondColumnEditTextStyle" />
+            </LinearLayout>
 
-        <Button
-            android:text="@string/accounts"
-            android:id="@+id/buttonAccount"
-            style="@style/detailSecondColumnButtonStyle"
-            android:onClick="chooseIncomeAccount" />
-    </LinearLayout>
+            <LinearLayout style="@style/detailRowStyle">
 
-    <LinearLayout style="@style/detailRowStyle">
+                <TextView
+                    android:text="@string/accounts"
+                    android:id="@+id/textView5"
+                    style="@style/detailFirstColumnStyle" />
 
-        <TextView
-            android:text="@string/category"
-            android:id="@+id/textViewCategory"
-            style="@style/detailFirstColumnStyle" />
+                <Button
+                    android:text="@string/accounts"
+                    android:id="@+id/buttonAccount"
+                    style="@style/detailSecondColumnButtonStyle"
+                    android:onClick="chooseIncomeAccount" />
+            </LinearLayout>
 
-        <Spinner
-            android:id="@+id/spinnerGroup"
-            style="@style/detailSecondColumnSpinnerStyle" />
-    </LinearLayout>
+            <LinearLayout style="@style/detailRowStyle">
 
-    <LinearLayout style="@style/detailRowStyle">
+                <TextView
+                    android:text="@string/category"
+                    android:id="@+id/textViewCategory"
+                    style="@style/detailFirstColumnStyle" />
 
-        <TextView
-            android:text="@string/cycle"
-            android:id="@+id/textViewCycle"
-            style="@style/detailFirstColumnStyle" />
+                <Spinner
+                    android:id="@+id/spinnerGroup"
+                    style="@style/detailSecondColumnSpinnerStyle" />
+            </LinearLayout>
 
-        <Spinner
-            android:id="@+id/spinnerCycle"
-            style="@style/detailSecondColumnSpinnerStyle" />
+            <LinearLayout style="@style/detailRowStyle">
 
-    </LinearLayout>
+                <TextView
+                    android:text="@string/cycle"
+                    android:id="@+id/textViewCycle"
+                    style="@style/detailFirstColumnStyle" />
 
-    <LinearLayout style="@style/detailRowStyle">
+                <Spinner
+                    android:id="@+id/spinnerCycle"
+                    style="@style/detailSecondColumnSpinnerStyle" />
 
-        <TextView
-            android:text="@string/budget_amount"
-            android:id="@+id/textViewAmount"
-            style="@style/detailFirstColumnStyle" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/editTextAmount"
-            style="@style/detailSecondColumnEditTextStyle"
-            android:inputType="numberDecimal" />
-    </LinearLayout>
+            <LinearLayout style="@style/detailRowStyle">
 
-    <LinearLayout style="@style/detailRowStyle">
+                <TextView
+                    android:text="@string/budget_amount"
+                    android:id="@+id/textViewAmount"
+                    style="@style/detailFirstColumnStyle" />
 
-        <TextView
-            android:text="@string/note"
-            android:id="@+id/textView9"
-            style="@style/detailFirstColumnStyle" />
+                <EditText
+                    android:id="@+id/editTextAmount"
+                    style="@style/detailSecondColumnEditTextStyle"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal|numberSigned" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/editTextNote"
-            style="@style/detailSecondColumnEditTextStyle" />
-    </LinearLayout>
+            <LinearLayout style="@style/detailRowStyle">
+
+                <TextView
+                    android:text="@string/note"
+                    android:id="@+id/textView9"
+                    style="@style/detailFirstColumnStyle" />
+
+                <EditText
+                    android:id="@+id/editTextNote"
+                    android:singleLine="false"
+                    android:gravity="left"
+                    style="@style/detailSecondColumnEditTextStyle" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

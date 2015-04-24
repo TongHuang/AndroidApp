@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.quebecfresh.androidapp.simplebudget.model.Account;
@@ -65,6 +67,12 @@ public class EditExpenseBudgetActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_expense_budget);
 
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayoutInsideScrollView);
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        linearLayout.setMinimumHeight(metrics.heightPixels*8/10);
+
         mWritableDatabase = mDatabaseHelper.getWritableDatabase();
 
         Intent intent = getIntent();
@@ -85,6 +93,7 @@ public class EditExpenseBudgetActivity extends ActionBarActivity {
 
         mEditTextName = (EditText) findViewById(R.id.editTextName);
         mEditTextName.setText(mExpenseBudget.getName());
+        mEditTextName.requestFocus();
         mButtonAccount = (Button) findViewById(R.id.buttonAccount);
         if (mExpenseBudget.getAccount() != null) {
             mButtonAccount.setText(mExpenseBudget.getAccount().getName());
