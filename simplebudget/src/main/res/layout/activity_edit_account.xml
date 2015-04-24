@@ -7,60 +7,81 @@
     tools:context="com.quebecfresh.androidapp.simplebudget.EditAccountActivity"
     android:orientation="vertical">
 
-    <LinearLayout style="@style/detailRowStyle">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView4" >
 
-        <TextView
-            android:text="Name"
-            android:id="@+id/textView4"
-            style="@style/detailFirstColumnStyle"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/linearLayoutInsideScrollView">
 
-        <EditText
-            android:id="@+id/editTextName"
-            android:hint="@string/name_of_account"
-            style="@style/detailSecondColumnEditTextStyle"/>
+            <LinearLayout style="@style/detailRowStyle">
 
-    </LinearLayout>
+                <TextView
+                    android:text="Name"
+                    android:id="@+id/textView4"
+                    style="@style/detailFirstColumnStyle"/>
 
-    <LinearLayout style="@style/detailRowStyle">
+                <EditText
+                    android:id="@+id/editTextName"
+                    android:hint="@string/name_of_account"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
+                    style="@style/detailSecondColumnEditTextStyle"/>
 
-        <TextView
-            android:text="Number"
-            android:id="@+id/textView6"
-            style="@style/detailFirstColumnStyle"/>
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/editTextNumber"
-            android:hint="@string/number_of_account"
-            style="@style/detailSecondColumnEditTextStyle"/>
+            <LinearLayout style="@style/detailRowStyle">
 
-    </LinearLayout>
+                <TextView
+                    android:text="Number"
+                    android:id="@+id/textView6"
+                    style="@style/detailFirstColumnStyle"/>
 
-    <LinearLayout style="@style/detailRowStyle">
+                <EditText
+                    android:id="@+id/editTextNumber"
+                    android:hint="@string/number_of_account"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
+                    style="@style/detailSecondColumnEditTextStyle"/>
 
-        <TextView
-            android:text="Balance"
-            android:id="@+id/textView7"
-            style="@style/detailFirstColumnStyle"/>
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/editTextBalance"
-            android:hint="@string/balance_of_account"
-            style="@style/detailSecondColumnEditTextStyle"
-            android:inputType="numberSigned" />
+            <LinearLayout style="@style/detailRowStyle">
 
-    </LinearLayout>
+                <TextView
+                    android:text="Balance"
+                    android:id="@+id/textView7"
+                    style="@style/detailFirstColumnStyle"/>
 
-    <LinearLayout style="@style/detailRowStyle">
+                <EditText
+                    android:id="@+id/editTextBalance"
+                    android:hint="@string/balance_of_account"
+                    style="@style/detailSecondColumnEditTextStyle"
+                    android:inputType="numberSigned|numberDecimal"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"/>
 
-        <TextView
-            android:text="Note"
-            android:id="@+id/textView8"
-            style="@style/detailFirstColumnStyle"/>
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/editTextNote"
-            android:hint="@string/note_of_account"
-            style="@style/detailSecondColumnEditTextStyle"/>
+            <LinearLayout style="@style/detailRowStyle">
 
-    </LinearLayout>
+                <TextView
+                    android:text="Note"
+                    android:id="@+id/textView8"
+                    style="@style/detailFirstColumnStyle"/>
+
+                <EditText
+                    android:id="@+id/editTextNote"
+                    android:hint="@string/note_of_account"
+                    android:singleLine="false"
+                    android:gravity="left"
+                    style="@style/detailSecondColumnEditTextStyle"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
