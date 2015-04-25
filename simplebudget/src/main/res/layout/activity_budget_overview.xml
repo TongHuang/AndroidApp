@@ -68,6 +68,84 @@
     <LinearLayout style="@style/detailRowStyle">
 
         <Button
+            android:text="Expense"
+            android:id="@+id/buttonExpense"
+            android:onClick="showExpenseList"
+            style="@style/detailFirstColumnStyle"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            style="@style/detailSecondColumnTextViewStyle">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/textView20"
+                android:layout_gravity="top"
+                android:gravity="center_vertical|center_horizontal" />
+
+            <ProgressBar
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBarExpense"
+                android:max="100" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/textViewProgressBarExpenseCenter"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_gravity="top|bottom" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/detailRowStyle">
+
+        <Button
+            android:text="@string/expense_budget"
+            android:id="@+id/buttonExpenseBudget"
+            android:onClick="showExpenseBudget"
+            style="@style/detailFirstColumnStyle"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            style="@style/detailSecondColumnTextViewStyle">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/textView22"
+                android:layout_gravity="top"
+                android:gravity="center_vertical|center_horizontal" />
+
+            <ProgressBar
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBarExpenseBudget"
+                android:max="100"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/textViewProgressBarExpenseBudgetCenter"
+                android:layout_gravity="bottom"
+                android:gravity="center_vertical|center_horizontal" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/detailRowStyle">
+
+        <Button
             android:text="Income"
             android:id="@+id/buttonIncome"
             android:onClick="showIncomeList"
@@ -142,83 +220,7 @@
     </LinearLayout>
 
     //Expense Layout
-    <LinearLayout style="@style/detailRowStyle">
-
-        <Button
-            android:text="Expense"
-            android:id="@+id/buttonExpense"
-            android:onClick="showExpenseList"
-            style="@style/detailFirstColumnStyle"/>
-
-        <LinearLayout
-            android:orientation="vertical"
-            style="@style/detailSecondColumnTextViewStyle">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/textView20"
-                android:layout_gravity="top"
-                android:gravity="center_vertical|center_horizontal" />
-
-            <ProgressBar
-                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/progressBarExpense"
-                android:max="100" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/textViewProgressBarExpenseCenter"
-                android:gravity="center_vertical|center_horizontal"
-                android:layout_gravity="top|bottom" />
-        </LinearLayout>
-
-
-    </LinearLayout>
 
     //Expense budget layout
-    <LinearLayout style="@style/detailRowStyle">
-
-        <Button
-            android:text="@string/expense_budget"
-            android:id="@+id/buttonExpenseBudget"
-            android:onClick="showExpenseBudget"
-            style="@style/detailFirstColumnStyle"/>
-
-        <LinearLayout
-            android:orientation="vertical"
-            style="@style/detailSecondColumnTextViewStyle">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/textView22"
-                android:layout_gravity="top"
-                android:gravity="center_vertical|center_horizontal" />
-
-            <ProgressBar
-                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/progressBarExpenseBudget"
-                android:max="100"
-                android:layout_gravity="center_vertical" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/textViewProgressBarExpenseBudgetCenter"
-                android:layout_gravity="bottom"
-                android:gravity="center_vertical|center_horizontal" />
-        </LinearLayout>
-
-    </LinearLayout>
 
 </LinearLayout>

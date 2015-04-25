@@ -95,6 +95,9 @@ public class MainActivity extends ActionBarActivity {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean(getString(R.string.initialize_done), false);
                 editor.putLong(getString(R.string.initialize_date), 0);
+                editor.putBoolean(getString(R.string.initialize_account_done),false);
+                editor.putBoolean(getString(R.string.initialize_income_budget_done),false);
+                editor.putBoolean(getString(R.string.initialize_expense_budget_done),false);
                 editor.commit();
                 intent = new Intent(this, WelcomeActivity.class);
                 startActivity(intent);
