@@ -45,6 +45,7 @@
                     android:id="@+id/editTextNumber"
                     android:hint="@string/number_of_account"
                     android:singleLine="true"
+                    android:inputType="numberSigned"
                     android:imeOptions="actionDone"
                     style="@style/detailSecondColumnEditTextStyle"/>
 

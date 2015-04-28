@@ -57,6 +57,7 @@
     <string name="let_us_start">Let\'s start</string>
     <string name="welcome">Welcome</string>
     <string name="done">Done</string>
+    <string name="next">Next</string>
     <string name="incomes">"Incomes"</string>
     <string name="edit_account">Edit Account</string>
 
@@ -155,6 +156,11 @@
     <string name="used_amount">Used amount</string>
     <string name="since">Since</string>
     <string name="budget">Budget</string>
+    <string name="title_activity_edit_budget_info">Edit Budget Information</string>
+    <string name="budget_name">Budget name</string>
+    <string name="budget_name_hint">eg. Austere;Flexible;Generous.</string>
+    <string name="budget_end_date">Budget end date</string>
+    <string name="end_date">End date</string>
 
 
 </resources>

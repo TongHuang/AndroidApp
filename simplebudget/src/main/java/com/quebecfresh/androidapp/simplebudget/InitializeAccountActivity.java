@@ -26,10 +26,12 @@ import java.util.List;
 public class InitializeAccountActivity extends ActionBarActivity {
     public static final String EXTRA_ACCOUNT_ID = "com.quebecfresh.androidapp.simplebudget.account";
 
-    private  SQLiteDatabase mReadableDatabase;
+    private SQLiteDatabase mReadableDatabase;
     private AccountPersist mAccountPersist;
 
-    private  AccountFragment mAccountFragment;
+    private AccountFragment mAccountFragment;
+    private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,18 +45,18 @@ public class InitializeAccountActivity extends ActionBarActivity {
     }
 
 
-
     @Override
     protected void onResume() {
 
         //When initialization is not done, disabled actionBar up button
         SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
         Boolean initializeDone = preferences.getBoolean(getString(R.string.initialize_done), false);
-        if(initializeDone){
-            this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }else{
-            this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        if (initializeDone) {
+//            this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        } else {
+//            this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//        }
 
 
         mAccountFragment = new AccountFragment();
@@ -83,18 +85,17 @@ public class InitializeAccountActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-
+        Intent intent;
         switch (id) {
             case R.id.action_add:
-                Intent intent = new Intent(this, EditAccountActivity.class);
+                intent = new Intent(this, EditAccountActivity.class);
                 intent.putExtra(EXTRA_ACCOUNT_ID, -1L);
                 startActivity(intent);
-            case R.id.action_done:
-                SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(getString(R.string.initialize_account_done), true);
-                editor.commit();
-                this.finish();
+                break;
+            case R.id.action_next:
+                intent = new Intent(this, InitializeIncomeBudgetActivity.class);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

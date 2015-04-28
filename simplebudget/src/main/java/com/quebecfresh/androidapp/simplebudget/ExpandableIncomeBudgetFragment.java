@@ -28,7 +28,6 @@ public class ExpandableIncomeBudgetFragment extends Fragment {
 
     public static final String EXTRA_INCOME_BUDGET_ID = "com.quebecfresh.androidapp.simplebudget.id";
     private  ExpandableListView mExpandableListViewIncomeBudget;
-    private Integer expandedGroupPosition = 0;
     private List<IncomeBudget> mIncomeBudgetList;
     private  TextView mTextViewTotal;
     private Spinner mCycleSpinner;
@@ -117,7 +116,6 @@ public class ExpandableIncomeBudgetFragment extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 Intent intent = new Intent(getActivity(), EditIncomeBudgetActivity.class);
                 intent.putExtra(EXTRA_INCOME_BUDGET_ID, id);
-                expandedGroupPosition = groupPosition;
                 startActivity(intent);
                 return true;
             }

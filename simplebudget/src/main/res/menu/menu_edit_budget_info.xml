@@ -1,12 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.quebecfresh.androidapp.simplebudget.InitializeAccountActivity">
-
-    <item android:id="@+id/action_add" android:title="@string/add"
-        android:orderInCategory="100" app:showAsAction="always" />
-
+    tools:context="com.quebecfresh.androidapp.simplebudget.EditBudgetInfoActivity">
     <item android:id="@+id/action_next" android:title="@string/next" android:icon="@drawable/forward_24"
         android:orderInCategory="100" app:showAsAction="always" />
-
 </menu>

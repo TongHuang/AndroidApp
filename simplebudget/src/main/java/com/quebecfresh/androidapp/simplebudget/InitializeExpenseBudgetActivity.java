@@ -75,18 +75,15 @@ public class InitializeExpenseBudgetActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        Intent intent;
         switch (id) {
             case R.id.action_add:
-                Intent intent = new Intent(this, EditExpenseBudgetActivity.class);
+                 intent = new Intent(this, EditExpenseBudgetActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.action_done:
-                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(getString(R.string.initialize_expense_budget_done), true);
-                editor.commit();
-                this.finish();
+            case R.id.action_next:
+                intent = new Intent(this, BudgetReviewActivity.class);
+                startActivity(intent);
                 break;
         }
 

@@ -8,7 +8,8 @@
         android:title="@string/add"
         app:showAsAction="always"></item>
     <item
-        android:id="@+id/action_done"
-        android:title="@string/done"
+        android:id="@+id/action_next"
+        android:title="@string/next"
+        android:icon="@drawable/forward_24"
         app:showAsAction="always"></item>
 </menu>

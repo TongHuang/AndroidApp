@@ -70,18 +70,15 @@ public class InitializeIncomeBudgetActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        Intent intent;
         switch (id) {
             case R.id.action_add:
-                Intent intent = new Intent(this, EditIncomeBudgetActivity.class);
+                 intent = new Intent(this, EditIncomeBudgetActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.action_done:
-                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(getString(R.string.initialize_income_budget_done), true);
-                editor.commit();
-                this.finish();
+            case R.id.action_next:
+                intent = new Intent(this, InitializeExpenseBudgetActivity.class);
+                startActivity(intent);
                 break;
         }
 

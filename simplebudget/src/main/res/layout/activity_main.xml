@@ -348,9 +348,9 @@
             android:layout_height="wrap_content"
             android:text="@string/most_recent_transactions"
             android:id="@+id/textView13"
-            android:textSize="18dp"
-            android:textStyle="bold|italic"
-            android:textColor="@color/dark_slate_blue" />
+            android:textSize="15dp"
+            android:textColor="@color/neutral"
+            android:textStyle="bold|italic" />
 
         <LinearLayout
             android:orientation="vertical"

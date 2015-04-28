@@ -50,13 +50,16 @@ public class MainActivity extends ActionBarActivity {
 
         SharedPreferences preferences = this.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE);
         if (!preferences.getBoolean(getString(R.string.initialize_done), true)) {
-            Intent intent = new Intent(this, WelcomeActivity.class);
+            Intent intent = new Intent(this, EditBudgetInfoActivity.class);
             startActivity(intent);
         }
 
-
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         mReadableDatabase = databaseHelper.getReadableDatabase();
+    }
+
+    @Override
+    protected void onResume() {
         ExpensePersist expensePersist = new ExpensePersist();
         List<Expense> expenseList = expensePersist.readAll(mReadableDatabase);
         IncomePersist incomePersist = new IncomePersist();
@@ -69,10 +72,8 @@ public class MainActivity extends ActionBarActivity {
         TransactionFragment transactionFragment = new TransactionFragment();
         transactionFragment.setTransactionList(transactionList);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerRecentTransaction, transactionFragment).commit();
-
-
+        super.onResume();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
