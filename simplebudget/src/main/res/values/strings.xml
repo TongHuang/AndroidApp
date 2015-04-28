@@ -161,6 +161,8 @@
     <string name="budget_name_hint">eg. Austere;Flexible;Generous.</string>
     <string name="budget_end_date">Budget end date</string>
     <string name="end_date">End date</string>
+    <string name="begin_date">Begin date</string>
+    <string name="budget_begin_date">Budget begin date</string>
 
 
 </resources>

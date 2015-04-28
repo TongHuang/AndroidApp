@@ -6,10 +6,19 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.LinearLayout;
+
+import com.quebecfresh.androidapp.simplebudget.model.BudgetInfo;
+import com.quebecfresh.androidapp.simplebudget.model.Cycle;
+import com.quebecfresh.androidapp.simplebudget.model.Utils;
+
+import java.util.Calendar;
 
 
 public class EditBudgetInfoActivity extends ActionBarActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +29,16 @@ public class EditBudgetInfoActivity extends ActionBarActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayoutInsideScrollView);
         linearLayout.setMinimumHeight(displayMetrics.heightPixels*8/10);
+
+        BudgetInfo  budgetInfo = new BudgetInfo();
+        budgetInfo.setBeginDate(System.currentTimeMillis());
+        budgetInfo.setEndDate(Utils.getEndOfNextCycle(Cycle.Yearly, Calendar.getInstance()));
+
+        Button buttonBeginDate = (Button)findViewById(R.id.buttonBeginDate);
+        buttonBeginDate.setText(budgetInfo.getBeginDateLabel() + ("  (Now)"));
+        Button buttonEndDate = (Button)findViewById(R.id.buttonEndDate);
+        buttonEndDate.setText(budgetInfo.getEndDateLabel());
+
 
     }
 

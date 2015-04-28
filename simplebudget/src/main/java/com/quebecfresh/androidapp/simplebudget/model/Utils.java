@@ -249,6 +249,54 @@ public final class Utils {
         return end;
     }
 
+    public static long getEndOfNextCycle(Cycle cycle, Calendar current) {
+        long end = current.getTimeInMillis();
+        switch (cycle) {
+            case Daily:
+                current.add(Calendar.DAY_OF_YEAR, 1);
+                end = current.getTimeInMillis();
+                current.add(Calendar.DAY_OF_YEAR, -1);
+                break;
+            case Weekly:
+                current.add(Calendar.WEEK_OF_YEAR, 1);
+                end = current.getTimeInMillis();
+                current.add(Calendar.WEEK_OF_YEAR, -1);
+                break;
+            case Every_2_Weeks:
+                current.add(Calendar.WEEK_OF_YEAR, 2);
+                end = current.getTimeInMillis();
+                current.add(Calendar.WEEK_OF_YEAR, -2);
+                break;
+            case Monthly:
+                current.add(Calendar.MONTH, 1);
+                end = current.getTimeInMillis();
+                current.add(Calendar.MONTH, -1);
+                break;
+            case Every_2_Months:
+                current.add(Calendar.MONTH, 2);
+                end = current.getTimeInMillis();
+                current.add(Calendar.MONTH, -2);
+                break;
+            case Every_3_Months:
+                current.add(Calendar.MONTH, 3);
+                end = current.getTimeInMillis();
+                current.add(Calendar.MONTH, -3);
+                break;
+            case Every_6_Months:
+                current.add(Calendar.MONTH, 6);
+                end = current.getTimeInMillis();
+                current.add(Calendar.MONTH, -6);
+                break;
+            case Yearly:
+                current.add(Calendar.YEAR, 1);
+                end = current.getTimeInMillis();
+                current.add(Calendar.YEAR, -1);
+                break;
+        }
+        return end;
+    }
+
+
     private int calcDaysBetween2Dates(Calendar begin, Calendar end) {
         int days = 0;
         while (end.get(Calendar.YEAR) > begin.get(Calendar.YEAR) ||

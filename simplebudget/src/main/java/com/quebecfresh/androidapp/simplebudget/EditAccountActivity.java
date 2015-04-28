@@ -114,7 +114,7 @@ public class EditAccountActivity extends ActionBarActivity {
                 });
                 confirmDeletionDialogFragment.show(getSupportFragmentManager(), "Confirm delete account");
                 break;
-            case R.id.action_view_transaction:
+
 
         }
         return super.onOptionsItemSelected(item);
